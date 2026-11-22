@@ -8,8 +8,9 @@ const keyboards = require('./keyboards');
 const terms = require('./terms');
 const { askAI } = require('../services/ai');
 
-// Telegram CDN'da keshga olingan doimiy fayl ID'lari (Instant 0.05s delivery)
-const BANNER_FILE_ID = 'AgACAgIAAxkDAANxawMMnsowAk6hy8pG8ZBN4a21ZlUAAgoiaxs2-xhI0_z7WDyGJmEBAAMCAAN5AAM9BA';
+// Foydalanuvchi Desktop'dagi yangi rasmiy banneri (Telegram CDN keshida)
+const BANNER_FILE_ID = 'AgACAgIAAxkDAAOGawMW6PLpcsA0lNc8xBI-P9G0Bc8AAlQiaxs2-xhI7X7Sy2307IMBAAMCAAN5AAM9BA';
+const LOCAL_BANNER_PATH = path.join(__dirname, '..', '..', 'public', 'banner.jpg');
 
 const TELEGRAM_CASE_FILE_IDS = {
   toyota: 'BQACAgIAAxkDAANJawLnSfvN2hSYWIStDVloRPcwV00AAgewAAI2-xhIMBy53Jgbg949BA',
@@ -70,10 +71,10 @@ Talabalar va yosh moliyachilar uchun moliya, investitsiya tahlili, keys-chempion
 
 • 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formulalar va real keys misollari;
 • 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbek tilidagi PDF keyslar va hakamlar etalon yechimlari;
-• 📊 <b>Baholash (Valuation):</b> DCF, LBO, Multiplikatorlar va Mini App kalkulyatori;
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston fond bozori (UZSE) va xalqaro moliya yangiliklari;
-• 💼 <b>IB & Consulting:</b> Investitsiya banki va konsalting intervyu savollari;
-• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi.
+• 🤖 <b>AI Assistent:</b> Moliya, baholash va keyslar bo'yicha tezkor yordam;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi;
+• 🏛 <b>UWED FIS Klubi:</b> Jamiyat haqida rasmiy ma'lumotlar.
 
 Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
 
@@ -84,6 +85,15 @@ Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
         ...keyboards.mainMenu()
       });
     } catch (err) {
+      if (fs.existsSync(LOCAL_BANNER_PATH)) {
+        try {
+          return await ctx.replyWithPhoto({ source: LOCAL_BANNER_PATH }, {
+            caption: welcomeCaption,
+            parse_mode: 'HTML',
+            ...keyboards.mainMenu()
+          });
+        } catch (e) {}
+      }
       await ctx.replyWithHTML(welcomeCaption, keyboards.mainMenu());
     }
   });
@@ -94,7 +104,7 @@ Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
 
 1. <b>Terminlarni qidirish:</b> Istalgan moliyaviy so'zni to'g'ridan-to'g'ri chatga yozing (masalan: <i>"WACC", "EBITDA", "DCF", "LBO", "MECE"</i>) — bot uning formulasi va ta'rifini chiqarib beradi.
 2. <b>Keyslarni yuklab olish:</b> «🏆 Vertex Keyslar Arxiv» bo'limiga kiring va xohlagan keysingizni tanlang — bot rasmiy PDF kitobchani tashlab beradi.
-3. <b>Valuation Kalkulyatori:</b> «📊 Baholash (Valuation)» bo'limidagi Mini App tugmasini bosib, FCF va WACC ni o'zgartirib korxona qiymatini hisoblang.
+3. <b>Bozor tahlili:</b> «📰 Haftalik Bozor Tahlili» bo'limida MB stavkasi, UZSE va xalqaro bozor sharhlarini o'qing.
 4. <b>Anonim savol:</b> «🕵️‍♂️ Anonim Murojaat» tugmasini bosib, klub rahbariyatiga shaxsingizni yashirgan holda xabar yuborishingiz mumkin.
 5. <b>Bosh menyu:</b> Istalgan paytda /menu yoki pastdagi tugmalardan foydalaning.`;
     await ctx.replyWithHTML(helpText, keyboards.mainMenu());
