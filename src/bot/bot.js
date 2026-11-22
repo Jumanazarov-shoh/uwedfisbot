@@ -100,23 +100,28 @@ Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
     await ctx.replyWithHTML(helpText, keyboards.mainMenu());
   });
 
-  // /menu va matnli "Asosiy Menyu" buyrug'i
-  bot.command('menu', async (ctx) => {
+  // /menu va matnli "Asosiy Menyu" / "Ortga" buyruqlari
+  const handleMainMenu = async (ctx) => {
     const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
 
-Kerakli bo'limni tanlang:`;
-    await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
-  });
+Quyidagi bo'limlardan birini tanlang:
 
-  bot.hears(['🔙 Asosiy Menyu', '🏠 Asosiy Menyu', 'Asosiy Menyu', 'Bosh Menyu', 'Menyu'], async (ctx) => {
-    const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
-
-Kerakli bo'limni tanlang:`;
+• 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formulalar va misollar;
+• 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
+• 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
+• 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
     await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
-  });
+  };
+
+  bot.command(['menu', 'start'], handleMainMenu);
+  bot.hears([
+    '🔙 Asosiy Menyu', '🏠 Asosiy Menyu', 'Asosiy Menyu', 'Bosh Menyu', 'Menyu',
+    '🔙 Ortga', 'Ortga', '🔙 Ortga qaytish', 'Ortga qaytish', 'Bekor qilish'
+  ], handleMainMenu);
 
   // 1. Moliya Lug'ati (Terminlar) menyusi
-  bot.hears(['📚 Moliya Lug\'ati (Terminlar)', '📚 Moliya Lug\'ati'], async (ctx) => {
+  bot.hears(['📚 Moliya Lug\'ati (Terminlar)', '📚 Moliya Lug\'ati', 'Moliya Lug\'ati'], async (ctx) => {
     const text = `📚 <b>UWED FIS — Keng Qamrovli Moliya va Investitsiyalar Lug'ati</b>
 
 Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "WACC", "LBO", "MECE"</i>) to'g'ridan-to'g'ri yozib yuboring:`;
@@ -124,12 +129,12 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
   });
 
   // 2. Vertex Keyslar Arxiv
-  bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi'], async (ctx) => {
+  bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi', 'Vertex Keyslar'], async (ctx) => {
     await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
   });
 
   // 3. Haftalik Bozor Tahlili
-  bot.hears('📰 Haftalik Bozor Tahlili', async (ctx) => {
+  bot.hears(['📰 Haftalik Bozor Tahlili', 'Bozor Tahlili'], async (ctx) => {
     const customDigest = db.getWeeklyDigest();
     let text = knowledge.defaultWeeklyDigest;
     if (customDigest && customDigest.content) {
@@ -138,13 +143,8 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     await ctx.replyWithHTML(text, keyboards.backOnly());
   });
 
-  // 3.5. Baholash (Valuation)
-  bot.hears(['📊 Baholash (Valuation)', '📊 Baholash'], async (ctx) => {
-    await ctx.replyWithHTML(knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
-  });
-
-  // 3.6. AI Moliyaviy Assistent
-  bot.hears(['🤖 AI Moliyaviy Assistent', '🤖 AI Assistent'], async (ctx) => {
+  // 4. AI Moliyaviy Assistent
+  bot.hears(['🤖 AI Moliyaviy Assistent', '🤖 AI Assistent', 'AI Assistent'], async (ctx) => {
     const text = `🤖 <b>UWED FIS AI Assistent — Doimiy Moliya va Keys Konsultanti</b>
 
 Assalomu alaykum! Men moliya, investitsiya tahlili, DCF baholash va Vertex keyslari bo'yicha sizga yordam berishga tayyorman.
@@ -159,18 +159,13 @@ Savolingizni to'g'ridan-to'g'ri yozib yuboring ✍️:`;
     await ctx.replyWithHTML(text, keyboards.backOnly());
   });
 
-  // 4. Intervyu savollari
-  bot.hears('💼 IB & Consulting Intervyu', async (ctx) => {
-    await ctx.replyWithHTML(knowledge.interviewQuestions, keyboards.backOnly());
-  });
-
   // 5. Klub haqida
-  bot.hears('🏛 UWED FIS Klubi Haqida', async (ctx) => {
+  bot.hears(['🏛 UWED FIS Klubi Haqida', 'Klub Haqida'], async (ctx) => {
     await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
   });
 
   // 6. Anonim Murojaat
-  bot.hears('🕵️‍♂️ Anonim Savol / Murojaat', async (ctx) => {
+  bot.hears(['🕵️‍♂️ Anonim Savol / Murojaat', 'Anonim Murojaat'], async (ctx) => {
     const userId = String(ctx.from.id);
     userStates.set(userId, 'waiting_anon_text');
 
@@ -302,58 +297,8 @@ ${foundTerm.def}
     await editOrReply(ctx, text, keyboards.vertexMenu());
   });
 
-  // ------------------- INLINE CALLBACKS: VALUATION & MOLIYA -------------------
-  bot.action('fn_dcf', async (ctx) => {
-    await ctx.answerCbQuery();
-    const text = `📈 <b>DCF (Discounted Cash Flow) Modeli — Asosiy Bosqichlar:</b>
-
-1. <b>FCF (Erkin Pul Oqimi) hisoblash:</b>
-   <code>FCF = EBIT × (1 - Soliq) + D&A - CapEx - ΔNWC</code>
-2. <b>WACC (Diskont stavkasi):</b>
-   O'z kapitali va qarz xarajatlarining o'rtacha og'irligi.
-3. <b>Terminal Value (TV):</b>
-   Gordon Growth: <code>TV = FCF_n × (1 + g) / (WACC - g)</code> yoki Exit Multiple: <code>TV = EBITDA_n × Multiplikator</code>
-4. <b>Enterprise Value (EV):</b>
-   <code>EV = PV(FCF) + PV(TV)</code>
-
-💡 <i>Tavsiya: Quyidagi tugma orqali Telegram Mini App kalkulyatorida FCF, WACC va o'sish stavkalarini o'zgartirib, real-vaqt rejimida hisoblang!</i>`;
-    await editOrReply(ctx, text, keyboards.financeBack(config.appUrl));
-  });
-
-  bot.action('fn_multiples', async (ctx) => {
-    await ctx.answerCbQuery();
-    const text = `📊 <b>Bozor Multiplikatorlari (Trading & Transaction Multiples):</b>
-
-• <b>EV / EBITDA:</b> Eng keng tarqalgan korporativ multiplikator. Kapital strukturasi (qarz ulushi) va amortizatsiyaning sun'iy ta'siridan xoli.
-• <b>P / E (Price to Earnings):</b> Bozor narxi / Sof foyda. Aksiyadorlik qiymatini taqqoslash uchun asosiy metrika.
-• <b>EV / Sales:</b> Foydaga kirmagan, tez o'sayotgan FinTech va IT startaplar uchun.
-• <b>P / B (Price to Book):</b> Banklar va sug'urta kompaniyalari (FinTech) balansi sifatini baholash uchun.
-
-🎯 <i>Qoidalar: EV ko'rsatkichlari (EBITDA, Sales, EBIT) barcha investorlar uchun; Equity ko'rsatkichlari (Net Income, Book Value) esa faqat aksiyadorlar uchun ishlatiladi!</i>`;
-    await editOrReply(ctx, text, keyboards.financeBack(config.appUrl));
-  });
-
-  bot.action('fn_lbo', async (ctx) => {
-    await ctx.answerCbQuery();
-    const text = `🏦 <b>LBO (Leveraged Buyout) — Qarz Vositasida Sotib Olish:</b>
-
-Private Equity (PE) fondlari kompaniyani uning o'z aktivlari va pul oqimlari garovi evaziga (60–80% qarz vositasida) sotib oladi.
-
-🎯 <b>LBO Muvaffaqiyatining 3 Drayveri:</b>
-1. <b>Deleveraging (Qarzni uzish):</b> 5 yil davomida kompaniyaning operatsion pul oqimlari orqali asosiy qarz yopiladi va aksiyadorlik ulushi o'sadi;
-2. <b>EBITDA Growth:</b> Operatsion xarajatlarni qisqartirish va marjani kengaytirish;
-3. <b>Multiple Expansion:</b> Kompaniyani 8x ga sotib olib, 5 yildan so'ng 10x-12x ga sotish.
-
-📈 <b>Target:</b> PE fondlari yillik 20%–25%+ IRR (Internal Rate of Return) talab qiladi.`;
-    await editOrReply(ctx, text, keyboards.financeBack(config.appUrl));
-  });
-
-  bot.action('back_to_finance', async (ctx) => {
-    await ctx.answerCbQuery();
-    await editOrReply(ctx, knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
-  });
-
-  // Asosiy menyuga qaytish (Asosiy markaz)
+  // ------------------- INLINE CALLBACKS: ASOSIY MENYU VA ORTGA QAYTISH -------------------
+  // Asosiy menyuga qaytish
   bot.action('back_to_main', async (ctx) => {
     await ctx.answerCbQuery();
     const text = `🏛 <b>UWED FIS — Asosiy Menyu</b>
@@ -362,13 +307,11 @@ Quyidagi bo'limlardan birini tanlang yoki pastki tugmalardan foydalaning:
 
 • 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formula va misollar;
 • 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
-• 📊 <b>Baholash (Valuation):</b> DCF, LBO, Multiplikatorlar;
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
-• 💼 <b>Intervyu Savollari:</b> IB & Consulting texnik savollari;
-• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy savol va takliflar.`;
+• 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
 
     await editOrReply(ctx, text, keyboards.mainInlineMenu(config.appUrl));
-    await ctx.replyWithHTML('👇 Pastki doimiy menyu tugmalari faol:', keyboards.mainMenu());
   });
 
   // Asosiy menyu inline tugmalari
@@ -385,11 +328,6 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     await editOrReply(ctx, knowledge.vertexInfo, keyboards.vertexMenu());
   });
 
-  bot.action('menu_valuation', async (ctx) => {
-    await ctx.answerCbQuery();
-    await editOrReply(ctx, knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
-  });
-
   bot.action('menu_digest', async (ctx) => {
     await ctx.answerCbQuery();
     const customDigest = db.getWeeklyDigest();
@@ -400,9 +338,24 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     await editOrReply(ctx, text, keyboards.backOnly());
   });
 
-  bot.action('menu_interview', async (ctx) => {
+  bot.action('menu_ai', async (ctx) => {
     await ctx.answerCbQuery();
-    await editOrReply(ctx, knowledge.interviewQuestions, keyboards.backOnly());
+    const text = `🤖 <b>UWED FIS AI Assistent — Doimiy Moliya va Keys Konsultanti</b>
+
+Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha savolingizni to'g'ridan-to'g'ri shu yerga yozib yuboring ✍️:`;
+    await editOrReply(ctx, text, keyboards.backOnly());
+  });
+
+  bot.action('menu_anon', async (ctx) => {
+    await ctx.answerCbQuery();
+    const userId = String(ctx.from.id);
+    userStates.set(userId, 'waiting_anon_text');
+    const text = `🕵️‍♂️ <b>UWED FIS Anonim Murojaatlar Qutisi</b>
+
+Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yangi g'oyalaringizni <b>100% anonim</b> tarzda yuborishingiz mumkin.
+
+Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
+    await ctx.replyWithHTML(text, keyboards.cancelAnon());
   });
 
   bot.action('menu_about', async (ctx) => {

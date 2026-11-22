@@ -5,22 +5,18 @@ const terms = require('../bot/terms');
 
 const SYSTEM_PROMPT = `Siz "UWED Finance and Investment Society" (JIDU Moliya va Investitsiyalar Klubi) ning rasmiy sun'iy intellekt konsultanti va bilimdon assistentisiz.
 Vazifangiz: Talabalar va klub a'zolariga moliya, investitsiya, korporativ moliya, keys-chempionatlar (Vertex Case Competition), IB (Investment Banking), PE (Private Equity) va iqtisodiyot bo'yicha aniq, tushunarli, professional va amaliy javoblar berish.
-
-Siz bilishingiz shart bo'lgan asosiy faktlar:
-1. Vertex Falsafasi (Japanese Industrial Minimalism): Quruq nazariya (SWOT/PESTEL/Porter) dan butunlay voz kechiladi. Sog'lom mantiq, aniq arifmetika, kompromisslar (trade-offs) va byudjet taqsimotiga tayaniladi.
-2. Toyota Keysi: Plant Alpha oylik 20,000 ta ishlab chiqaradi, talab 26,000 ta (6,000 ta defitsit). $15M favqulodda byudjet. 0.12% sifat me'yori va Andon tamoyili. Optimal yechim: Gibrid (B Soddalashtirish + C Robotlar + vaqtinchalik A kichik smena).
-3. Amazon Keysi: "Delta" saralash markazi 1.8M jo'natadi, talab 2.25M (450k defitsit). $12M byudjet. Prime va'dasi: 98.5% (amalda 89.2% ga tushgan). Virtual Andon tamoyili. Optimal yechim: Gibrid (B Hub Locker & 4 quti + C Kiva robotlari + vaqtinchalik A yordamchi guruh).
-4. Baholash Tizimi: 100 ballik tizim (5 ta mezon × 20 ball). Har bir mezon 4 ta o'lchanadigan belgiga (A, B, C, D: har biri 0, 2 yoki 5 ball) bo'linadi.
-
 Javob uslubingiz:
-- O'zbek tilida ravon, professional moliya tili (moliya atamalarining inglizcha nomlarini qavs ichida keltiring).
-- Aniq struktura (punktlar, formulalar va arifmetik hisob-kitoblar bilan).
-- Suv gaplarsiz, Wall Street / Tier-1 Consulting analitigi ohangida.`;
+- O'zbek tilida ravon, professional moliya tili.
+- Aniq struktura (punktlar, formulalar va hisob-kitoblar bilan).
+- Keraksiz suv gaplarsiz.`;
 
 async function askAI(userQuery) {
+  let hasValidKey = false;
+
   // 1. Agar Gemini API mavjud bo'lsa
-  if (config.geminiApiKey) {
+  if (config.geminiApiKey && config.geminiApiKey.trim()) {
     try {
+      hasValidKey = true;
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${config.geminiApiKey}`;
       const payload = {
         contents: [
@@ -35,13 +31,14 @@ async function askAI(userQuery) {
       const text = res.data?.candidates?.[0]?.content?.parts?.[0]?.text;
       if (text) return text;
     } catch (err) {
-      console.warn('Gemini API xatosi, zaxira qidiruvga o\'tilmoqda:', err.message);
+      console.warn('Gemini API xatosi:', err.message);
     }
   }
 
   // 2. Agar OpenAI API mavjud bo'lsa
-  if (config.openaiApiKey) {
+  if (config.openaiApiKey && config.openaiApiKey.trim()) {
     try {
+      hasValidKey = true;
       const res = await axios.post('https://api.openai.com/v1/chat/completions', {
         model: 'gpt-4o-mini',
         messages: [
@@ -63,30 +60,18 @@ async function askAI(userQuery) {
     }
   }
 
-  // 3. Fallback: Mahalliy bilimlar bazasidan qidirish (Smart Keyword Search)
+  // 3. Mahalliy boy bilimlar bazasidan qidirish (Smart Search)
   const query = userQuery.toLowerCase();
 
-  // Keyslar bo'yicha qidirish
-  if (query.includes('toyota')) {
-    return knowledge.casesData.toyota.summary;
-  }
-  if (query.includes('amazon')) {
-    return knowledge.casesData.amazon.summary;
-  }
-  if (query.includes('tbc')) {
-    return knowledge.casesData.tbc.summary;
-  }
-  if (query.includes('spotify')) {
-    return knowledge.casesData.spotify.summary;
-  }
-  if (query.includes('ikea')) {
-    return knowledge.casesData.ikea.summary;
-  }
-  if (query.includes('duolingo')) {
-    return knowledge.casesData.duolingo.summary;
-  }
+  // Keyslar bo'yicha
+  if (query.includes('toyota')) return knowledge.casesData.toyota.summary;
+  if (query.includes('amazon')) return knowledge.casesData.amazon.summary;
+  if (query.includes('tbc')) return knowledge.casesData.tbc.summary;
+  if (query.includes('spotify')) return knowledge.casesData.spotify.summary;
+  if (query.includes('ikea')) return knowledge.casesData.ikea.summary;
+  if (query.includes('duolingo')) return knowledge.casesData.duolingo.summary;
 
-  // Moliya terminlari lug'atidan qidirish
+  // Terminlar bo'yicha
   for (const catKey in terms.categories) {
     for (const item of terms.categories[catKey].terms) {
       const termName = item.name.toLowerCase();
@@ -96,16 +81,26 @@ async function askAI(userQuery) {
     }
   }
 
-  return `🤖 <b>UWED FIS AI Assistent</b>:
-Savolingiz: <i>"${userQuery}"</i>
+  // Agar aniq termin topilmasa, foydalanuvchiga API kalit holatini va yo'riqnomasini aniq tushuntirish
+  const apiStatusNote = hasValidKey
+    ? "⚠️ <i>Tashqi AI API serveridan javob olishda vaqtinchalik xatolik yuz berdi.</i>"
+    : "⚠️ <i>Hozirda tashqi generativ AI API kaliti (Gemini yoki OpenAI) ulanmagan. To'liq erkin savol-javoblar uchun admin panelda GEMINI_API_KEY yoki OPENAI_API_KEY sozlanadi.</i>";
 
-Ushbu mavzu bo'yicha bot menyusidagi tegishli bo'limni tanlashingiz mumkin:
-• 📊 <b>Moliya & Investitsiyalar</b> (Valuation, DCF, LBO, Ratios)
-• 💼 <b>IB & Consulting Intervyu Savollari</b>
-• 🏆 <b>Vertex Case Competition va Keys Yechish</b>
-• 🏛 <b>UWED FIS Klubi haqida</b>
+  return `🤖 <b>UWED FIS AI Assistent:</b>
 
-💡 <i>Maslahat: Istalgan termin (masalan: "WACC", "EBITDA", "DCF") yoki keys nomi ("Toyota", "Amazon")ni to'g'ridan-to'g'ri yozib yuboring.</i>`;
+${apiStatusNote}
+
+Savolingiz: <i>"${escapeHtml(userQuery)}"</i>
+
+💡 <b>Siz uchun tavsiya:</b>
+Bot ichidagi <b>«📚 Moliya Lug'ati (Terminlar)»</b> bo'limida 25+ eng muhim moliyaviy formulalar (DCF, WACC, EBITDA, LBO, P/E) va <b>«🏆 Vertex Keyslar Arxiv»</b> bo'limida rasmiy o'zbekcha keyslar to'liq joylashtirilgan.
+
+Qidirayotgan terminingiz nomini (masalan: <i>"WACC", "EBITDA", "LBO"</i>) to'g'ridan-to'g'ri yozib yuboring!`;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 module.exports = {
