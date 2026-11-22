@@ -196,26 +196,39 @@ Savolingizni to'g'ridan-to'g'ri yozib yuboring ✍️:`;
     await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
   });
 
-  // 6. Anonim Murojaat
-  bot.hears(['🕵️‍♂️ Anonim Savol / Murojaat', 'Anonim Murojaat'], async (ctx) => {
-    const userId = String(ctx.from.id);
+  // 6. Anonim Murojaat yuborish funksiyasi (Sodda va tushunarli)
+  const promptAnonymousMessage = async (ctx) => {
+    const userId = String(ctx.from?.id);
     userStates.set(userId, 'waiting_anon_text');
 
-    const text = `🕵️‍♂️ <b>UWED FIS Anonim Murojaatlar Qutisi</b>
+    const text = `🕵️‍♂️ <b>UWED FIS — 100% Anonim Murojaatlar Qutisi</b>
 
-Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yangi g'oyalaringizni <b>100% anonim</b> tarzda yuborishingiz mumkin.
+Klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki taklifingizni <b>shaxsingizni to'liq sir saqlagan holda</b> yuborishingiz mumkin.
 
-🔒 <b>Maxfiylik kafolati:</b>
-Sizning shaxsingiz (ism, familiya, Telegram username) adminga <b>umuman ko'rinmaydi</b>.
+🔒 <b>Kafolatlangan Maxfiylik:</b>
+Sizning ismingiz, familiyangiz yoki @username profilingiz bizga <b>umuman ko'rinmaydi</b>.
 
-Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
-    await ctx.replyWithHTML(text, keyboards.cancelAnon());
+✍️ <b>Qanday yuboriladi?</b>
+Shunchaki xabaringizni yozib jo'nating!
+
+<i>(Agar fikringizdan qaytsangiz, pastdagi «❌ Bekor qilish» tugmasini bosing).</i>`;
+
+    await editOrReply(ctx, text, keyboards.cancelAnonInline());
+  };
+
+  // Buyruq va matn orqali chaqirish
+  bot.command(['anonym', 'anonim', 'anon'], promptAnonymousMessage);
+  bot.hears(['🕵️‍♂️ Anonim Savol / Murojaat', 'Anonim Murojaat', 'Anonim', 'Anonim xabar'], promptAnonymousMessage);
+
+  bot.action('menu_anon', async (ctx) => {
+    await ctx.answerCbQuery();
+    await promptAnonymousMessage(ctx);
   });
 
-  bot.hears('❌ Bekor qilish', async (ctx) => {
-    const userId = String(ctx.from.id);
-    userStates.delete(userId);
-    await ctx.replyWithHTML('🔙 Anonim rejim bekor qilindi. Asosiy menyudasiz:', keyboards.mainMenu());
+  bot.action('cancel_anon', async (ctx) => {
+    await ctx.answerCbQuery();
+    if (ctx.from) userStates.delete(String(ctx.from.id));
+    await handleMainMenu(ctx);
   });
 
   // ------------------- INLINE CALLBACKS: BIR XABAR ICHIDA YANGILANISH (ZERO SPAM) -------------------
@@ -379,21 +392,6 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
 
 Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha savolingizni to'g'ridan-to'g'ri shu yerga yozib yuboring ✍️:`;
     await editOrReply(ctx, text, keyboards.backOnly());
-  });
-
-  bot.action('menu_anon', async (ctx) => {
-    await ctx.answerCbQuery();
-    const userId = String(ctx.from.id);
-    userStates.set(userId, 'waiting_anon_text');
-    const text = `🕵️‍♂️ <b>UWED FIS Anonim Murojaatlar Qutisi</b>
-
-Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yangi g'oyalaringizni <b>100% anonim</b> tarzda yuborishingiz mumkin.
-
-🔒 <b>Maxfiylik kafolati:</b>
-Sizning shaxsingiz (ism, familiya, Telegram username) adminga <b>umuman ko'rinmaydi</b>.
-
-Marhamat, anonim xabaringizni yozib yuboring ✍️ (yoki bekor qilish uchun pastdagi tugmani bosing):`;
-    await editOrReply(ctx, text, keyboards.cancelAnonInline());
   });
 
   bot.action('menu_about', async (ctx) => {

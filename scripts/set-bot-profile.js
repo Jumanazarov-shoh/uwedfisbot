@@ -33,8 +33,10 @@ async function setupProfile() {
 
     const res3 = await axios.post(`https://api.telegram.org/bot${token}/setMyCommands`, {
       commands: [
-        { command: 'start', description: '🚀 Botni ishga tushirish va Bosh menyu' },
-        { command: 'menu', description: '🏛 Asosiy bo\'limlar menyusi' }
+        { command: 'start', description: '🚀 Bosh sahifani ochish' },
+        { command: 'menu', description: '🏛 Asosiy bo\'limlar menyusi' },
+        { command: 'anonym', description: '🕵️‍♂️ 100% anonim murojaat yuborish' },
+        { command: 'help', description: '📖 Qo\'llanma va ma\'lumotlar' }
       ]
     });
     console.log('✅ setMyCommands (Bot buyruqlari):', res3.data.ok);
