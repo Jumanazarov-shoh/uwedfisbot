@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UWED FIS - Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+  <!-- Top Navigation Bar -->
+  <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base font-bold text-white leading-tight">UWED FIS Management</h1>
+          <p class="text-xs text-slate-400">Finance & Investment Society Bot Admin</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Render Keep-Alive Badge -->
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-medium text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span>Render Keep-Alive Faol</span>
+        </div>
+
+        <button
+          onclick="logout()"
+          class="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all"
+        >
+          Chiqish
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- KPI Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Total Users -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Jami Foydalanuvchilar</p>
+          <span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          </span>
+        </div>
+        <h3 id="statTotalUsers" class="text-3xl font-bold text-white mt-3">0</h3>
+        <p class="text-xs text-slate-400 mt-1">Botdan ro'yxatdan o'tgan a'zolar</p>
+      </div>
+
+      <!-- Total Messages -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Kelgan Savollar</p>
+          <span class="p-2 rounded-xl bg-cyan-500/10 text-cyan-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+          </span>
+        </div>
+        <h3 id="statMessages" class="text-3xl font-bold text-white mt-3">0</h3>
+        <p class="text-xs text-slate-400 mt-1">Qabul qilingan barcha xabarlar</p>
+      </div>
+
+      <!-- Keep Alive Pings -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Keep-Alive Pinglar</p>
+          <span class="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </span>
+        </div>
+        <h3 id="statPings" class="text-3xl font-bold text-white mt-3">0</h3>
+        <p class="text-xs text-slate-400 mt-1">Render uxlab qolmasligi uchun</p>
+      </div>
+
+      <!-- Last Ping Time -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">So'nggi Faollik</p>
+          <span class="p-2 rounded-xl bg-violet-500/10 text-violet-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+        </div>
+        <h3 id="statLastPing" class="text-lg font-bold text-white mt-3">Hozir</h3>
+        <p class="text-xs text-emerald-400 mt-1">🟢 Server Onlayn</p>
+      </div>
+    </div>
+
+    <!-- Grid: Broadcast & Live Logs -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Broadcast Section (Left 2 cols) -->
+      <div class="lg:col-span-2 glass-card rounded-2xl p-6 sm:p-7 space-y-6">
+        <div>
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+              Barcha Foydalanuvchilarga Xabar Yuborish (Broadcast)
+            </h2>
+            <span class="text-xs text-slate-400">Telegram Markdown qo'llab-quvvatlanadi</span>
+          </div>
+          <p class="text-sm text-slate-400 mt-1">Bu yerdan yozilgan xabar botning barcha foydalanuvchilariga bir vaqtning o'zida jo'natiladi.</p>
+        </div>
+
+        <!-- Quick Templates -->
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tezkor Shablonlar</label>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="applyTemplate('event')" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition">📢 Yangi Tadbir</button>
+            <button onclick="applyTemplate('vertex')" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition">🏆 Vertex E'loni</button>
+            <button onclick="applyTemplate('market')" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition">📊 Bozor Tahlili</button>
+            <button onclick="applyTemplate('clear')" class="text-xs px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 rounded-lg border border-rose-500/20 transition">Tozalash</button>
+          </div>
+        </div>
+
+        <!-- Message Form -->
+        <form id="broadcastForm" class="space-y-4">
+          <div>
+            <textarea
+              id="broadcastText"
+              rows="6"
+              required
+              placeholder="Xabar matnini bu yerga yozing... (Masalan: Hurmatli klub a'zolari, ertaga soat 16:00 da...)"
+              class="w-full px-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition text-sm leading-relaxed"
+            ></textarea>
+          </div>
+
+          <!-- Optional Button Link -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-medium text-slate-400 block mb-1">Tugma Matni (Ixtiyoriy)</label>
+              <input
+                type="text"
+                id="buttonText"
+                placeholder="Batafsil / Ro'yxatdan o'tish"
+                class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-400 block mb-1">Tugma Havolasi (URL)</label>
+              <input
+                type="url"
+                id="buttonUrl"
+                placeholder="https://t.me/..."
+                class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+            </div>
+          </div>
+
+          <div id="broadcastStatus" class="hidden text-sm px-4 py-3 rounded-xl"></div>
+
+          <div class="flex items-center justify-between pt-2">
+            <span class="text-xs text-slate-500">Xabar yuborish biroz vaqt olishi mumkin</span>
+            <button
+              type="submit"
+              id="sendBroadcastBtn"
+              class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-medium text-sm rounded-xl shadow-lg shadow-emerald-500/25 transition flex items-center gap-2"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+              <span>Xabarni Yuborish</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Keep-Alive & Server Status -->
+      <div class="space-y-6">
+        <!-- Render Keep-Alive Info Card -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Render Keep-Alive Monitor
+            </h3>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">5 min</span>
+          </div>
+
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Render bepul serverlari 15 daqiqa murojaat bo'lmasa avtomatik "uxlab" qoladi.
+            Ushbu tizim har 5 daqiqada o'ziga avtomatik ping yuborib, botni 24/7 uyg'oq saqlaydi!
+          </p>
+
+          <div class="pt-2 border-t border-slate-800">
+            <button
+              onclick="triggerManualPing()"
+              id="manualPingBtn"
+              class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-xl border border-slate-700 transition flex items-center justify-center gap-2"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              <span>Hozir Test Ping Yuborish</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Logs Feed -->
+        <div class="glass-card rounded-2xl p-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white">So'nggi Hodisalar (Logs)</h3>
+            <span class="text-xs text-slate-500" id="logCount">0 ta</span>
+          </div>
+          <div id="logsFeed" class="space-y-2 max-h-56 overflow-y-auto pr-1 text-xs font-mono">
+            <div class="text-slate-500">Loglar yuklanmoqda...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Registered Users Table -->
+    <div class="glass-card rounded-2xl p-6 sm:p-7 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Bot Foydalanuvchilari Ro'yxati
+          </h2>
+          <p class="text-xs text-slate-400">UWED FIS botiga start bosgan barcha talabalar</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <input
+            type="text"
+            id="userSearch"
+            onkeyup="filterUsers()"
+            placeholder="Qidirish (ism yoki username)..."
+            class="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-white placeholder-slate-500 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          >
+          <button
+            onclick="exportCSV()"
+            class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg border border-slate-700 transition"
+          >
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="text-slate-400 border-b border-slate-800 uppercase tracking-wider">
+            <tr>
+              <th class="py-3 px-3">Foydalanuvchi</th>
+              <th class="py-3 px-3">Telegram Username</th>
+              <th class="py-3 px-3">Telegram ID</th>
+              <th class="py-3 px-3">Qo'shilgan sana</th>
+              <th class="py-3 px-3">Oxirgi faollik</th>
+              <th class="py-3 px-3 text-right">Xabarlar</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody" class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td colspan="6" class="py-6 text-center text-slate-500">Foydalanuvchilar yuklanmoqda...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    let allUsers = [];
+
+    // Shablonlarni to'ldirish
+    function applyTemplate(type) {
+      const textarea = document.getElementById('broadcastText');
+      const btnText = document.getElementById('buttonText');
+      const btnUrl = document.getElementById('buttonUrl');
+
+      if (type === 'event') {
+        textarea.value = `📢 *UWED FIS yangi uchrashuvi!*
+
+Hurmatli talabalar, navbatdagi amaliy uchrashuvimiz:
+🗓 *Sana:* Shanba, 15:00
+🏛 *Joy:* UWED, B-bino, 204-xona
+🎙 *Mavzu:* "Investment Banking & Private Equity: Amaliy modellashtirish"
+
+Ishtirok etish uchun quyidagi havola orqali ro'yxatdan o'ting!`;
+        btnText.value = "Ro'yxatdan o'tish";
+        btnUrl.value = "https://t.me/uwed_fis";
+      } else if (type === 'vertex') {
+        textarea.value = `🏆 *Vertex Case Competition e'loni!*
+
+Vertex biznes keys-chempionati uchun arizalar qabuli boshlandi!
+• 3-4 kishilik jamoalar;
+• Real biznes keyslar;
+• Nufuzli hakamlar va sovrinlar.
+
+O'z bilimingizni sinab ko'ring va chempionlik uchun kurashing!`;
+        btnText.value = "Vertex Haqida Batafsil";
+        btnUrl.value = "https://t.me/uwed_fis";
+      } else if (type === 'market') {
+        textarea.value = `📊 *Weekly Market Digest — UWED FIS*
+
+Ushbu haftadagi muhim moliyaviy yangiliklar:
+1. Global foiz stavkalari va inflyatsiya dinamikasi;
+2. O'zbekiston fond bozoridagi haftalik savdolar hajmi;
+3. Texnologiya sektori tahlili.`;
+        btnText.value = "Tahlilni O'qish";
+        btnUrl.value = "https://t.me/uwed_fis";
+      } else if (type === 'clear') {
+        textarea.value = '';
+        btnText.value = '';
+        btnUrl.value = '';
+      }
+    }
+
+    // Statistikani yuklash
+    async function loadDashboardData() {
+      try {
+        const res = await fetch('/api/stats');
+        if (res.status === 401) {
+          window.location.href = '/login';
+          return;
+        }
+        const data = await res.json();
+
+        // Stat kartalari
+        document.getElementById('statTotalUsers').textContent = data.stats.totalUsers || 0;
+        document.getElementById('statMessages').textContent = data.stats.totalMessagesReceived || 0;
+        document.getElementById('statPings').textContent = data.stats.totalPings || 0;
+
+        if (data.stats.lastPingAt) {
+          const date = new Date(data.stats.lastPingAt);
+          document.getElementById('statLastPing').textContent = date.toLocaleTimeString('uz-UZ');
+        }
+
+        // Foydalanuvchilar jadvali
+        allUsers = data.users || [];
+        renderUsers(allUsers);
+
+        // Loglar
+        renderLogs(data.stats.recentLogs || []);
+      } catch (err) {
+        console.error('Ma\'lumotlarni olishda xato:', err);
+      }
+    }
+
+    function renderUsers(users) {
+      const tbody = document.getElementById('usersTableBody');
+      if (!users.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-500">Hozircha foydalanuvchilar yo'q. Botga /start yuborilganda bu yerda ko'rinadi.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = users.map(u => `
+        <tr class="hover:bg-slate-900/40 transition">
+          <td class="py-3 px-3 font-medium text-white">${escapeHtml(u.first_name || 'Noma\'lum')} ${escapeHtml(u.last_name || '')}</td>
+          <td class="py-3 px-3 text-cyan-400 font-mono">${u.username ? '@' + escapeHtml(u.username) : '<span class="text-slate-600">-</span>'}</td>
+          <td class="py-3 px-3 text-slate-400 font-mono">${u.id}</td>
+          <td class="py-3 px-3 text-slate-400">${new Date(u.joined_at).toLocaleDateString('uz-UZ')}</td>
+          <td class="py-3 px-3 text-slate-400">${new Date(u.last_active).toLocaleDateString('uz-UZ')} ${new Date(u.last_active).toLocaleTimeString('uz-UZ')}</td>
+          <td class="py-3 px-3 text-right font-semibold text-emerald-400">${u.message_count || 1}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderLogs(logs) {
+      const feed = document.getElementById('logsFeed');
+      document.getElementById('logCount').textContent = logs.length + ' ta';
+      if (!logs.length) {
+        feed.innerHTML = `<div class="text-slate-500 text-xs">Ping loglari bu yerda ko'rinadi.</div>`;
+        return;
+      }
+      feed.innerHTML = logs.map(l => `
+        <div class="flex items-center justify-between py-1 border-b border-slate-800/40">
+          <span class="text-slate-400">${l.time}</span>
+          <span class="text-emerald-400">🟢 Ping OK</span>
+        </div>
+      `).join('');
+    }
+
+    function filterUsers() {
+      const query = document.getElementById('userSearch').value.toLowerCase();
+      const filtered = allUsers.filter(u =>
+        (u.first_name && u.first_name.toLowerCase().includes(query)) ||
+        (u.username && u.username.toLowerCase().includes(query)) ||
+        (u.id && String(u.id).includes(query))
+      );
+      renderUsers(filtered);
+    }
+
+    function exportCSV() {
+      if (!allUsers.length) return alert('Yuklab olish uchun foydalanuvchilar mavjud emas');
+      let csv = 'ID,Ism,Familiya,Username,Qo\'shilgan,OxirgiFaollik,Xabarlar\n';
+      allUsers.forEach(u => {
+        csv += `"${u.id}","${u.first_name || ''}","${u.last_name || ''}","${u.username || ''}","${u.joined_at}","${u.last_active}","${u.message_count || 1}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `uwed_fis_users_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    }
+
+    // Broadcast form yuborish
+    document.getElementById('broadcastForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = document.getElementById('broadcastText').value;
+      const buttonText = document.getElementById('buttonText').value;
+      const buttonUrl = document.getElementById('buttonUrl').value;
+      const btn = document.getElementById('sendBroadcastBtn');
+      const statusBox = document.getElementById('broadcastStatus');
+
+      if (!confirm(`Xabarni barcha (${allUsers.length}) foydalanuvchilarga yuborishni tasdiqlaysizmi?`)) {
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = 'Yuborilmoqda...';
+      statusBox.className = 'text-sm px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 block';
+      statusBox.textContent = "Xabarlar yuborilmoqda, iltimos kuting...";
+
+      try {
+        const res = await fetch('/api/broadcast', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, buttonText, buttonUrl })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          statusBox.className = 'text-sm px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 block';
+          statusBox.innerHTML = `✅ <b>Muvaffaqiyatli yuborildi!</b><br>Yetib bordi: <b>${data.sentCount}</b> ta | Bloklaganlar: <b>${data.failCount}</b> ta`;
+          document.getElementById('broadcastText').value = '';
+        } else {
+          statusBox.className = 'text-sm px-4 py-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 block';
+          statusBox.textContent = data.message || "Xabar yuborishda xatolik yuz berdi";
+        }
+      } catch (err) {
+        statusBox.className = 'text-sm px-4 py-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 block';
+        statusBox.textContent = "Server bilan aloqada xato yuz berdi.";
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg><span>Xabarni Yuborish</span>`;
+      }
+    });
+
+    // Test ping yuborish
+    async function triggerManualPing() {
+      const btn = document.getElementById('manualPingBtn');
+      btn.disabled = true;
+      btn.innerHTML = 'Ping yuborilmoqda...';
+      try {
+        const res = await fetch('/ping');
+        const data = await res.json();
+        alert(`Ping muvaffaqiyatli! Server javobi: ${data.status} (Vaqt: ${data.timestamp})`);
+        loadDashboardData();
+      } catch (err) {
+        alert('Ping yuborishda xatolik: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>Hozir Test Ping Yuborish</span>`;
+      }
+    }
+
+    async function logout() {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = '/login';
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Har 15 soniyada ma'lumotlarni yangilab turish
+    loadDashboardData();
+    setInterval(loadDashboardData, 15000);
+  </script>
+</body>
+</html>
