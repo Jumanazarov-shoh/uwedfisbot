@@ -2,59 +2,46 @@ const { Markup } = require('telegraf');
 const terms = require('./terms');
 
 module.exports = {
-  // Asosiy menyu (Doimiy pastki qulay klaviatura — hech qachon yo'qolmaydi)
-  mainMenu() {
-    return Markup.keyboard([
-      ['📚 Moliya Lug\'ati (Terminlar)', '🏆 Vertex Keyslar Arxiv'],
-      ['📰 Haftalik Bozor Tahlili', '🤖 AI Moliyaviy Assistent'],
-      ['🕵️‍♂️ Anonim Savol / Murojaat', '🏛 UWED FIS Klubi Haqida']
-    ]).resize().persistent();
+  // Asosiy Menyu (100% Inline — Xabarning ichida chiroyli joylashgan)
+  mainInlineMenu() {
+    return Markup.inlineKeyboard([
+      [
+        Markup.button.callback('📚 Moliya & Iqtisodiyot Lug\'ati', 'menu_terms')
+      ],
+      [
+        Markup.button.callback('🏆 Vertex Keyslar Arxiv (PDF)', 'menu_vertex'),
+        Markup.button.callback('📰 Haftalik Bozor Tahlili', 'menu_digest')
+      ],
+      [
+        Markup.button.callback('🤖 AI Moliyaviy Assistent', 'menu_ai'),
+        Markup.button.callback('🕵️‍♂️ Anonim Murojaat', 'menu_anon')
+      ],
+      [
+        Markup.button.callback('🏛 UWED FIS Klubi Haqida', 'menu_about')
+      ]
+    ]);
   },
 
-  // Anonim xabar yozish holatidagi bekor qilish tugmasi
-  cancelAnon() {
-    return Markup.keyboard([
-      ['❌ Bekor qilish']
-    ]).resize();
+  // Anonim xabar yozish holatidagi Inline bekor qilish tugmasi
+  cancelAnonInline() {
+    return Markup.inlineKeyboard([
+      [Markup.button.callback('❌ Bekor qilish (Bosh Menyu)', 'back_to_main')]
+    ]);
   },
 
-  // Asosiy Menyu uchun Inline Tugmalar (Xabar ichida ochiladigan markaz)
-  mainInlineMenu(appUrl) {
-    const rows = [];
-    // Faqat haqiqiy HTTPS havola bo'lsagina WebApp tugmasi qo'yiladi (Telegram HTTP ni rad etadi)
-    if (appUrl && appUrl.startsWith('https://')) {
-      rows.push([
-        Markup.button.webApp('🚀 Interaktiv Terminal (Mini App)', `${appUrl}/miniapp`)
-      ]);
-    }
-    rows.push([
-      Markup.button.callback('📚 Moliya Lug\'ati', 'menu_terms'),
-      Markup.button.callback('🏆 Vertex Keyslar', 'menu_vertex')
-    ]);
-    rows.push([
-      Markup.button.callback('📰 Bozor Tahlili', 'menu_digest'),
-      Markup.button.callback('🤖 AI Assistent', 'menu_ai')
-    ]);
-    rows.push([
-      Markup.button.callback('🕵️‍♂️ Anonim Murojaat', 'menu_anon'),
-      Markup.button.callback('🏛 Klub Haqida', 'menu_about')
-    ]);
-    return Markup.inlineKeyboard(rows);
-  },
-
-  // Moliya Lug'ati Kategoriyalari (Inline)
+  // Moliya & Iqtisodiyot Lug'ati Kategoriyalari (Inline)
   termsMenu() {
     return Markup.inlineKeyboard([
       [
-        Markup.button.callback('📊 Baholash & DCF Modeli', 'cat_valuation'),
-        Markup.button.callback('📈 Bozor Multiplikatorlari', 'cat_multiples')
+        Markup.button.callback('🏛 Makroiqtisodiyot', 'cat_macro'),
+        Markup.button.callback('🏬 Mikroiqtisodiyot', 'cat_micro')
       ],
       [
-        Markup.button.callback('💼 Korporativ Moliya & FCF', 'cat_corp_finance'),
-        Markup.button.callback('🏦 IB, PE & M&A Bitimlari', 'cat_ib_pe')
+        Markup.button.callback('📊 Korporativ Moliya', 'cat_valuation'),
+        Markup.button.callback('📑 Boshqaruv Hisobi', 'cat_accounting')
       ],
       [
-        Markup.button.callback('🏆 Biznes Strategiya & Metrikalar', 'cat_strategy')
+        Markup.button.callback('👔 Menejment & Strategiya', 'cat_management')
       ],
       [
         Markup.button.callback('🔙 Asosiy Menyuga Qaytish', 'back_to_main')

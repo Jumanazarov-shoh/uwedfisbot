@@ -82,20 +82,20 @@ function setupBot() {
 🎯 <b>Ushbu bot qanday vazifalarni bajaradi?</b>
 Talabalar va yosh moliyachilar uchun moliya, investitsiya tahlili, keys-chempionatlar va korporativ baholash bo'yicha eng sara amaliy bilimlar markazi:
 
-• 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formulalar va real keys misollari;
+• 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
 • 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbek tilidagi PDF keyslar va hakamlar etalon yechimlari;
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston fond bozori (UZSE) va xalqaro moliya yangiliklari;
 • 🤖 <b>AI Assistent:</b> Moliya, baholash va keyslar bo'yicha tezkor yordam;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi;
 • 🏛 <b>UWED FIS Klubi:</b> Jamiyat haqida rasmiy ma'lumotlar.
 
-Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
+Quyidagi tugmalar orqali kerakli bo'limni tanlang: 🚀`;
 
     try {
       await ctx.replyWithPhoto(BANNER_FILE_ID, {
         caption: welcomeCaption,
         parse_mode: 'HTML',
-        ...keyboards.mainMenu()
+        ...keyboards.mainInlineMenu()
       });
     } catch (err) {
       if (fs.existsSync(LOCAL_BANNER_PATH)) {
@@ -103,11 +103,11 @@ Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
           return await ctx.replyWithPhoto({ source: LOCAL_BANNER_PATH }, {
             caption: welcomeCaption,
             parse_mode: 'HTML',
-            ...keyboards.mainMenu()
+            ...keyboards.mainInlineMenu()
           });
         } catch (e) {}
       }
-      await ctx.replyWithHTML(welcomeCaption, keyboards.mainMenu());
+      await ctx.replyWithHTML(welcomeCaption, keyboards.mainInlineMenu());
     }
   });
 
@@ -115,26 +115,27 @@ Pastdagi qulay menyu orqali kerakli bo'limni tanlang: 🚀`;
   bot.help(async (ctx) => {
     const helpText = `📖 <b>UWED FIS Botidan Foydalanish Qo'llanmasi:</b>
 
-1. <b>Terminlarni qidirish:</b> Istalgan moliyaviy so'zni to'g'ridan-to'g'ri chatga yozing (masalan: <i>"WACC", "EBITDA", "DCF", "LBO", "MECE"</i>) — bot uning formulasi va ta'rifini chiqarib beradi.
+1. <b>Terminlarni qidirish:</b> Istalgan moliyaviy so'zni to'g'ridan-to'g'ri chatga yozing (masalan: <i>"YaIM", "WACC", "EBITDA", "LBO", "MECE"</i>) — bot uning formulasi va hayotiy misolini chiqarib beradi.
 2. <b>Keyslarni yuklab olish:</b> «🏆 Vertex Keyslar Arxiv» bo'limiga kiring va xohlagan keysingizni tanlang — bot rasmiy PDF kitobchani tashlab beradi.
 3. <b>Bozor tahlili:</b> «📰 Haftalik Bozor Tahlili» bo'limida MB stavkasi, UZSE va xalqaro bozor sharhlarini o'qing.
 4. <b>Anonim savol:</b> «🕵️‍♂️ Anonim Murojaat» tugmasini bosib, klub rahbariyatiga shaxsingizni yashirgan holda xabar yuborishingiz mumkin.
-5. <b>Bosh menyu:</b> Istalgan paytda /menu yoki pastdagi tugmalardan foydalaning.`;
-    await ctx.replyWithHTML(helpText, keyboards.mainMenu());
+5. <b>Bosh menyu:</b> Istalgan paytda /menu yozing yoki tugmalardan foydalaning.`;
+    await ctx.replyWithHTML(helpText, keyboards.mainInlineMenu());
   });
 
   // /menu va matnli "Asosiy Menyu" / "Ortga" buyruqlari
   const handleMainMenu = async (ctx) => {
+    if (ctx.from) userStates.delete(String(ctx.from.id));
     const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
 
 Quyidagi bo'limlardan birini tanlang:
 
-• 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formulalar va misollar;
+• 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
 • 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
 • 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
-    await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
+    await editOrReply(ctx, welcomeText, keyboards.mainInlineMenu());
   };
 
   bot.command(['menu', 'start'], handleMainMenu);
@@ -243,13 +244,16 @@ Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
     if (foundTerm) {
       const card = `💡 <b>${foundTerm.name}</b>
 
-📐 <b>Formula / Hisob-kitob:</b>
-<code>${escapeHtml(foundTerm.formula)}</code>
-
-📖 <b>Ta'rifi:</b>
+📖 <b>Oddiy Tushuncha:</b>
 ${foundTerm.def}
 
-📌 <b>Amaliy Ahamiyati (Moliya & Keyslarda):</b>
+📐 <b>Formula / Asosiy Qoida:</b>
+<code>${escapeHtml(foundTerm.formula)}</code>
+
+📌 <b>Hayotiy Misol:</b>
+${escapeHtml(foundTerm.example || '')}
+
+🎯 <b>Amaliy Ahamiyati:</b>
 <i>${foundTerm.practical}</i>`;
 
       const navButtons = Markup.inlineKeyboard([
@@ -377,8 +381,11 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
 
 Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yangi g'oyalaringizni <b>100% anonim</b> tarzda yuborishingiz mumkin.
 
-Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
-    await ctx.replyWithHTML(text, keyboards.cancelAnon());
+🔒 <b>Maxfiylik kafolati:</b>
+Sizning shaxsingiz (ism, familiya, Telegram username) adminga <b>umuman ko'rinmaydi</b>.
+
+Marhamat, anonim xabaringizni yozib yuboring ✍️ (yoki bekor qilish uchun pastdagi tugmani bosing):`;
+    await editOrReply(ctx, text, keyboards.cancelAnonInline());
   });
 
   bot.action('menu_about', async (ctx) => {
@@ -406,7 +413,7 @@ Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
 
 Klub rahbariyati xabaringizni ko'rib chiqadi va bot orqali javob qaytaradi.`;
 
-      await ctx.replyWithHTML(userConfirm, keyboards.mainMenu());
+      await ctx.replyWithHTML(userConfirm, keyboards.mainInlineMenu());
 
       if (config.adminTelegramId) {
         try {
@@ -433,13 +440,16 @@ Klub rahbariyati xabaringizni ko'rib chiqadi va bot orqali javob qaytaradi.`;
         if (lowerQuery.includes(termNameLower) || termNameLower.includes(lowerQuery) || (lowerQuery.length > 2 && termNameLower.startsWith(lowerQuery))) {
           const card = `💡 <b>${t.name}</b>
 
-📐 <b>Formula / Hisob-kitob:</b>
-<code>${escapeHtml(t.formula)}</code>
-
-📖 <b>Ta'rifi:</b>
+📖 <b>Oddiy Tushuncha:</b>
 ${t.def}
 
-📌 <b>Amaliy Ahamiyati:</b>
+📐 <b>Formula / Asosiy Qoida:</b>
+<code>${escapeHtml(t.formula)}</code>
+
+📌 <b>Hayotiy Misol:</b>
+${escapeHtml(t.example || '')}
+
+🎯 <b>Amaliy Ahamiyati:</b>
 <i>${t.practical}</i>`;
 
           const navButtons = Markup.inlineKeyboard([
