@@ -95,6 +95,25 @@ Kerakli bo'limni tanlang: 🚀`;
     if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
   });
 
+  // /menu va matnli "Asosiy Menyu" buyrug'i
+  bot.command('menu', async (ctx) => {
+    await cleanPreviousAndUser(ctx);
+    const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
+
+Kerakli bo'limni tanlang:`;
+    const sent = await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
+    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+  });
+
+  bot.hears(['🔙 Asosiy Menyu', '🏠 Asosiy Menyu', 'Asosiy Menyu'], async (ctx) => {
+    await cleanPreviousAndUser(ctx);
+    const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
+
+Kerakli bo'limni tanlang:`;
+    const sent = await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
+    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+  });
+
   // 1. Moliya Lug'ati (Terminlar) menyusi
   bot.hears(['📚 Moliya Lug\'ati (Terminlar)', '📚 Moliya Lug\'ati'], async (ctx) => {
     await cleanPreviousAndUser(ctx);
@@ -351,9 +370,58 @@ Private Equity (PE) fondlari kompaniyani uning o'z aktivlari va pul oqimlari gar
     await editOrReply(ctx, knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
   });
 
+  // Asosiy menyuga qaytish (Asosiy markaz)
   bot.action('back_to_main', async (ctx) => {
     await ctx.answerCbQuery();
-    await editOrReply(ctx, 'Asosiy menyudasiz. Kerakli bo\'limni tanlang:', keyboards.termsMenu());
+    const text = `🏛 <b>UWED FIS — Asosiy Menyu</b>
+
+Quyidagi bo'limlardan birini tanlang yoki pastki tugmalardan foydalaning:
+
+• 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formula va misollar;
+• 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
+• 📊 <b>Baholash (Valuation):</b> DCF, LBO, Multiplikatorlar;
+• 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
+• 💼 <b>Intervyu Savollari:</b> IB & Consulting texnik savollari.`;
+    await editOrReply(ctx, text, keyboards.mainInlineMenu(config.appUrl));
+  });
+
+  // Asosiy menyu inline tugmalari
+  bot.action('menu_terms', async (ctx) => {
+    await ctx.answerCbQuery();
+    const text = `📚 <b>UWED FIS — Keng Qamrovli Moliya va Investitsiyalar Lug'ati</b>
+
+Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "WACC", "LBO", "MECE"</i>) to'g'ridan-to'g'ri yozib yuboring:`;
+    await editOrReply(ctx, text, keyboards.termsMenu());
+  });
+
+  bot.action('menu_vertex', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.vertexInfo, keyboards.vertexMenu());
+  });
+
+  bot.action('menu_valuation', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
+  });
+
+  bot.action('menu_digest', async (ctx) => {
+    await ctx.answerCbQuery();
+    const customDigest = db.getWeeklyDigest();
+    let text = knowledge.defaultWeeklyDigest;
+    if (customDigest && customDigest.content) {
+      text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
+    }
+    await editOrReply(ctx, text, keyboards.backOnly());
+  });
+
+  bot.action('menu_interview', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.interviewQuestions, keyboards.backOnly());
+  });
+
+  bot.action('menu_about', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.aboutClub, keyboards.backOnly());
   });
 
   // ------------------- TEXT VA TERMINLARNI SMART QIDIRISH -------------------

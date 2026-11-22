@@ -19,6 +19,29 @@ module.exports = {
     ]).resize();
   },
 
+  // Asosiy Menyu uchun Inline Tugmalar (Xabar ichida ochiladigan markaz)
+  mainInlineMenu(appUrl) {
+    const rows = [];
+    if (appUrl) {
+      rows.push([
+        Markup.button.webApp('🚀 Interaktiv DCF Terminal (Mini App)', `${appUrl}/miniapp`)
+      ]);
+    }
+    rows.push([
+      Markup.button.callback('📚 Moliya Lug\'ati', 'menu_terms'),
+      Markup.button.callback('🏆 Vertex Keyslar', 'menu_vertex')
+    ]);
+    rows.push([
+      Markup.button.callback('📊 Baholash (Valuation)', 'menu_valuation'),
+      Markup.button.callback('📰 Bozor Tahlili', 'menu_digest')
+    ]);
+    rows.push([
+      Markup.button.callback('💼 Intervyu Savollari', 'menu_interview'),
+      Markup.button.callback('🏛 Klub Haqida', 'menu_about')
+    ]);
+    return Markup.inlineKeyboard(rows);
+  },
+
   // Moliya Lug'ati Kategoriyalari (Inline)
   termsMenu() {
     return Markup.inlineKeyboard([
