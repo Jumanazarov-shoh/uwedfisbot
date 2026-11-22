@@ -1,4 +1,6 @@
 const { Telegraf } = require('telegraf');
+const path = require('path');
+const fs = require('fs');
 const config = require('../config');
 const db = require('../services/db');
 const knowledge = require('./knowledge');
@@ -139,36 +141,39 @@ Savolingizni shu yerga yozib yuboring ✍️`;
     await ctx.replyWithHTML(knowledge.financeTopics.lbo, keyboards.financeMenu());
   });
 
+  // Haqiqiy Vertex keyslarini tahlili va PDF faylini yuborish
+  async function sendCase(ctx, caseKey) {
+    await ctx.answerCbQuery();
+    const caseItem = knowledge.casesData[caseKey];
+    if (!caseItem) return;
+
+    // 1. Matnli xulosa va hakamlar etaloni
+    await ctx.replyWithHTML(caseItem.summary, keyboards.vertexMenu());
+
+    // 2. Haqiqiy o'zbek tilidagi PDF faylni jo'natish
+    const pdfPath = path.join(__dirname, '..', '..', 'public', 'cases', caseItem.file);
+    if (fs.existsSync(pdfPath)) {
+      try {
+        await ctx.replyWithDocument({
+          source: pdfPath,
+          filename: caseItem.file
+        }, {
+          caption: `📄 <b>${caseItem.title}</b>\n\n📌 <i>Format: ${caseItem.format}</i>\n🎯 <i>Daraja: ${caseItem.difficulty}</i>\n\nO'qib chiqish va chop etish uchun to'liq rasmiy PDF hujjati.`,
+          parse_mode: 'HTML'
+        });
+      } catch (docErr) {
+        console.warn('PDF faylni yuborishda xato:', docErr.message);
+      }
+    }
+  }
+
   // Haqiqiy Vertex keyslari
-  bot.action('vtx_toyota', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.vertexCases.toyota, keyboards.vertexMenu());
-  });
-
-  bot.action('vtx_amazon', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.vertexCases.amazon, keyboards.vertexMenu());
-  });
-
-  bot.action('vtx_tbc', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.vertexCases.tbc, keyboards.vertexMenu());
-  });
-
-  bot.action('vtx_spotify', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.vertexCases.spotify, keyboards.vertexMenu());
-  });
-
-  bot.action('vtx_ikea', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.vertexCases.ikea, keyboards.vertexMenu());
-  });
-
-  bot.action('vtx_duolingo', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.vertexCases.duolingo, keyboards.vertexMenu());
-  });
+  bot.action('vtx_toyota', (ctx) => sendCase(ctx, 'toyota'));
+  bot.action('vtx_amazon', (ctx) => sendCase(ctx, 'amazon'));
+  bot.action('vtx_tbc', (ctx) => sendCase(ctx, 'tbc'));
+  bot.action('vtx_spotify', (ctx) => sendCase(ctx, 'spotify'));
+  bot.action('vtx_ikea', (ctx) => sendCase(ctx, 'ikea'));
+  bot.action('vtx_duolingo', (ctx) => sendCase(ctx, 'duolingo'));
 
   bot.action('vtx_mece', async (ctx) => {
     await ctx.answerCbQuery();

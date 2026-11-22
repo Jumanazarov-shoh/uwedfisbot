@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser('uwed-fis-secret-key'));
 app.use(cors());
+app.use('/cases', express.static(path.join(__dirname, '..', 'public', 'cases')));
 
 // Botni ishga tushirish
 const bot = setupBot();
