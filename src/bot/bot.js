@@ -75,8 +75,19 @@ Kompaniya qiymatini baholashning asosiy professional metodologiyalari bilan tani
     await ctx.replyWithHTML(text, keyboards.financeMenu());
   });
 
-  bot.hears('🏆 Vertex Keys Metodikasi', async (ctx) => {
+  bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi'], async (ctx) => {
     await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
+  });
+
+  bot.hears('📰 Haftalik Bozor Tahlili', async (ctx) => {
+    const customDigest = db.getWeeklyDigest();
+    let text = knowledge.defaultWeeklyDigest;
+
+    if (customDigest && customDigest.content) {
+      text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
+    }
+
+    await ctx.replyWithHTML(text, keyboards.backOnly());
   });
 
   bot.hears('💼 IB & Consulting Intervyu', async (ctx) => {
@@ -126,6 +137,37 @@ Savolingizni shu yerga yozib yuboring ✍️`;
   bot.action('fn_lbo', async (ctx) => {
     await ctx.answerCbQuery();
     await ctx.replyWithHTML(knowledge.financeTopics.lbo, keyboards.financeMenu());
+  });
+
+  // Haqiqiy Vertex keyslari
+  bot.action('vtx_toyota', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.vertexCases.toyota, keyboards.vertexMenu());
+  });
+
+  bot.action('vtx_amazon', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.vertexCases.amazon, keyboards.vertexMenu());
+  });
+
+  bot.action('vtx_tbc', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.vertexCases.tbc, keyboards.vertexMenu());
+  });
+
+  bot.action('vtx_spotify', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.vertexCases.spotify, keyboards.vertexMenu());
+  });
+
+  bot.action('vtx_ikea', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.vertexCases.ikea, keyboards.vertexMenu());
+  });
+
+  bot.action('vtx_duolingo', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.vertexCases.duolingo, keyboards.vertexMenu());
   });
 
   bot.action('vtx_mece', async (ctx) => {

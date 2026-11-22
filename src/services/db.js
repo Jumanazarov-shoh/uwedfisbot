@@ -14,6 +14,7 @@ const initialData = {
   users: {},
   broadcasts: [],
   anonymous_messages: [],
+  weekly_digest: null,
   logs: [],
   stats: {
     totalMessagesReceived: 0,
@@ -159,6 +160,23 @@ module.exports = {
     msg.status = 'replied';
     saveDb();
     return msg;
+  },
+
+  // Haftalik tahlilni olish
+  getWeeklyDigest() {
+    return memoryDb.weekly_digest || null;
+  },
+
+  // Haftalik tahlilni yangilash
+  updateWeeklyDigest(digestData) {
+    memoryDb.weekly_digest = {
+      title: digestData.title || 'UWED FIS Weekly Market Digest',
+      date: new Date().toLocaleDateString('uz-UZ'),
+      updatedAt: new Date().toISOString(),
+      content: digestData.content
+    };
+    saveDb();
+    return memoryDb.weekly_digest;
   },
 
   // Ping statistikasini yangilash

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>UWED FIS - Mini App</title>
+  <!-- Telegram WebApp JS SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .nav-btn-active {
+      color: #34d399;
+    }
+  </style>
+</head>
+<body class="bg-[#090d16] text-slate-100 min-h-screen pb-20 selection:bg-emerald-500 selection:text-white">
+
+  <!-- Header Bar -->
+  <div class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center shadow-md shadow-emerald-500/20">
+        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+      </div>
+      <div>
+        <h1 class="text-xs font-extrabold text-white leading-tight">UWED FIS Terminal</h1>
+        <p class="text-[10px] text-emerald-400 font-semibold" id="tgUserName">Finance & Investment Society</p>
+      </div>
+    </div>
+    <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">Mini App v1.0</span>
+  </div>
+
+  <!-- Content Container -->
+  <div class="p-4 space-y-4 max-w-lg mx-auto">
+
+    <!-- TAB 1: DCF CALCULATOR -->
+    <div id="tab-calculator" class="space-y-4">
+      <div class="glass-card rounded-2xl p-4 space-y-4">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            Interaktiv DCF & Valuation Modeli
+          </h2>
+          <p class="text-[11px] text-slate-400 mt-0.5">Sliderlarni suring va kompaniya qiymati qanday o'zgarishini ko'ring:</p>
+        </div>
+
+        <!-- Sliders -->
+        <div class="space-y-3.5 text-xs">
+          <div>
+            <div class="flex justify-between font-semibold mb-1">
+              <span class="text-slate-300">Yillik Free Cash Flow (FCF):</span>
+              <span class="text-emerald-400 font-mono" id="valFCF">$10M</span>
+            </div>
+            <input type="range" id="sliderFCF" min="1" max="50" value="10" step="1" oninput="calcDCF()" class="w-full accent-emerald-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between font-semibold mb-1">
+              <span class="text-slate-300">Yillik o'sish sur'ati (Growth):</span>
+              <span class="text-cyan-400 font-mono" id="valGrowth">8%</span>
+            </div>
+            <input type="range" id="sliderGrowth" min="1" max="25" value="8" step="1" oninput="calcDCF()" class="w-full accent-cyan-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between font-semibold mb-1">
+              <span class="text-slate-300">WACC (Diskont stavkasi):</span>
+              <span class="text-amber-400 font-mono" id="valWACC">10%</span>
+            </div>
+            <input type="range" id="sliderWACC" min="5" max="20" value="10" step="0.5" oninput="calcDCF()" class="w-full accent-amber-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between font-semibold mb-1">
+              <span class="text-slate-300">Exit Multiple (EV/EBITDA):</span>
+              <span class="text-violet-400 font-mono" id="valMultiple">12x</span>
+            </div>
+            <input type="range" id="sliderMultiple" min="4" max="25" value="12" step="1" oninput="calcDCF()" class="w-full accent-violet-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+        </div>
+
+        <!-- Output Result Box -->
+        <div class="p-4 rounded-xl bg-gradient-to-br from-slate-900 to-slate-950 border border-emerald-500/30 space-y-2">
+          <p class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Baholangan Qiymat (Enterprise Value)</p>
+          <div class="flex items-baseline gap-2">
+            <h3 id="resEV" class="text-2xl font-extrabold text-emerald-400 font-mono">$138.4M</h3>
+            <span class="text-[11px] text-slate-400">implied valuation</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-[11px]">
+            <div>
+              <span class="text-slate-500">5 Yillik PV:</span>
+              <span id="resPV" class="font-mono text-slate-300 font-semibold">$38.2M</span>
+            </div>
+            <div>
+              <span class="text-slate-500">Terminal Qiymat:</span>
+              <span id="resTV" class="font-mono text-slate-300 font-semibold">$100.2M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: VERTEX CASES -->
+    <div id="tab-cases" class="hidden space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold text-white">🏆 Vertex Keyslar Arxiv</h2>
+        <span class="text-[10px] text-slate-400 font-medium">6 ta amaliy keys</span>
+      </div>
+
+      <!-- Case 1: Toyota -->
+      <div class="glass-card rounded-2xl p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">🏎 50 min oflayn</span>
+          <span class="text-[10px] text-slate-500">Avtomobil / TPS</span>
+        </div>
+        <h3 class="text-sm font-bold text-white">Toyota Motor Corporation</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Gibrid modellarga urg'u berish sharoitida akkumulyator xomashyosi qimmatlashishi va operatsion marjani saqlash.</p>
+        <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+          💡 Ideal Yechim: Kaizen & Muda tejami, CapEx klasteri, 10%+ EBIT.
+        </div>
+      </div>
+
+      <!-- Case 2: Amazon -->
+      <div class="glass-card rounded-2xl p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">📦 50 min oflayn</span>
+          <span class="text-[10px] text-slate-500">E-commerce / Cloud</span>
+        </div>
+        <h3 class="text-sm font-bold text-white">Amazon Fulfillment & AWS</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Last Mile Delivery xarajatlari o'sishi fonida chakana savdo marjasini ko'tarish va AWS bulutli sinergiyasi.</p>
+        <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+          💡 Ideal Yechim: Robotlashtirilgan saralash (-$1.20/order), Prime optimallashuv.
+        </div>
+      </div>
+
+      <!-- Case 3: TBC Bank -->
+      <div class="glass-card rounded-2xl p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-violet-500/10 text-violet-300 border border-violet-500/20">🏦 FinTech</span>
+          <span class="text-[10px] text-slate-500">Banking / Neobank</span>
+        </div>
+        <h3 class="text-sm font-bold text-white">TBC Bank Uzbekistan</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">Filialsiz raqamli bank modelida mijoz jalb qilish xarajati (CAC) va depozitlar arzonligini ta'minlash.</p>
+        <div class="text-[11px] text-emerald-400 font-semibold pt-1">
+          💡 Ideal Yechim: Payme integratsiyasi, SME avto-skoring, 25%+ ROE.
+        </div>
+      </div>
+
+      <!-- Case 4: Spotify -->
+      <div class="glass-card rounded-2xl p-4 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">🎵 Media / Striming</span>
+          <span class="text-[10px] text-slate-500">Obuna</span>
+        </div>
+        <h3 class="text-sm font-bold text-white">Spotify Technology S.A.</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">70% royalti to'lovlari sharoitida sof foydaga erishish va podkast/audiokitoblar drayveri.</p>
+      </div>
+    </div>
+
+    <!-- TAB 3: WEEKLY DIGEST -->
+    <div id="tab-market" class="hidden space-y-3">
+      <div class="glass-card rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-300">📊 Haftalik Bozor Ko'rsatkichlari</h2>
+          <span class="text-[10px] text-emerald-400 font-semibold">Jonli Tahlil</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-[10px] block">MB Stavka (UZ)</span>
+            <span class="font-extrabold text-white text-base font-mono">13.5%</span>
+            <span class="text-[10px] text-emerald-400 font-semibold block">Qat'iy siyosat</span>
+          </div>
+          <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-[10px] block">S&P 500 Index</span>
+            <span class="font-extrabold text-white text-base font-mono">5,890+</span>
+            <span class="text-[10px] text-emerald-400 font-semibold block">Texnologiya yetakchi</span>
+          </div>
+          <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-[10px] block">Brent Neft</span>
+            <span class="font-extrabold text-white text-base font-mono">$74.2/bbl</span>
+            <span class="text-[10px] text-amber-400 font-semibold block">OPEK+ kvotalar</span>
+          </div>
+          <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 text-[10px] block">Oltin (XAU/USD)</span>
+            <span class="font-extrabold text-white text-base font-mono">$2,650/oz</span>
+            <span class="text-[10px] text-emerald-400 font-semibold block">Himoya aktivi</span>
+          </div>
+        </div>
+
+        <div class="p-3 bg-emerald-950/20 border border-emerald-500/20 rounded-xl text-xs space-y-1">
+          <span class="font-bold text-emerald-400 text-[11px] block">💡 Haftalik Tahlil Xulosasi:</span>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Bank va IT sohalaridagi kompaniyalar o'z rentabelligini (ROIC) saqlab qolmoqda. Keys chempionatlarida yechim taklif qilayotganda qarz yuki (D/E) va foiz to'lovlariga alohida e'tibor qaratish zarur.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-xl border-t border-slate-800 px-6 py-2.5 flex items-center justify-around max-w-lg mx-auto">
+    <button onclick="setTab('calculator')" id="nav-calculator" class="flex flex-col items-center gap-1 text-[10px] font-bold nav-btn-active">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+      <span>Valuation</span>
+    </button>
+    <button onclick="setTab('cases')" id="nav-cases" class="flex flex-col items-center gap-1 text-[10px] font-bold text-slate-500">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+      <span>Vertex Keyslar</span>
+    </button>
+    <button onclick="setTab('market')" id="nav-market" class="flex flex-col items-center gap-1 text-[10px] font-bold text-slate-500">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+      <span>Bozor Tahlili</span>
+    </button>
+  </div>
+
+  <script>
+    // Telegram WebApp Initialization
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+      const user = window.Telegram.WebApp.initDataUnsafe?.user;
+      if (user && user.first_name) {
+        document.getElementById('tgUserName').textContent = user.first_name + ' (Talaba)';
+      }
+    }
+
+    function setTab(tabId) {
+      ['calculator', 'cases', 'market'].forEach(t => {
+        document.getElementById('tab-' + t).classList.add('hidden');
+        document.getElementById('nav-' + t).classList.remove('nav-btn-active');
+        document.getElementById('nav-' + t).classList.add('text-slate-500');
+      });
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      document.getElementById('nav-' + tabId).classList.remove('text-slate-500');
+      document.getElementById('nav-' + tabId).classList.add('nav-btn-active');
+    }
+
+    // DCF Calculation Logic
+    function calcDCF() {
+      const fcf = parseFloat(document.getElementById('sliderFCF').value);
+      const growth = parseFloat(document.getElementById('sliderGrowth').value) / 100;
+      const wacc = parseFloat(document.getElementById('sliderWACC').value) / 100;
+      const multiple = parseFloat(document.getElementById('sliderMultiple').value);
+
+      document.getElementById('valFCF').textContent = `$${fcf}M`;
+      document.getElementById('valGrowth').textContent = `${(growth * 100).toFixed(0)}%`;
+      document.getElementById('valWACC').textContent = `${(wacc * 100).toFixed(1)}%`;
+      document.getElementById('valMultiple').textContent = `${multiple}x`;
+
+      // 5-year FCF calculation and discounting
+      let pvSum = 0;
+      let curFCF = fcf;
+      for (let i = 1; i <= 5; i++) {
+        curFCF = curFCF * (1 + growth);
+        pvSum += curFCF / Math.pow(1 + wacc, i);
+      }
+
+      // Terminal Value (Multiple Method)
+      const terminalValue = (curFCF * multiple) / Math.pow(1 + wacc, 5);
+      const enterpriseValue = pvSum + terminalValue;
+
+      document.getElementById('resPV').textContent = `$${pvSum.toFixed(1)}M`;
+      document.getElementById('resTV').textContent = `$${terminalValue.toFixed(1)}M`;
+      document.getElementById('resEV').textContent = `$${enterpriseValue.toFixed(1)}M`;
+    }
+
+    calcDCF();
+  </script>
+</body>
+</html>

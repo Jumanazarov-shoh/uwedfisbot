@@ -1,5 +1,6 @@
 /**
  * UWED FIS (Finance & Investment Society) Bilimlar Bazasi (HTML Format)
+ * O'z ichiga haqiqiy Vertex keyslarini va haftalik bozor tahlilini oladi.
  */
 
 module.exports = {
@@ -19,104 +20,115 @@ Jahon iqtisodiyoti va diplomatiya universiteti (JIDU/UWED) qoshidagi talabalarni
 • <b>Workshops & Guest Lectures</b> — yetakchi bankir, fond menejeri va tahlilchilar bilan uchrashuvlar;
 • <b>AI in Finance Lab</b> — moliyada sun'iy intellekt agentlari va avtomatlashtirish.`,
 
-  vertexInfo: `🏆 <b>Vertex Case Competition & Keys Yechish Metodikasi</b>
+  vertexInfo: `🏆 <b>Vertex Case Competition & Keyslar Arxiv</b>
 
-<b>Vertex</b> — UWED FIS tomonidan o'tkaziladigan, talabalarni real biznes va investitsiya muammolarini hal qilishga o'rgatuvchi nufuzli chempionat.
+<b>Vertex</b> — UWED FIS tomonidan o'tkaziladigan, talabalarni real biznes, investitsiya va korporativ strategiya muammolarini hal qilishga o'rgatuvchi nufuzli chempionat.
 
-📌 <b>G'olib strategiyaning 4 asosiy qoidasi:</b>
-1. <b>MECE prinsipi</b> (Mutually Exclusive, Collectively Exhaustive) — muammoni takrorlanmaydigan va to'liq qamrab oluvchi qismlarga ajratish.
-2. <b>Issue Tree (Muammo daraxti)</b> — asosiy savolni 3-4 ta asosiy drayverga bo'lish (Daromadni oshirish, Xarajatlarni qisqartirish, Yangi bozorlarga chiqish).
-3. <b>TAM / SAM / SOM</b> — bozor hajmini tahlil qilish:
-   • <i>TAM:</i> Umumiy potentsial bozor hajmi;
-   • <i>SAM:</i> Biz erisha oladigan bozor segmenti;
-   • <i>SOM:</i> Biz dastlabki 1-3 yilda real egallaydigan ulush.
-4. <b>Strukturaviy taqdimot:</b> Muammo ➔ Tahlil ➔ 3 ta asosiy yechim ➔ Moliyaviy reja va ROI ➔ Xatarlar (Risk Management).`,
+📌 <b>Chempionatda qo'llaniladigan asosiy metodikalar:</b>
+1. <b>MECE prinsipi:</b> Muammoni takrorlanmaydigan va to'liq qamrab oluvchi qismlarga ajratish;
+2. <b>Issue Tree (Muammo daraxti):</b> Asosiy savolni daromad, xarajat va kapital drayverlariga bo'lish;
+3. <b>TAM / SAM / SOM:</b> Bozor hajmini professional Bottom-up usulida baholash;
+4. <b>50 daqiqalik Speed Round:</b> 10 daqiqa muammo ➔ 15 daqiqa tahlil ➔ 15 daqiqa moliya/ROI ➔ 10 daqiqa repetitsiya.
 
-  financeTopics: {
-    dcf: `📊 <b>DCF (Discounted Cash Flow) Modeli</b>
+Quyidagi tugmalar orqali <b>haqiqiy Vertex keyslari</b> va ularning yechim strategiyalari bilan tanishing:`,
 
-<b>Ta'rif:</b> Kompaniyaning kelajakdagi erkin pul oqimlarini (FCF) bugungi kungi qiymatga diskontlash orqali kompaniyaning haqiqiy (intrinsic) qiymatini topish usuli.
+  // Haqiqiy Vertex Keyslari
+  vertexCases: {
+    toyota: `🏎 <b>Vertex Case: Toyota Motor Corporation (50 Daqiqa Oflayn)</b>
 
-🔢 <b>Asosiy formula:</b>
-<code>PV = FCF₁ / (1+WACC)¹ + FCF₂ / (1+WACC)² + ... + Terminal Value / (1+WACC)ⁿ</code>
+📌 <b>Mavzu:</b> Gibrid texnologiyalarga o'tish va ishlab chiqarishdagi operatsion samaradorlik.
+🏭 <b>Sanoat:</b> Avtomobilsozlik / Yashil energiya
 
-📌 <b>5 ta asosiy qadam:</b>
-1. Tarixiy moliyaviy hisobotlarni o'rganish va 5 yillik daromad prognozini tuzish;
-2. Erkin Pul Oqimini (Unlevered Free Cash Flow) hisoblash:
-   <code>FCF = EBIT × (1 - Soliq) + D&A - CapEx - ΔNWC</code>
-3. WACC (Diskont stavkasi)ni hisoblash;
-4. Prognoz davridan keyingi davr uchun Terminal Value (TV)ni hisoblash (Gordon Growth yoki Exit Multiple metodi);
-5. Barcha kelajak oqimlarni diskontlab, Enterprise Value va Equity Valueni chiqarish.`,
+🔍 <b>Keys Muammosi (Problem Statement):</b>
+Toza elektromobillarga (EV) talabning global o'zgarishi sharoitida, Toyota o'zining gibrid (Hybrid) modellariga urg'u berdi. Ammo yetkazib berish zanjiridagi uzilishlar va akkumulyator xomashyosi qimmatlashishi fonida rentabellikni qanday saqlab qolish kerak?
 
-    multiples: `📈 <b>Bozor Multiplikatorlari (Relative Valuation)</b>
+💡 <b>Ideal Yechim Strukturasi (Hakamlar nimani baholagan):</b>
+1. <b>TPS (Toyota Production System) & Kaizen:</b> Zavodlardagi ortiqcha isrofgarchilikni (Muda) kamaytirish;
+2. <b>Gibrid vs EV balansi:</b> Rivojlanayotgan bozorlarda (Markaziy Osiyo, Lotin Amerikasi) gibridlar orqali barqaror pul oqimi (Cash Cow) yaratish;
+3. <b>Moliyaviy ta'sir:</b> CapEx'ni akkumulyator klasterlariga taqsimlash va EBIT marjasini 10% dan yuqori saqlash.
 
-Kompaniyani uning sohasidagi o'xshash kompaniyalar (Comps) bilan taqqoslab baholash:
+⚖️ <b>Baholash mezoni:</b> Muammoni aniqlash (20 b) | Ishlab chiqarish tahlili (30 b) | Moliyaviy reja & ROI (30 b) | Pitch (20 b).`,
 
-1. <b>P/E (Price-to-Earnings):</b>
-   Aksiya narxi / Sof foyda (EPS). Eng ommabop, ammo kapital tuzilmasiga (qarzga) bog'liq.
-2. <b>EV / EBITDA (Enterprise Value / EBITDA):</b>
-   Eng professional multiplikator. Kapital tuzilmasi va soliq farqlariga bog'liq bo'lmagan holda operatsion rentabellikni ko'rsatadi.
-3. <b>P/B (Price-to-Book):</b>
-   Aksiya narxi / Balans qiymati. Banklar va moliya institutlarini baholashda asosiy multiplikator.
-4. <b>EV / Sales:</b>
-   Hali sof foydaga kirmagan, tez o'sayotgan texnologik startaplar uchun qo'llaniladi.`,
+    amazon: `📦 <b>Vertex Case: Amazon.com — Fulfillment & Cloud (50 Daqiqa Oflayn)</b>
 
-    lbo: `🏦 <b>LBO (Leveraged Buyout) va Private Equity</b>
+📌 <b>Mavzu:</b> Logistika markazlari (Fulfillment Centers) xarajatlarini qisqartirish va AWS daromadliligini oshirish.
+🌐 <b>Sanoat:</b> E-commerce / Cloud Computing
 
-<b>Ta'rif:</b> Kompaniyani sotib olishda katta miqdorda qarz mablag'laridan (odatda 60-80% qarz, 20-40% o'z kapitali) foydalanish investitsiya strategiyasi.
+🔍 <b>Keys Muammosi:</b>
+Amazon elektron tijorat hajmi o'sishi bilan birga "Last Mile Delivery" (oxirgi manzilgacha yetkazish) xarajatlari eksponentsial oshib ketdi. Retail segmentining operatsion marjasi pasayib, kompaniya foydasi deyarli faqat AWS bulutli xizmatlariga bog'liq bo'lib qoldi.
 
-📌 <b>LBO uchun ideal kompaniya mezonlari:</b>
-• Barqaror va bashorat qilinadigan pul oqimlari (Cash Flow);
-• Past qarz yuki (Clean Balance Sheet);
-• CapEx (kapital xarajatlar)ning pastligi;
-• Bozoridagi mustahkam pozitsiya (Moat);
-• Xarajatlarni optimallashtirish va samaradorlikni oshirish imkoniyati.`
+💡 <b>Ideal Yechim Strukturasi:</b>
+1. <b>Logistika optimallashuvi:</b> AI va robotlashtirilgan saralash orqali har bir buyurtma yetkazish tannarxini $1.20 ga pasaytirish;
+2. <b>Prime ekotizimi:</b> Obuna narxi va xizmatlar to'plamini dinamik tarzda qayta ko'rib chiqish (LTV/CAC nisbatini yaxshilash);
+3. <b>AWS cross-selling:</b> Retail mijozlarga AWS bulutli va tahliliy vositalarini integratsiya qilish.`,
+
+    tbc: `🏦 <b>Vertex Case: TBC Bank Uzbekistan — Raqamli Kengayish</b>
+
+📌 <b>Mavzu:</b> Neobank va raqamli ekotizim (TBC, Payme) orqali O'zbekiston bozorida yetakchilikka erishish.
+📱 <b>Sanoat:</b> FinTech / Banking
+
+🔍 <b>Keys Muammosi:</b>
+Filialsiz (100% raqamli) faoliyat yurituvchi TBC Bank O'zbekistonda mijozlar sonini tez o'stirdi. Asosiy chaqiruv: Mijozlarni jalb qilish xarajatlari (CAC) oshib borayotgan sharoitda depozitlar bazasini arzonlashtirish va kredit portfeli sifatini (NPL < 3%) saqlab qolish.
+
+💡 <b>Ideal Yechim:</b>
+1. Payme va TBC ilovalari o'rtasida chuqur sinergiya yaratish (SuperApp konsepsiyasi);
+2. Kichik va o'rta biznes (KOB/SME) uchun raqamli faktoring va avtomatlashtirilgan skoring tizimini joriy qilish;
+3. ROE ko'rsatkichini 25%+ darajasida ushlab turish bo'yicha moliyaviy model.`,
+
+    spotify: `🎵 <b>Vertex Case: Spotify — Musiqa Strimingi va Monetizatsiya</b>
+
+📌 <b>Mavzu:</b> Mualliflik to'lovlari (Royalties) yuki ostida barqaror sof foydaga erishish.
+🎧 <b>Sanoat:</b> Media / Striming
+
+🔍 <b>Keys Muammosi:</b>
+Spotify daromadining 70% dan ortig'i ovoz yozish leybllariga (Universal, Sony, Warner) to'lanadi. Gross Margin 25-28% atrofida cheklangan.
+
+💡 <b>Ideal Yechim:</b>
+• Podkastlar va audio-kitoblar ulushini oshirish (ularda royalti to'lovlari ancha past);
+• AI-powered reklama targetlash tizimi orqali har bir bepul tinglovchidan olinadigan reklamali daromadni (ARPU) 40% ga ko'tarish;
+• San'atkorlar uchun "Two-Sided Marketplace" yaratib, ularga marketing tahlillarini sotish.`,
+
+    ikea: `🛋 <b>Vertex Case: IKEA — Kichik Makonlar, Katta Qarorlar</b>
+
+📌 <b>Mavzu:</b> Megapolislar uchun ixcham mebellar va yetkazib berish zanjirini yangilash.
+🌲 <b>Sanoat:</b> Mebel / Chakana savdo
+
+🔍 <b>Keys Muammosi:</b>
+Shahar aholisi tobora kichik maydonli xonadonlarda (Micro-apartments) yashamoqda. Katta shahar tashqarisidagi ulkan do'konlar (Blue Box stores) modelidan ixcham shahar markazi do'konlariga (City-center formats) o'tish zarurati.
+
+💡 <b>Ideal Yechim:</b>
+• Ko'p funksiyali modulli mebellar kolleksiyasi;
+• Omni-channel logistika (onlayn buyurtma ➔ eng yaqin shahar omboridan 24 soatda yetkazish);
+• Flat-pack qadoqlash samaradorligini yana 15% ga oshirish orqali transport xarajatlarini tejash.`,
+
+    duolingo: `🦉 <b>Vertex Case: Duolingo — Gamifikatsiya va Generativ AI</b>
+
+📌 <b>Mavzu:</b> Freemium modeldan pullik AI-obunaga (Duolingo Max) o'tish.
+📱 <b>Sanoat:</b> EdTech / AI
+
+🔍 <b>Keys Muammosi:</b>
+Foydalanuvchilarning atigi 8-9% i pullik obunachilar (Super Duolingo). Qolgan 90%+ bepul o'quvchilarni o'quv sifatini buzmagan holda yuqoriroq daromad keltiruvchi obunaga qanday o'tkazish mumkin?
+
+💡 <b>Ideal Yechim:</b>
+• GPT-4/Claude asosidagi "Roleplay" (chet ellik bilan jonli suhbat simulyatsiyasi) imkoniyatini kiritish;
+• O'rganish tezligi va xatolarni tushuntiruvchi shaxsiy AI-tyutor funksiyasi orqali pullik konversiyani 12% ga ko'tarish.`
   },
 
-  interviewQuestions: `💼 <b>IB & Consulting Intervyu Savollari (Top-3)</b>
+  // Haftalik Bozor Tahlili (Weekly Digest)
+  defaultWeeklyDigest: `📊 <b>UWED FIS — Haftalik Bozor Tahlili (Weekly Market Digest)</b>
+🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
 
-❓ <b>1-savol: "Walk me through a DCF" (DCFni tushuntirib bering)</b>
-<b>Javob:</b> <i>"DCF modelida avval 5 yillik Unlevered Free Cash Flow prognoz qilinadi. FCF = EBIT × (1 - T) + D&A - CapEx - ΔNWC. Keyin WACC orqali diskontlab Enterprise Value topiladi. Bunga naqd pul qo'shilib, qarz ayrilsa Equity Value chiqadi."</i>
+🏛 <b>1. O'ZBEKISTON MAKROIQTISODIYOTI & BOZORI:</b>
+• <b>MB Asosiy stavkasi:</b> 13.5% (Inflyatsion kutilmalarni jilovlash maqsadida qat'iy pul-kredit siyosati);
+• <b>Toshkent RFB (UZSE):</b> Bank va energetika sektori aksiyalarida faollik kuzatilmoqda. IPO va xususiylashtirish dasturlari tahlilchilar diqqat markazida;
+• <b>Valyuta dinamikasi:</b> AQSH dollari kursi barqaror tebranish koridorida.
 
-❓ <b>2-savol: "Amortizatsiya (Depreciation) $10 ga oshsa, 3 hisobotda nima o'zgaradi?" (Soliq stavkasi 20%)</b>
-<b>Javob:</b>
-• <b>Income Statement:</b> Operatsion xarajat $10 ga oshadi, Soliqdan oldingi foyda $10 ga kamayadi. Soliq $2 ga tejaladi, Sof foyda $8 ga kamayadi.
-• <b>Cash Flow Statement:</b> Sof foyda -$8, lekin amortizatsiya naqdsiz xarajat bo'lgani uchun +$10 qo'shiladi. Operatsion pul oqimi (Cash) +$2 ga oshadi!
-• <b>Balance Sheet:</b> Aktiv tomonda Naqd pul +$2, Asosiy vositalar -$10 (jami aktiv -$8). Passiv tomonda Taqsimlanmagan foyda -$8. Balans teng!
+🌐 <b>2. GLOBAL BOZORLAR (Wall Street & Xalqaro):</b>
+• <b>AQSH Federal Rezervi (Fed):</b> Mehnat bozori va inflyatsiya ko'rsatkichlariga qarab foiz stavkalarini asta-sekin pasaytirish siklida;
+• <b>S&P 500 & Nasdaq:</b> AI va yarimo'tkazgichlar (Nvidia, Microsoft, TSMC) sektori drayverligida barqaror sur'atda;
+• <b>Xomashyo:</b> Brent markali neft narxi geosiyosiy vaziyat va OPEK+ kvotalari hisobiga $72–$76 koridorida, Oltin esa himoya aktivi sifatida talabda.
 
-❓ <b>3-savol: "WACC nima va u qachon oshadi?"</b>
-<b>Javob:</b> WACC — bu qarz va xususiy kapitalning o'rtacha og'irlikli qiymati. Foiz stavkalari oshganda, kompaniyaning Beta (bozor riski) oshganda yoki kredit reytingi pasayganda WACC oshadi.`,
-
-  terms: [
-    {
-      keyword: 'dcf',
-      title: 'DCF (Discounted Cash Flow)',
-      description: 'Kelajakdagi pul oqimlarini diskontlash orqali kompaniya qiymatini baholash modeli.',
-      practical: 'M&A va investitsiya banklarida kompaniya haqiqiy qiymatini topishda 1-raqamli vosita.'
-    },
-    {
-      keyword: 'wacc',
-      title: 'WACC (Weighted Average Cost of Capital)',
-      description: 'Kompaniyaning kapital jalb qilish bo\'yicha o\'rtacha xarajati (Cost of Equity va Cost of Debt uyg\'unligi).',
-      practical: 'DCF modelida diskont stavkasi (r) sifatida ishlatiladi.'
-    },
-    {
-      keyword: 'ebitda',
-      title: 'EBITDA',
-      description: 'Foizlar, soliqlar va amortizatsiyadan oldingi operatsion foyda.',
-      practical: 'Kompaniyalarning asosiy faoliyatidan kelayotgan sof naqd ishlab chiqarish quvvatini solishtirish uchun xizmat qiladi.'
-    },
-    {
-      keyword: 'lbo',
-      title: 'LBO (Leveraged Buyout)',
-      description: 'Qarz mablag\'lari hisobiga kompaniya nazorat paketini sotib olish.',
-      practical: 'Private Equity (xususiy kapital) fondlarining asosiy daromad olish strategiyasi.'
-    },
-    {
-      keyword: 'vertex',
-      title: 'Vertex Case Competition',
-      description: 'UWED FIS tomonidan o\'tkaziladigan yillik eng katta biznes va moliya keys-chempionati.',
-      practical: 'Talabalarga investitsiya qarorlari, M&A va strategik konsalting ko\'nikmalarini beradi.'
-    }
-  ]
+💡 <b>3. HAFTALIK TAVSIYA VA KLUB TADBIRLARI:</b>
+• <b>Moliyaviy tahlilchi maslahati:</b> "Kompaniyalarni baholashda faqat P/E multiplikatoriga tayanmang. EV/EBITDA va erkin pul oqimlarini (FCF yield) albatta tekshiring!"
+• <b>UWED FIS e'loni:</b> Tez kunda navbatdagi amaliy workshop va Vertex Case Competition uchun yangi keyslar e'lon qilinadi!`
 };

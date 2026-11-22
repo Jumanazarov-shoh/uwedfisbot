@@ -54,6 +54,11 @@ app.get('/admin', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'admin.html'));
 });
 
+// Telegram Mini App sahifasi
+app.get('/miniapp', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'miniapp.html'));
+});
+
 // ------------------- KEEP-ALIVE & HEALTH CHECK -------------------
 app.get('/ping', (req, res) => {
   db.recordPing('external_ping');
@@ -137,6 +142,23 @@ app.post('/api/anonymous/reply', checkAuthApi, async (req, res) => {
   }
 
   res.json({ success: true, message: updatedMsg });
+});
+
+// Haftalik tahlilni olish
+app.get('/api/weekly-digest', (req, res) => {
+  const digest = db.getWeeklyDigest();
+  res.json({ success: true, digest });
+});
+
+// Haftalik tahlilni yangilash (Admin)
+app.post('/api/weekly-digest', checkAuthApi, (req, res) => {
+  const { title, content } = req.body;
+  if (!content || !content.trim()) {
+    return res.status(400).json({ success: false, message: 'Tahlil matni bo\'sh bo\'lishi mumkin emas' });
+  }
+
+  const saved = db.updateWeeklyDigest({ title, content });
+  res.json({ success: true, digest: saved });
 });
 
 // Barcha a'zolarga xabar yuborish (Broadcast)
