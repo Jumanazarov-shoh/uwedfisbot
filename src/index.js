@@ -25,7 +25,7 @@ if (config.isVercel && bot && config.botToken) {
 
 // ------------------- AUTH MIDDLEWARE -------------------
 function requireAuth(req, res, next) {
-  const token = req.cookies.admin_auth_token;
+  const token = req.cookies?.admin_auth_token;
   if (token === 'authenticated_' + config.adminPassword) {
     return next();
   }
@@ -33,8 +33,9 @@ function requireAuth(req, res, next) {
 }
 
 function checkAuthApi(req, res, next) {
-  const token = req.cookies.admin_auth_token;
-  if (token === 'authenticated_' + config.adminPassword) {
+  const token = req.cookies?.admin_auth_token;
+  const headerKey = req.headers['x-admin-key'];
+  if (token === 'authenticated_' + config.adminPassword || headerKey === config.adminPassword) {
     return next();
   }
   return res.status(401).json({ success: false, message: 'Ruxsat berilmagan' });
@@ -117,7 +118,7 @@ app.post('/api/broadcast', checkAuthApi, async (req, res) => {
   let failCount = 0;
 
   // Ixtiyoriy tugma
-  let extra = { parse_mode: 'Markdown' };
+  let extra = { parse_mode: 'HTML' };
   if (buttonText && buttonUrl) {
     extra.reply_markup = {
       inline_keyboard: [[{ text: buttonText, url: buttonUrl }]]
@@ -132,8 +133,17 @@ app.post('/api/broadcast', checkAuthApi, async (req, res) => {
       // Har bir xabardan keyin 45ms kutish (sekundiga ~25 xabar)
       await new Promise(r => setTimeout(r, 45));
     } catch (err) {
-      failCount++;
-      console.warn(`[Broadcast] Foydalanuvchiga yuborilmadi (${user.id}): ${err.message}`);
+      // Agar HTML xato bersa, oddiy matn sifatida qayta urinib ko'ramiz
+      try {
+        const plainExtra = { ...extra };
+        delete plainExtra.parse_mode;
+        await bot.telegram.sendMessage(user.id, text, plainExtra);
+        sentCount++;
+        await new Promise(r => setTimeout(r, 45));
+      } catch (retryErr) {
+        failCount++;
+        console.warn(`[Broadcast] Foydalanuvchiga yuborilmadi (${user.id}): ${retryErr.message}`);
+      }
     }
   }
 
