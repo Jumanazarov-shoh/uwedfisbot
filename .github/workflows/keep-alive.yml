@@ -1,0 +1,21 @@
+name: Render 24/7 Keep-Alive Monitor
+
+on:
+  schedule:
+    # Har 10 daqiqada avtomatik tashqaridan ping yuborish (Render 15 daqiqada uxlab qolmasligi uchun)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Istalgan paytda qo'lda ishga tushirish imkoniyati
+
+jobs:
+  ping-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render & Web Services
+        run: |
+          echo "⏰ Keep-Alive Ping boshlanmoqda: $(date)"
+
+          # Render servisingizni tashqaridan uyg'otish
+          curl -s -f -L --max-time 45 "https://uwedfisbot.onrender.com/ping" || echo "uwedfisbot ping response logged"
+          curl -s -f -L --max-time 45 "https://uwed-fis-bot.onrender.com/ping" || echo "uwed-fis-bot ping response logged"
+
+          echo "✅ Ping muvaffaqiyatli bajarildi!"

@@ -76,12 +76,19 @@ Plant Alpha zavodi oyiga 20,000 ta avtomobil yig'moqda (maksimal quvvat: 22,000)
 
 ⚖️ <b>Strategik Yo'llar:</b>
 • <b>A Yo'li (Qo'shimcha kuryerlar):</b> Oyiga +300,000 ta, ammo kuryerlar shoshilib qutilarni ezadi va xarajat byudjetdan oshib ketadi;
-• <b>B Yo'li (Hub Locker & 4 Standart quti):</b> Shahar bo'ylab 50 ta Hub Locker qo'yish va qutilarni standartlashtirish evaziga oyiga +200,000 ta;
+• <b>B Yo'li (Hub Locker & 4 Standart quti):</b> Shahar bo'ylab 50 ta Hub Locker qo'yish va qutilarni standartlashtirish evaziga oyiga +200,000 ta ($2.5M);
 • <b>C Yo'li (Kiva Robotlari):</b> $8.5M evaziga avtomatik saralash (+250,000 ta/oy), ammo 6 oy vaqt oladi.
 
-💡 <b>G'olib Jamoa Yechimi:</b>
-1. <b>Byudjet taqsimoti:</b> $8.5M Kiva robotlariga + $2.5M Hub Locker va quti standartlashtirishga + $750k dam olish kunlari vaqtinchalik guruhiga + $250k zaxira fondi;
-2. <b>Natija:</b> 1-oydayoq +300,000 ta o'sish, 6-oydan keyin esa taqchillik 100% ga yopiladi (2,250,000 ta/oy). O'z vaqtida yetkazish 98.8% ga chiqadi va bekor qilish 1.5% ga tushadi!`
+💡 <b>G'olib Jamoa Yechimi (Gibrid Yondashuv):</b>
+1. <b>Byudjet taqsimoti:</b> $8.5M Kiva robotlariga + $2.5M Hub Locker va quti standartlashtirishga + $750k dam olish kunlari vaqtinchalik guruhiga + $250k zaxira fondi (Jami $12M);
+2. <b>Natija:</b> 1-oydayoq +300,000 ta o'sish, 6-oydan keyin esa taqchillik 100% ga yopiladi (2,250,000 ta/oy). O'z vaqtida yetkazish 98.8% ga chiqadi va bekor qilish 1.5% ga tushadi!
+
+📊 <b>Hakamlar 100 ballik baholash shkalasi (5 Mezon × 20 Ball):</b>
+• 1-Topshiriq: Muammoni anglash va Virtual Andon (20 b)
+• 2-Topshiriq: Strategik tanlov va $12M byudjet arifmetikasi (20 b)
+• 3-Topshiriq: Sifat va xatarlarni boshqarish (98.5% Prime) (20 b)
+• 4-Topshiriq: 6 oylik harakatlar rejasi va 2 ta KPI (20 b)
+• 5-Topshiriq: Taqdimot madaniyati, Teamwork va Q&A (20 b)`
     },
 
     tbc: {
@@ -168,5 +175,38 @@ Duolingo oylik 80+ million aktiv o'quvchilarga ega, ammo ularning atigi 8.6% i p
 • <b>Xomashyo:</b> Brent markali neft narxi geosiyosiy vaziyat hisobiga $72–$76 koridorida, Oltin esa himoya aktivi sifatida talabda ($2,650/oz).
 
 💡 <b>3. VERTEX TAHLILCHI MASLAHATI:</b>
-• "Keys yechishda SWOT yoki PESTEL kabi umumiy shablonlarni yozmang. Aniq raqamlar, byudjet cheklovlari va jamoa rollari bilan yechim bering!"`
+• "Keys yechishda SWOT yoki PESTEL kabi umumiy shablonlarni yozmang. Aniq raqamlar, byudjet cheklovlari va jamoa rollari bilan yechim bering!"`,
+
+  valuationInfo: `📊 <b>UWED FIS — Korporativ Baholash (Valuation) Bazasiga Xush Kelibsiz!</b>
+
+Valuation — bu har qanday kompaniya, startap yoki aktivning fundamental iqtisodiy qiymatini aniqlash san'ati va ilmidir.
+
+🎯 <b>Asosiy Baholash Metodologiyalari:</b>
+• <b>1. DCF (Discounted Cash Flow):</b> Intrinsic (ichki) qiymatni erkin pul oqimlarini (FCF) WACC diskont stavkasi orqali baholash;
+• <b>2. Market Multiples (Qiyosiy bozor):</b> EV/EBITDA, P/E, EV/Sales kabi ko'rsatkichlar orqali o'xshash kompaniyalar bilan taqqoslash;
+• <b>3. LBO (Leveraged Buyout):</b> Xususiy kapital (Private Equity) fondlari qarz yordamida korxonani sotib olib, 20%+ IRR talabi bilan baholashi.
+
+📱 <i>Quyidagi tugmalar orqali nazariyani o'rganing yoki interaktiv DCF modelini ishga tushiring:</i>`,
+
+  interviewQuestions: `💼 <b>IB, PE & Management Consulting Intervyu Savollari</b>
+
+Investitsiya banklari (Goldman Sachs, Morgan Stanley) va strategik konsalting (McKinsey, BCG, Bain) intervyulariga tayyorgarlik bo'yicha etalon savol-javoblar to'plami:
+
+📌 <b>1. 3 Ta Moliyaviy Hisobot O'rtasidagi Bog'liqlik:</b>
+<i>"Agar amortizatsiya (D&A) $10 ga oshsa, 3 ta hisobotda nima o'zgaradi?"</i>
+• <b>Income Statement:</b> Operatsion xarajat +$10, soliqdan oldingi foyda (EBT) -$10. 20% soliq stavkasida Net Income -$8 bo'ladi.
+• <b>Cash Flow Statement:</b> Net Income -$8, lekin D&A naqd pulsiz xarajat bo'lgani uchun +$10 qo'shiladi. Sof kassa oqimi (Cash) +$2 ga oshadi (soliq tejalgani hisobiga!).
+• <b>Balance Sheet:</b> Kassa (Cash) +$2, Asosiy vositalar (PP&E) -$10 (amortizatsiya hisobiga) → Jami aktivlar -$8. Passivlar tomonida: Taqsimlanmagan foyda (Retained Earnings) -$8. Balans to'liq teng!
+
+📌 <b>2. "Walk me through a DCF":</b>
+1. Kelajakdagi 5 yillik Erkin Pul Oqimlarini (Unlevered FCF = EBIT×(1-t) + D&A - CapEx - ΔNWC) prognoz qilamiz;
+2. Kompaniyaning o'rtacha kapital narxi (WACC)ni hisoblaymiz;
+3. 5 yillik FCF larni WACC stavkasi bilan bugungi kunga diskontlaymiz (Present Value);
+4. Terminal Value (Gordon Growth yoki Exit Multiple) hisoblab, uni ham bugungi kunga diskontlaymiz;
+5. PV of FCF + PV of TV = <b>Enterprise Value (EV)</b>;
+6. EV dan Net Debt (Qarz - Kassa)ni ayirib, <b>Equity Value (Aksiyadorlik qiymati)</b>ga ega bo'lamiz!
+
+📌 <b>3. Enterprise Value va Equity Value Farqi:</b>
+• <b>Equity Value:</b> Faqat aksiyadorlarga tegishli bo'lgan bozor qiymati (Aksiyalar soni × Narx).
+• <b>Enterprise Value (EV):</b> Kompaniyaning barcha investorlar (aksiyadorlar + qarz beruvchilar) uchun umumiy qiymati: <code>EV = Equity Value + Jami Qarz + Imtiyozli aksiyalar - Kassa</code>.`
 };

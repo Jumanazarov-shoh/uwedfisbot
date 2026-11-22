@@ -124,6 +124,31 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
   });
 
+  // 3.5. Baholash (Valuation)
+  bot.hears(['📊 Baholash (Valuation)', '📊 Baholash'], async (ctx) => {
+    await cleanPreviousAndUser(ctx);
+    const sent = await ctx.replyWithHTML(knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
+    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+  });
+
+  // 3.6. AI Moliyaviy Assistent
+  bot.hears(['🤖 AI Moliyaviy Assistent', '🤖 AI Assistent'], async (ctx) => {
+    await cleanPreviousAndUser(ctx);
+    const text = `🤖 <b>UWED FIS AI Assistent — Doimiy Moliya va Keys Konsultanti</b>
+
+Assalomu alaykum! Men moliya, investitsiya tahlili, DCF baholash va Vertex keyslari bo'yicha sizga yordam berishga tayyorman.
+
+💬 <b>Menga quyidagicha savollar berishingiz mumkin:</b>
+• <i>"Toyota keysida $15M byudjetni qanday taqsimlash kerak?"</i>
+• <i>"Amazon keysida 450,000 taqchillikni qanday bartaraf etamiz?"</i>
+• <i>"WACC bilan Cost of Equity farqi nima?"</i>
+• <i>"LBO modelida IRR qanday hisoblanadi?"</i>
+
+Savolingizni to'g'ridan-to'g'ri yozib yuboring ✍️:`;
+    const sent = await ctx.replyWithHTML(text, keyboards.backOnly());
+    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+  });
+
   // 4. Intervyu savollari
   bot.hears('💼 IB & Consulting Intervyu', async (ctx) => {
     await cleanPreviousAndUser(ctx);
@@ -273,6 +298,57 @@ ${foundTerm.def}
 
 📊 <b>Vertex baholash:</b> Bottom-up usuli afzal ko'riladi (Aholi soni × Maqsadli auditoriya % × Xarid chastotasi × Narx).`;
     await editOrReply(ctx, text, keyboards.vertexMenu());
+  });
+
+  // ------------------- INLINE CALLBACKS: VALUATION & MOLIYA -------------------
+  bot.action('fn_dcf', async (ctx) => {
+    await ctx.answerCbQuery();
+    const text = `📈 <b>DCF (Discounted Cash Flow) Modeli — Asosiy Bosqichlar:</b>
+
+1. <b>FCF (Erkin Pul Oqimi) hisoblash:</b>
+   <code>FCF = EBIT × (1 - Soliq) + D&A - CapEx - ΔNWC</code>
+2. <b>WACC (Diskont stavkasi):</b>
+   O'z kapitali va qarz xarajatlarining o'rtacha og'irligi.
+3. <b>Terminal Value (TV):</b>
+   Gordon Growth: <code>TV = FCF_n × (1 + g) / (WACC - g)</code> yoki Exit Multiple: <code>TV = EBITDA_n × Multiplikator</code>
+4. <b>Enterprise Value (EV):</b>
+   <code>EV = PV(FCF) + PV(TV)</code>
+
+💡 <i>Tavsiya: Quyidagi tugma orqali Telegram Mini App kalkulyatorida FCF, WACC va o'sish stavkalarini o'zgartirib, real-vaqt rejimida hisoblang!</i>`;
+    await editOrReply(ctx, text, keyboards.financeBack(config.appUrl));
+  });
+
+  bot.action('fn_multiples', async (ctx) => {
+    await ctx.answerCbQuery();
+    const text = `📊 <b>Bozor Multiplikatorlari (Trading & Transaction Multiples):</b>
+
+• <b>EV / EBITDA:</b> Eng keng tarqalgan korporativ multiplikator. Kapital strukturasi (qarz ulushi) va amortizatsiyaning sun'iy ta'siridan xoli.
+• <b>P / E (Price to Earnings):</b> Bozor narxi / Sof foyda. Aksiyadorlik qiymatini taqqoslash uchun asosiy metrika.
+• <b>EV / Sales:</b> Foydaga kirmagan, tez o'sayotgan FinTech va IT startaplar uchun.
+• <b>P / B (Price to Book):</b> Banklar va sug'urta kompaniyalari (FinTech) balansi sifatini baholash uchun.
+
+🎯 <i>Qoidalar: EV ko'rsatkichlari (EBITDA, Sales, EBIT) barcha investorlar uchun; Equity ko'rsatkichlari (Net Income, Book Value) esa faqat aksiyadorlar uchun ishlatiladi!</i>`;
+    await editOrReply(ctx, text, keyboards.financeBack(config.appUrl));
+  });
+
+  bot.action('fn_lbo', async (ctx) => {
+    await ctx.answerCbQuery();
+    const text = `🏦 <b>LBO (Leveraged Buyout) — Qarz Vositasida Sotib Olish:</b>
+
+Private Equity (PE) fondlari kompaniyani uning o'z aktivlari va pul oqimlari garovi evaziga (60–80% qarz vositasida) sotib oladi.
+
+🎯 <b>LBO Muvaffaqiyatining 3 Drayveri:</b>
+1. <b>Deleveraging (Qarzni uzish):</b> 5 yil davomida kompaniyaning operatsion pul oqimlari orqali asosiy qarz yopiladi va aksiyadorlik ulushi o'sadi;
+2. <b>EBITDA Growth:</b> Operatsion xarajatlarni qisqartirish va marjani kengaytirish;
+3. <b>Multiple Expansion:</b> Kompaniyani 8x ga sotib olib, 5 yildan so'ng 10x-12x ga sotish.
+
+📈 <b>Target:</b> PE fondlari yillik 20%–25%+ IRR (Internal Rate of Return) talab qiladi.`;
+    await editOrReply(ctx, text, keyboards.financeBack(config.appUrl));
+  });
+
+  bot.action('back_to_finance', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
   });
 
   bot.action('back_to_main', async (ctx) => {

@@ -58,19 +58,39 @@ module.exports = {
   },
 
   // Moliya bo'limi uchun Inline tugmalar
-  financeMenu() {
-    return Markup.inlineKeyboard([
-      [
-        Markup.button.callback('📈 DCF Modeli', 'fn_dcf'),
-        Markup.button.callback('📊 Bozor Multiplikatorlari', 'fn_multiples')
-      ],
-      [
-        Markup.button.callback('🏦 LBO & Private Equity', 'fn_lbo')
-      ],
-      [
-        Markup.button.callback('🔙 Asosiy Menyu', 'back_to_main')
-      ]
+  financeMenu(appUrl) {
+    const rows = [];
+    if (appUrl) {
+      rows.push([
+        Markup.button.webApp('🚀 Interaktiv DCF Kalkulyator (Mini App)', `${appUrl}/miniapp`)
+      ]);
+    }
+    rows.push([
+      Markup.button.callback('📈 DCF Modeli (Tushuntirish)', 'fn_dcf'),
+      Markup.button.callback('📊 Bozor Multiplikatorlari', 'fn_multiples')
     ]);
+    rows.push([
+      Markup.button.callback('🏦 LBO & Private Equity', 'fn_lbo')
+    ]);
+    rows.push([
+      Markup.button.callback('🔙 Asosiy Menyu', 'back_to_main')
+    ]);
+    return Markup.inlineKeyboard(rows);
+  },
+
+  // Valuation ichki bo'limlaridan orqaga qaytish
+  financeBack(appUrl) {
+    const rows = [];
+    if (appUrl) {
+      rows.push([
+        Markup.button.webApp('🚀 Mini App Kalkulyatorda Hisoblash', `${appUrl}/miniapp`)
+      ]);
+    }
+    rows.push([
+      Markup.button.callback('🔙 Baholash Bo\'limiga Qaytish', 'back_to_finance'),
+      Markup.button.callback('🏠 Asosiy Menyu', 'back_to_main')
+    ]);
+    return Markup.inlineKeyboard(rows);
   },
 
   // Vertex bo'limi uchun Inline tugmalar
