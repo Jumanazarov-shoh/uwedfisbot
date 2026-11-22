@@ -47,37 +47,16 @@ function setupBot() {
         });
         return;
       } catch (err) {
-        // Agar xabar o'zgarmagan bo'lsa, xatolikni e'tiborsiz qoldiramiz
         if (err.description && err.description.includes('message is not modified')) {
           return;
         }
       }
     }
-
-    const sent = await ctx.replyWithHTML(text, extra);
-    if (ctx.from?.id && sent?.message_id) {
-      lastBotMessages.set(String(ctx.from.id), sent.message_id);
-    }
-    return sent;
-  }
-
-  // Foydalanuvchi buyruq tugmasini bosganda, chatni tozalash uchun eski xabarni o'chirish
-  async function cleanPreviousAndUser(ctx) {
-    const userId = String(ctx.from?.id);
-    // 1. Foydalanuvchi yuborgan buyruq matnini o'chirish (chatda keraksiz qoldiq qolmaydi)
-    ctx.deleteMessage().catch(() => {});
-
-    // 2. Botning oldingi menyu xabari bo'lsa, tozalab yangisini ochish
-    const oldMsgId = lastBotMessages.get(userId);
-    if (oldMsgId) {
-      ctx.deleteMessage(oldMsgId).catch(() => {});
-      lastBotMessages.delete(userId);
-    }
+    return ctx.replyWithHTML(text, extra);
   }
 
   // /start buyrug'i
   bot.start(async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     if (ctx.from) userStates.delete(String(ctx.from.id));
     const name = escapeHtml(ctx.from?.first_name || 'Hurmatli talaba');
     const welcomeText = `Assalomu alaykum, <b>${name}</b>! 👋
@@ -86,73 +65,60 @@ function setupBot() {
 
 • 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formulalar va amaliy misollar;
 • 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
+• 📊 <b>Baholash (Valuation):</b> DCF, LBO, Multiplikatorlar;
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global moliya bozori sharhlari;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy savol va takliflar qutisi.
 
 Kerakli bo'limni tanlang: 🚀`;
 
-    const sent = await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
   });
 
   // /menu va matnli "Asosiy Menyu" buyrug'i
   bot.command('menu', async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
 
 Kerakli bo'limni tanlang:`;
-    const sent = await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
   });
 
-  bot.hears(['🔙 Asosiy Menyu', '🏠 Asosiy Menyu', 'Asosiy Menyu'], async (ctx) => {
-    await cleanPreviousAndUser(ctx);
+  bot.hears(['🔙 Asosiy Menyu', '🏠 Asosiy Menyu', 'Asosiy Menyu', 'Bosh Menyu', 'Menyu'], async (ctx) => {
     const welcomeText = `🏛 <b>UWED FIS — Asosiy Menyu</b>
 
 Kerakli bo'limni tanlang:`;
-    const sent = await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
   });
 
   // 1. Moliya Lug'ati (Terminlar) menyusi
   bot.hears(['📚 Moliya Lug\'ati (Terminlar)', '📚 Moliya Lug\'ati'], async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     const text = `📚 <b>UWED FIS — Keng Qamrovli Moliya va Investitsiyalar Lug'ati</b>
 
 Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "WACC", "LBO", "MECE"</i>) to'g'ridan-to'g'ri yozib yuboring:`;
-    const sent = await ctx.replyWithHTML(text, keyboards.termsMenu());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(text, keyboards.termsMenu());
   });
 
   // 2. Vertex Keyslar Arxiv
   bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi'], async (ctx) => {
-    await cleanPreviousAndUser(ctx);
-    const sent = await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
   });
 
   // 3. Haftalik Bozor Tahlili
   bot.hears('📰 Haftalik Bozor Tahlili', async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     const customDigest = db.getWeeklyDigest();
     let text = knowledge.defaultWeeklyDigest;
     if (customDigest && customDigest.content) {
       text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
     }
-    const sent = await ctx.replyWithHTML(text, keyboards.backOnly());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(text, keyboards.backOnly());
   });
 
   // 3.5. Baholash (Valuation)
   bot.hears(['📊 Baholash (Valuation)', '📊 Baholash'], async (ctx) => {
-    await cleanPreviousAndUser(ctx);
-    const sent = await ctx.replyWithHTML(knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(knowledge.valuationInfo, keyboards.financeMenu(config.appUrl));
   });
 
   // 3.6. AI Moliyaviy Assistent
   bot.hears(['🤖 AI Moliyaviy Assistent', '🤖 AI Assistent'], async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     const text = `🤖 <b>UWED FIS AI Assistent — Doimiy Moliya va Keys Konsultanti</b>
 
 Assalomu alaykum! Men moliya, investitsiya tahlili, DCF baholash va Vertex keyslari bo'yicha sizga yordam berishga tayyorman.
@@ -164,27 +130,21 @@ Assalomu alaykum! Men moliya, investitsiya tahlili, DCF baholash va Vertex keysl
 • <i>"LBO modelida IRR qanday hisoblanadi?"</i>
 
 Savolingizni to'g'ridan-to'g'ri yozib yuboring ✍️:`;
-    const sent = await ctx.replyWithHTML(text, keyboards.backOnly());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(text, keyboards.backOnly());
   });
 
   // 4. Intervyu savollari
   bot.hears('💼 IB & Consulting Intervyu', async (ctx) => {
-    await cleanPreviousAndUser(ctx);
-    const sent = await ctx.replyWithHTML(knowledge.interviewQuestions, keyboards.backOnly());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(knowledge.interviewQuestions, keyboards.backOnly());
   });
 
   // 5. Klub haqida
   bot.hears('🏛 UWED FIS Klubi Haqida', async (ctx) => {
-    await cleanPreviousAndUser(ctx);
-    const sent = await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
   });
 
   // 6. Anonim Murojaat
   bot.hears('🕵️‍♂️ Anonim Savol / Murojaat', async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     const userId = String(ctx.from.id);
     userStates.set(userId, 'waiting_anon_text');
 
@@ -196,16 +156,13 @@ Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yang
 Sizning shaxsingiz (ism, familiya, Telegram username) adminga <b>umuman ko'rinmaydi</b>.
 
 Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
-    const sent = await ctx.replyWithHTML(text, keyboards.cancelAnon());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML(text, keyboards.cancelAnon());
   });
 
   bot.hears('❌ Bekor qilish', async (ctx) => {
-    await cleanPreviousAndUser(ctx);
     const userId = String(ctx.from.id);
     userStates.delete(userId);
-    const sent = await ctx.replyWithHTML('🔙 Anonim rejim bekor qilindi. Asosiy menyudasiz:', keyboards.mainMenu());
-    if (sent?.message_id) lastBotMessages.set(String(ctx.from.id), sent.message_id);
+    await ctx.replyWithHTML('🔙 Anonim rejim bekor qilindi. Asosiy menyudasiz:', keyboards.mainMenu());
   });
 
   // ------------------- INLINE CALLBACKS: BIR XABAR ICHIDA YANGILANISH (ZERO SPAM) -------------------
@@ -381,8 +338,11 @@ Quyidagi bo'limlardan birini tanlang yoki pastki tugmalardan foydalaning:
 • 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
 • 📊 <b>Baholash (Valuation):</b> DCF, LBO, Multiplikatorlar;
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
-• 💼 <b>Intervyu Savollari:</b> IB & Consulting texnik savollari.`;
+• 💼 <b>Intervyu Savollari:</b> IB & Consulting texnik savollari;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy savol va takliflar.`;
+
     await editOrReply(ctx, text, keyboards.mainInlineMenu(config.appUrl));
+    await ctx.replyWithHTML('👇 Pastki doimiy menyu tugmalari faol:', keyboards.mainMenu());
   });
 
   // Asosiy menyu inline tugmalari

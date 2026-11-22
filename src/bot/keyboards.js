@@ -2,14 +2,14 @@ const { Markup } = require('telegraf');
 const terms = require('./terms');
 
 module.exports = {
-  // Asosiy menyu (Reply Keyboard - doim ekranning pastida ko'rinib turadi)
+  // Asosiy menyu (Reply Keyboard - doim ekranning pastida ko'rinib turadi va hech qachon yo'qolmaydi)
   mainMenu() {
     return Markup.keyboard([
       ['📚 Moliya Lug\'ati (Terminlar)', '🏆 Vertex Keyslar Arxiv'],
       ['📊 Baholash (Valuation)', '📰 Haftalik Bozor Tahlili'],
       ['💼 IB & Consulting Intervyu', '🤖 AI Moliyaviy Assistent'],
       ['🕵️‍♂️ Anonim Savol / Murojaat', '🏛 UWED FIS Klubi Haqida']
-    ]).resize();
+    ]).resize().persistent();
   },
 
   // Anonim xabar yozish holatidagi bekor qilish tugmasi
