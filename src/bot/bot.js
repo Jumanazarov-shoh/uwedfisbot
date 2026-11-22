@@ -21,8 +21,12 @@ function setupBot() {
     return next();
   });
 
+  // Foydalanuvchi holatlari (FSM: masalan anonim xabar yozish holati)
+  const userStates = new Map();
+
   // /start buyrug'i
   bot.start(async (ctx) => {
+    if (ctx.from) userStates.delete(String(ctx.from.id));
     const name = escapeHtml(ctx.from?.first_name || 'Hurmatli talaba');
     const welcomeText = `Assalomu alaykum, <b>${name}</b>! 👋
 
@@ -32,11 +36,35 @@ Ushbu bot sizga quyidagi imkoniyatlarni taqdim etadi:
 • 📊 <b>Moliya & Investitsiyalar:</b> DCF, LBO, Multiplikatorlar va korporativ moliya darslari;
 • 🏆 <b>Vertex Case Competition:</b> Nufuzli keys-chempionat strategiyalari va MECE tahlil;
 • 💼 <b>Intervyu Tayyorgarligi:</b> IB, PE va Big4 intervyularidagi eng mashhur texnik savollar;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> Klub rahbariyatiga 100% anonim savol, taklif va mulohazalar yuborish;
 • 🤖 <b>AI Maslahatchi:</b> Har qanday moliyaviy savolingizga sun'iy intellekt orqali professional javob.
 
 Quyidagi menyudan kerakli bo'limni tanlang yoki shunchaki o'z savolingizni yozib yuboring! 🚀`;
 
     await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
+  });
+
+  // Anonim xabar yuborish bo'limi
+  bot.hears('🕵️‍♂️ Anonim Savol / Murojaat', async (ctx) => {
+    const userId = String(ctx.from.id);
+    userStates.set(userId, 'waiting_anon_text');
+
+    const text = `🕵️‍♂️ <b>UWED FIS Anonim Murojaatlar Qutisi</b>
+
+Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yangi g'oyalaringizni <b>100% anonim</b> tarzda yuborishingiz mumkin.
+
+🔒 <b>Maxfiylik kafolati:</b>
+Sizning shaxsingiz (ism, familiya, Telegram username) adminga yoki klub a'zolariga <b>umuman ko'rinmaydi</b>.
+
+Marhamat, anonim xabaringizni yozib yuboring ✍️ (yoki bekor qilish uchun pastdagi tugmani bosing):`;
+    await ctx.replyWithHTML(text, keyboards.cancelAnon());
+  });
+
+  // Bekor qilish tugmasi
+  bot.hears('❌ Bekor qilish', async (ctx) => {
+    const userId = String(ctx.from.id);
+    userStates.delete(userId);
+    await ctx.replyWithHTML('🔙 Anonim rejim bekor qilindi. Asosiy menyudasiz:', keyboards.mainMenu());
   });
 
   // Menyudagi matnli tugmalar
@@ -145,10 +173,46 @@ Vaqtni qat'iy taqsimlang:
     await ctx.replyWithHTML('Asosiy menyuga qaytdingiz:', keyboards.mainMenu());
   });
 
-  // Har qanday erkin xabar yuborilganda (AI savol-javob)
+  // Har qanday erkin xabar yuborilganda (Anonim murojaat yoki AI savol-javob)
   bot.on('text', async (ctx) => {
     const text = ctx.message.text;
     if (text.startsWith('/')) return;
+
+    const userId = String(ctx.from?.id);
+
+    // Agar foydalanuvchi anonim xabar yozish holatida bo'lsa
+    if (userStates.get(userId) === 'waiting_anon_text') {
+      userStates.delete(userId);
+      const item = db.saveAnonymousMessage(userId, text);
+
+      const userConfirm = `✅ <b>Anonim murojaatingiz muvaffaqiyatli qabul qilindi!</b>
+
+📌 Murojaat kodi: <code>${item.code}</code>
+🔒 <i>Sizning shaxsingiz to'liq sir saqlandi.</i>
+
+Klub rahbariyati xabaringizni ko'rib chiqadi. Agar javob yozilsa, sizga to'g'ridan-to'g'ri shu bot orqali xabar keladi. Rahmat!`;
+
+      await ctx.replyWithHTML(userConfirm, keyboards.mainMenu());
+
+      // Admin Telegramiga bildirishnoma yuborish
+      if (config.adminTelegramId) {
+        try {
+          const adminNotice = `🕵️‍♂️ <b>Yangi Anonim Murojaat!</b>
+
+📌 Kod: <code>${item.code}</code>
+⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}
+
+💬 <b>Xabar matni:</b>
+<i>"${escapeHtml(text)}"</i>
+
+💡 <i>Javob qaytarish uchun Web Admin paneliga kiring yoki bot orqali bog'laning.</i>`;
+          await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, { parse_mode: 'HTML' });
+        } catch (adminErr) {
+          console.warn('Adminga anonim xabar yetkazishda xato:', adminErr.message);
+        }
+      }
+      return;
+    }
 
     await ctx.sendChatAction('typing');
 

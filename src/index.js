@@ -95,7 +95,48 @@ app.post('/api/logout', (req, res) => {
 app.get('/api/stats', checkAuthApi, (req, res) => {
   const stats = db.getStats();
   const users = db.getAllUsers();
-  res.json({ stats, users });
+  const anonymousMessages = db.getAnonymousMessages();
+  res.json({ stats, users, anonymousMessages });
+});
+
+// Anonim murojaatlarni olish
+app.get('/api/anonymous', checkAuthApi, (req, res) => {
+  const messages = db.getAnonymousMessages();
+  res.json({ success: true, messages });
+});
+
+// Anonim murojaatga javob qaytarish
+app.post('/api/anonymous/reply', checkAuthApi, async (req, res) => {
+  const { id, replyText } = req.body;
+  if (!id || !replyText || !replyText.trim()) {
+    return res.status(400).json({ success: false, message: 'ID va javob matni kiritilishi shart' });
+  }
+
+  const updatedMsg = db.replyAnonymousMessage(id, replyText.trim());
+  if (!updatedMsg) {
+    return res.status(404).json({ success: false, message: 'Anonim xabar topilmadi' });
+  }
+
+  // Telegram orqali o'sha anonim talabaga javob jo'natish
+  if (bot && updatedMsg.userId) {
+    try {
+      const escapedReply = replyText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const responseNotice = `💬 <b>UWED FIS Rahbariyatidan Javob!</b>
+
+📌 Murojaat kodingiz: <code>${updatedMsg.code}</code>
+
+<b>Rahbariyat javobi:</b>
+<i>"${escapedReply}"</i>
+
+💡 <i>Anonim savolingiz yoki taklifingiz uchun tashakkur!</i>`;
+
+      await bot.telegram.sendMessage(updatedMsg.userId, responseNotice, { parse_mode: 'HTML' });
+    } catch (sendErr) {
+      console.warn(`[Anonim Javob] Foydalanuvchiga yuborilmadi (${updatedMsg.userId}):`, sendErr.message);
+    }
+  }
+
+  res.json({ success: true, message: updatedMsg });
 });
 
 // Barcha a'zolarga xabar yuborish (Broadcast)

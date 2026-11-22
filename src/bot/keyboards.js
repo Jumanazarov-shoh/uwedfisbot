@@ -6,7 +6,15 @@ module.exports = {
     return Markup.keyboard([
       ['📊 Moliya & Baholash (Valuation)', '🏆 Vertex Keys Metodikasi'],
       ['💼 IB & Consulting Intervyu', '🤖 AI Moliyaviy Assistent'],
-      ['🏛 UWED FIS Klubi Haqida', 'ℹ️ Foydali Havolalar']
+      ['🕵️‍♂️ Anonim Savol / Murojaat', '🏛 UWED FIS Klubi Haqida'],
+      ['ℹ️ Foydali Havolalar']
+    ]).resize();
+  },
+
+  // Anonim xabar yozish holatidagi bekor qilish tugmasi
+  cancelAnon() {
+    return Markup.keyboard([
+      ['❌ Bekor qilish']
     ]).resize();
   },
 

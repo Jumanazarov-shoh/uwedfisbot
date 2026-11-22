@@ -13,6 +13,7 @@ const dbFile = path.join(dataDir, 'db.json');
 const initialData = {
   users: {},
   broadcasts: [],
+  anonymous_messages: [],
   logs: [],
   stats: {
     totalMessagesReceived: 0,
@@ -120,6 +121,46 @@ module.exports = {
     return memoryDb.broadcasts || [];
   },
 
+  // Anonim xabarni saqlash
+  saveAnonymousMessage(userId, text) {
+    const code = `#ANON-${Math.floor(1000 + Math.random() * 9000)}`;
+    const item = {
+      id: Date.now().toString(),
+      code,
+      userId: String(userId),
+      text,
+      createdAt: new Date().toISOString(),
+      replies: [],
+      status: 'new'
+    };
+    memoryDb.anonymous_messages = memoryDb.anonymous_messages || [];
+    memoryDb.anonymous_messages.unshift(item);
+    if (memoryDb.anonymous_messages.length > 200) memoryDb.anonymous_messages.pop();
+    saveDb();
+    return item;
+  },
+
+  // Barcha anonim xabarlarni olish
+  getAnonymousMessages() {
+    return memoryDb.anonymous_messages || [];
+  },
+
+  // Anonim xabarga javob qaytarish
+  replyAnonymousMessage(id, replyText) {
+    memoryDb.anonymous_messages = memoryDb.anonymous_messages || [];
+    const msg = memoryDb.anonymous_messages.find(m => m.id === id);
+    if (!msg) return null;
+
+    msg.replies = msg.replies || [];
+    msg.replies.push({
+      text: replyText,
+      repliedAt: new Date().toISOString()
+    });
+    msg.status = 'replied';
+    saveDb();
+    return msg;
+  },
+
   // Ping statistikasini yangilash
   recordPing(status = 'success') {
     memoryDb.stats = memoryDb.stats || {};
@@ -141,10 +182,13 @@ module.exports = {
 
   // Umumiy statistika
   getStats() {
+    const anonList = memoryDb.anonymous_messages || [];
     return {
       totalUsers: Object.keys(memoryDb.users || {}).length,
       totalMessagesReceived: memoryDb.stats?.totalMessagesReceived || 0,
       totalPings: memoryDb.stats?.totalPings || 0,
+      totalAnonMessages: anonList.length,
+      newAnonCount: anonList.filter(a => a.status === 'new').length,
       lastPingAt: memoryDb.stats?.lastPingAt || null,
       startedAt: memoryDb.stats?.startedAt || null,
       recentLogs: memoryDb.logs || []
