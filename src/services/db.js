@@ -51,13 +51,21 @@ function loadDb() {
   return memoryDb;
 }
 
+let saveTimeout = null;
+
 function saveDb() {
-  try {
-    ensureDirectoryExists();
-    fs.writeFileSync(dbFile, JSON.stringify(memoryDb, null, 2), 'utf8');
-  } catch (err) {
-    console.error('Bazaga saqlashda xato:', err.message);
-  }
+  if (saveTimeout) return;
+  saveTimeout = setTimeout(() => {
+    saveTimeout = null;
+    try {
+      ensureDirectoryExists();
+      fs.writeFile(dbFile, JSON.stringify(memoryDb, null, 2), 'utf8', (err) => {
+        if (err) console.error('Bazaga saqlashda xato:', err.message);
+      });
+    } catch (err) {
+      console.error('Bazaga saqlashda xato:', err.message);
+    }
+  }, 1000); // Asinxron, noblocking saqlash
 }
 
 // Boshlang'ich yuklash

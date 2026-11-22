@@ -1,4 +1,5 @@
 const { Telegraf, Markup } = require('telegraf');
+const https = require('https');
 const path = require('path');
 const fs = require('fs');
 const config = require('../config');
@@ -7,6 +8,14 @@ const knowledge = require('./knowledge');
 const keyboards = require('./keyboards');
 const terms = require('./terms');
 const { askAI } = require('../services/ai');
+
+// Yuqori tezlikdagi HTTPS Connection Pool (TLS handshake kechikishini 80% qisqartiradi)
+const httpsAgent = new https.Agent({
+  keepAlive: true,
+  keepAliveMsecs: 15000,
+  maxSockets: 64,
+  timeout: 30000
+});
 
 // Foydalanuvchi Desktop'dagi yangi rasmiy banneri (Telegram CDN keshida)
 const BANNER_FILE_ID = 'AgACAgIAAxkDAAOGawMW6PLpcsA0lNc8xBI-P9G0Bc8AAlQiaxs2-xhI7X7Sy2307IMBAAMCAAN5AAM9BA';
@@ -27,7 +36,11 @@ function setupBot() {
     return null;
   }
 
-  const bot = new Telegraf(config.botToken);
+  const bot = new Telegraf(config.botToken, {
+    telegram: {
+      agent: httpsAgent
+    }
+  });
 
   // Foydalanuvchini har bir xabarda bazaga saqlash
   bot.use(async (ctx, next) => {

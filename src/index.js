@@ -236,9 +236,15 @@ if (!config.isVercel) {
     console.log(`🔑 Admin kirish paroli: ${config.adminPassword}`);
     console.log(`======================================================\n`);
 
-    // Botni polling rejimida yoqish
+    // Botni yuqori tezlikdagi optimallashtirilgan polling rejimida yoqish
     if (bot && config.botToken) {
-      bot.launch()
+      bot.launch({
+        polling: {
+          timeout: 25,
+          limit: 100,
+          allowedUpdates: ['message', 'callback_query']
+        }
+      })
         .then(() => {
           console.log('🤖 Telegram bot muvaffaqiyatli ulandi (Polling rejimi)');
           // Keep-Alive pinger xizmatini ishga tushirish
