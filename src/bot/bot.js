@@ -75,6 +75,14 @@ function setupBot() {
   bot.start(async (ctx) => {
     if (ctx.from) userStates.delete(String(ctx.from.id));
     const name = escapeHtml(ctx.from?.first_name || 'Hurmatli talaba');
+
+    // Foydalanuvchi qurilmasidagi eski pastki klaviaturani butunlay o'chirish (wipe remove_keyboard)
+    try {
+      await ctx.reply('🧹 Menyuni yangilash...', Markup.removeKeyboard()).then(m => {
+        ctx.deleteMessage(m.message_id).catch(() => {});
+      });
+    } catch (e) {}
+
     const welcomeCaption = `Assalomu alaykum, <b>${name}</b>! 👋
 
 🏛 <b>UWED Finance & Investment Society (FIS)</b> rasmiy intellektual bilimlar va keyslar botiga xush kelibsiz!
