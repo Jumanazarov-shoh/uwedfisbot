@@ -5,7 +5,18 @@ const config = require('../config');
 const db = require('../services/db');
 const knowledge = require('./knowledge');
 const keyboards = require('./keyboards');
+const terms = require('./terms');
 const { askAI } = require('../services/ai');
+
+// Oldindan yuklangan va Telegram CDN'da keshga olingan doimiy fayl ID'lari (Instant delivery)
+const TELEGRAM_CASE_FILE_IDS = {
+  toyota: 'BQACAgIAAxkDAANJawLnSfvN2hSYWIStDVloRPcwV00AAgewAAI2-xhIMBy53Jgbg949BA',
+  amazon: 'BQACAgIAAxkDAANKawLnT70SPKbSdJJgTGvDRFNMsDUAAgiwAAI2-xhIu_HOUn11JKY9BA',
+  tbc: 'BQACAgIAAxkDAANLawLnUu2D4NO2zvV6E8Fnar3X3EMAAgmwAAI2-xhIdSXehYR2KHU9BA',
+  spotify: 'BQACAgIAAxkDAANMawLnVVbNN1qgEH6Y57vQErm4ZaAAAgqwAAI2-xhIWH9udE_1-NI9BA',
+  ikea: 'BQACAgIAAxkDAANNawLnXbF_DJTiuCrtV2yMPKDaOX0AAguwAAI2-xhIqYc6hft-IUA9BA',
+  duolingo: 'BQACAgIAAxkDAANOawLnXttL-psWselQZD2Kgoc1OHMAAgywAAI2-xhIjl5ZVBhAgeE9BA'
+};
 
 function setupBot() {
   if (!config.botToken) {
@@ -23,7 +34,6 @@ function setupBot() {
     return next();
   });
 
-  // Foydalanuvchi holatlari (FSM: masalan anonim xabar yozish holati)
   const userStates = new Map();
 
   // /start buyrug'i
@@ -35,18 +45,61 @@ function setupBot() {
 🏛 <b>UWED Finance & Investment Society (FIS)</b> rasmiy intellektual bilimlar botiga xush kelibsiz!
 
 Ushbu bot sizga quyidagi imkoniyatlarni taqdim etadi:
-• 📊 <b>Moliya & Investitsiyalar:</b> DCF, LBO, Multiplikatorlar va korporativ moliya darslari;
-• 🏆 <b>Vertex Case Competition:</b> Nufuzli keys-chempionat strategiyalari va MECE tahlil;
-• 💼 <b>Intervyu Tayyorgarligi:</b> IB, PE va Big4 intervyularidagi eng mashhur texnik savollar;
-• 🕵️‍♂️ <b>Anonim Murojaat:</b> Klub rahbariyatiga 100% anonim savol, taklif va mulohazalar yuborish;
-• 🤖 <b>AI Maslahatchi:</b> Har qanday moliyaviy savolingizga sun'iy intellekt orqali professional javob.
+• 📚 <b>Moliya & Investitsiya Lug'ati:</b> 30+ asosiy moliya va biznes terminlari, formulalar va amaliy misollar;
+• 🏆 <b>Vertex Keyslar Arxiv:</b> Rasmiy o'zbek tilidagi PDF keyslar va hakamlar etalon yechimlari;
+• 📊 <b>Baholash (Valuation):</b> DCF, LBO, Multiplikatorlar;
+• 📰 <b>Haftalik Bozor Tahlili:</b> MB stavkasi, Toshkent RFB, S&P 500 va xomashyo dinamikasi;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> Klub rahbariyatiga 100% maxfiy savol va takliflar yuborish.
 
-Quyidagi menyudan kerakli bo'limni tanlang yoki shunchaki o'z savolingizni yozib yuboring! 🚀`;
+Quyidagi menyudan kerakli bo'limni tanlang yoki shunchaki moliyaviy termin/savolingizni yozing! 🚀`;
 
     await ctx.replyWithHTML(welcomeText, keyboards.mainMenu());
   });
 
-  // Anonim xabar yuborish bo'limi
+  // 1. Moliya Lug'ati (Terminlar) menyusi
+  bot.hears(['📚 Moliya Lug\'ati (Terminlar)', '📚 Moliya Lug\'ati'], async (ctx) => {
+    const text = `📚 <b>UWED FIS — Keng Qamrovli Moliya va Investitsiyalar Lug'ati</b>
+
+Ushbu bo'limda korporativ moliya, investitsiya banki, bozor multiplikatorlari va keys-chempionatlar bo'yicha eng muhim terminlar jamlangan.
+
+Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "WACC", "LBO", "MECE"</i>) to'g'ridan-to'g'ri yozib yuboring:`;
+    await ctx.replyWithHTML(text, keyboards.termsMenu());
+  });
+
+  // 2. Vertex Keyslar Arxiv
+  bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi'], async (ctx) => {
+    await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
+  });
+
+  // 3. Haftalik Bozor Tahlili
+  bot.hears('📰 Haftalik Bozor Tahlili', async (ctx) => {
+    const customDigest = db.getWeeklyDigest();
+    let text = knowledge.defaultWeeklyDigest;
+    if (customDigest && customDigest.content) {
+      text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
+    }
+    await ctx.replyWithHTML(text, keyboards.backOnly());
+  });
+
+  // 4. Baholash (Valuation)
+  bot.hears(['📊 Baholash (Valuation)', '📊 Moliya & Baholash (Valuation)'], async (ctx) => {
+    const text = `📊 <b>Moliya va Kompaniyalarni Baholash (Valuation)</b>
+
+Kompaniya qiymatini baholashning asosiy metodologiyalari bilan tanishing:`;
+    await ctx.replyWithHTML(text, keyboards.financeMenu());
+  });
+
+  // 5. Intervyu savollari
+  bot.hears('💼 IB & Consulting Intervyu', async (ctx) => {
+    await ctx.replyWithHTML(knowledge.interviewQuestions, keyboards.backOnly());
+  });
+
+  // 6. Klub haqida
+  bot.hears('🏛 UWED FIS Klubi Haqida', async (ctx) => {
+    await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
+  });
+
+  // 7. Anonim Murojaat
   bot.hears('🕵️‍♂️ Anonim Savol / Murojaat', async (ctx) => {
     const userId = String(ctx.from.id);
     userStates.set(userId, 'waiting_anon_text');
@@ -56,118 +109,87 @@ Quyidagi menyudan kerakli bo'limni tanlang yoki shunchaki o'z savolingizni yozib
 Bu yerda siz klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki yangi g'oyalaringizni <b>100% anonim</b> tarzda yuborishingiz mumkin.
 
 🔒 <b>Maxfiylik kafolati:</b>
-Sizning shaxsingiz (ism, familiya, Telegram username) adminga yoki klub a'zolariga <b>umuman ko'rinmaydi</b>.
+Sizning shaxsingiz (ism, familiya, Telegram username) adminga <b>umuman ko'rinmaydi</b>.
 
-Marhamat, anonim xabaringizni yozib yuboring ✍️ (yoki bekor qilish uchun pastdagi tugmani bosing):`;
+Marhamat, anonim xabaringizni yozib yuboring ✍️:`;
     await ctx.replyWithHTML(text, keyboards.cancelAnon());
   });
 
-  // Bekor qilish tugmasi
   bot.hears('❌ Bekor qilish', async (ctx) => {
     const userId = String(ctx.from.id);
     userStates.delete(userId);
     await ctx.replyWithHTML('🔙 Anonim rejim bekor qilindi. Asosiy menyudasiz:', keyboards.mainMenu());
   });
 
-  // Menyudagi matnli tugmalar
-  bot.hears('📊 Moliya & Baholash (Valuation)', async (ctx) => {
-    const text = `📊 <b>Moliya va Kompaniyalarni Baholash (Valuation)</b>
-
-Kompaniya qiymatini baholashning asosiy professional metodologiyalari bilan tanishing. O'zingizga kerakli bo'limni tanlang:`;
-    await ctx.replyWithHTML(text, keyboards.financeMenu());
+  // ------------------- INLINE CALLBACKS: LUG'AT KATEGORIYALARI -------------------
+  bot.action('back_to_terms', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML('📚 <b>Moliya Lug\'ati — Asosiy Bo\'limlar:</b>', keyboards.termsMenu());
   });
 
-  bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi'], async (ctx) => {
-    await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
+  bot.action(/^cat_(.+)$/, async (ctx) => {
+    await ctx.answerCbQuery();
+    const catKey = ctx.match[1];
+    const cat = terms.categories[catKey];
+    if (cat) {
+      await ctx.replyWithHTML(`📁 <b>${cat.name}</b> bo'yicha terminlar ro'yxati:`, keyboards.categoryTermsMenu(catKey));
+    }
   });
 
-  bot.hears('📰 Haftalik Bozor Tahlili', async (ctx) => {
-    const customDigest = db.getWeeklyDigest();
-    let text = knowledge.defaultWeeklyDigest;
+  // Alohida termin bosilganda batafsil kartochka chiqarish
+  bot.action(/^t_(.+)$/, async (ctx) => {
+    await ctx.answerCbQuery();
+    const termId = 't_' + ctx.match[1];
+    let foundTerm = null;
 
-    if (customDigest && customDigest.content) {
-      text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
+    for (const catKey in terms.categories) {
+      const t = terms.categories[catKey].terms.find(item => item.id === termId);
+      if (t) {
+        foundTerm = t;
+        break;
+      }
     }
 
-    await ctx.replyWithHTML(text, keyboards.backOnly());
+    if (foundTerm) {
+      const card = `💡 <b>${foundTerm.name}</b>
+
+📐 <b>Formula / Struktura:</b>
+<code>${escapeHtml(foundTerm.formula)}</code>
+
+📖 <b>Ta'rifi:</b>
+${foundTerm.def}
+
+📌 <b>Amaliy Ahamiyati (Moliya & Keyslarda):</b>
+<i>${foundTerm.practical}</i>`;
+      await ctx.replyWithHTML(card, keyboards.backOnly());
+    }
   });
 
-  bot.hears('💼 IB & Consulting Intervyu', async (ctx) => {
-    await ctx.replyWithHTML(knowledge.interviewQuestions, keyboards.backOnly());
-  });
-
-  bot.hears('🏛 UWED FIS Klubi Haqida', async (ctx) => {
-    await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
-  });
-
-  bot.hears('ℹ️ Foydali Havolalar', async (ctx) => {
-    const links = `🌐 <b>UWED FIS Rasmiy Manbalari & Foydali Havolalar:</b>
-
-• 📢 <b>Rasmiy Telegram Kanal:</b> @uwed_fis
-• 🏛 <b>Universitet Sayti:</b> <a href="https://uwed.uz">uwed.uz</a>
-• 📚 <b>Tavsiya etiladigan kitoblar:</b>
-  1. <i>Investment Banking: Valuation, LBOs, and M&A</i> (Rosenbaum & Pearl)
-  2. <i>Valuation</i> (McKinsey & Company)
-  3. <i>Case in Point</i> (Marc P. Cosentino)
-• 🛠 <b>Moliyaviy vositalar:</b> TradingView, Damodaran Online, Koyfin.`;
-    await ctx.replyWithHTML(links, keyboards.backOnly());
-  });
-
-  bot.hears('🤖 AI Moliyaviy Assistent', async (ctx) => {
-    const text = `🤖 <b>AI Moliyaviy Assistent yoqildi!</b>
-
-Siz istalgan moliyaviy savolni yozishingiz mumkin. Masalan:
-- <i>"WACC formulasini tushuntirib ber"</i>
-- <i>"Amazon yoki Tesla keysini qanday tahlil qilsa bo'ladi?"</i>
-- <i>"EBITDA nima va nega u sof foydadan farq qiladi?"</i>
-
-Savolingizni shu yerga yozib yuboring ✍️`;
-    await ctx.replyWithHTML(text);
-  });
-
-  // Inline callback query lar (Tugmalar bosilganda)
-  bot.action('fn_dcf', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.financeTopics.dcf, keyboards.financeMenu());
-  });
-
-  bot.action('fn_multiples', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.financeTopics.multiples, keyboards.financeMenu());
-  });
-
-  bot.action('fn_lbo', async (ctx) => {
-    await ctx.answerCbQuery();
-    await ctx.replyWithHTML(knowledge.financeTopics.lbo, keyboards.financeMenu());
-  });
-
-  // Haqiqiy Vertex keyslarini tahlili va PDF faylini yuborish
+  // ------------------- INLINE CALLBACKS: VERTEX KEYSLARI VA PDF -------------------
   async function sendCase(ctx, caseKey) {
-    await ctx.answerCbQuery();
+    // 1. Zudlik bilan spinnerni to'xtatish (10ms ichida javob beriladi)
+    await ctx.answerCbQuery('Keys yuklanmoqda...');
+
     const caseItem = knowledge.casesData[caseKey];
     if (!caseItem) return;
 
-    // 1. Matnli xulosa va hakamlar etaloni
-    await ctx.replyWithHTML(caseItem.summary, keyboards.vertexMenu());
+    // 2. Analitik tahlil va hakamlar etaloni matni
+    await ctx.replyWithHTML(caseItem.summary);
 
-    // 2. Haqiqiy o'zbek tilidagi PDF faylni jo'natish
-    const pdfPath = path.join(__dirname, '..', '..', 'public', 'cases', caseItem.file);
-    if (fs.existsSync(pdfPath)) {
+    // 3. Telegram CDN'da keshga olingan rasmiy PDF faylini yuborish (Instant 0.05s)
+    const fileId = TELEGRAM_CASE_FILE_IDS[caseKey];
+    if (fileId) {
       try {
-        await ctx.replyWithDocument({
-          source: pdfPath,
-          filename: caseItem.file
-        }, {
-          caption: `📄 <b>${caseItem.title}</b>\n\n📌 <i>Format: ${caseItem.format}</i>\n🎯 <i>Daraja: ${caseItem.difficulty}</i>\n\nO'qib chiqish va chop etish uchun to'liq rasmiy PDF hujjati.`,
+        await ctx.replyWithDocument(fileId, {
+          caption: `📄 <b>${caseItem.title}</b>\n\n📌 <i>Format: ${caseItem.format}</i>\n🎯 <i>Daraja: ${caseItem.difficulty}</i>\n\nO'qib chiqish va chop etish uchun rasmiy o'zbekcha PDF hujjati.`,
           parse_mode: 'HTML'
         });
-      } catch (docErr) {
-        console.warn('PDF faylni yuborishda xato:', docErr.message);
+      } catch (err) {
+        console.warn(`[SendDocument Error: ${caseKey}]:`, err.message);
       }
     }
   }
 
-  // Haqiqiy Vertex keyslari
   bot.action('vtx_toyota', (ctx) => sendCase(ctx, 'toyota'));
   bot.action('vtx_amazon', (ctx) => sendCase(ctx, 'amazon'));
   bot.action('vtx_tbc', (ctx) => sendCase(ctx, 'tbc'));
@@ -196,23 +218,26 @@ Bu to'liq MECE bo'linish hisoblanadi.`;
     const text = `🎯 <b>TAM / SAM / SOM Tahlili:</b>
 
 • <b>TAM (Total Addressable Market):</b> Butun dunyo yoki mintaqadagi mahsulotga bo'lgan 100% talab hajmi.
-• <b>SAM (Serviceable Addressable Market):</b> Sizning texnologiyangiz, tilingiz va litsenziyangiz yetib boradigan qismi.
+• <b>SAM (Serviceable Addressable Market):</b> Sizning texnologiyangiz va litsenziyangiz yetib boradigan qismi.
 • <b>SOM (Serviceable Obtainable Market):</b> Siz dastlabki 1-3 yilda real marketing va resurslaringiz bilan egallay oladigan aniq ulush.
 
-📊 <b>Vertex keyslarida baholash mezonlari:</b> Hakamlar doim pastdan yuqoriga (Bottom-up) baholashni yaxshi ko'radi (Aholi soni × Maqsadli auditoriya % × Xarid chastotasi × Narx).`;
+📊 <b>Vertex keyslarida baholash:</b> Bottom-up usuli afzal ko'riladi (Aholi soni × Maqsadli auditoriya % × Xarid chastotasi × Narx).`;
     await ctx.replyWithHTML(text, keyboards.vertexMenu());
   });
 
-  bot.action('vtx_tactics', async (ctx) => {
+  bot.action('fn_dcf', async (ctx) => {
     await ctx.answerCbQuery();
-    const text = `⏱ <b>50 Daqiqalik Tezkor Oflayn Keys Taktikasi (Vertex Speed Round):</b>
+    await ctx.replyWithHTML(knowledge.financeTopics?.dcf || 'DCF modeli haqida ma\'lumot', keyboards.financeMenu());
+  });
 
-Vaqtni qat'iy taqsimlang:
-• <b>0 - 10 daqiqa:</b> Keysni o'qish, asosiy savol va maqsadni aniqlash (Problem Statement);
-• <b>10 - 25 daqiqa:</b> Brainstorming, MECE daraxti va 3 ta asosiy yechimni tanlash;
-• <b>25 - 40 daqiqa:</b> Slaydlar strukturasini chizish va raqamlarni (Financials/ROI) hisoblash;
-• <b>40 - 50 daqiqa:</b> Taqdimotni rollarga bo'lib bir marta repetitsiya qilish va ehtimoliy hakamlar savollariga tayyorlanish.`;
-    await ctx.replyWithHTML(text, keyboards.vertexMenu());
+  bot.action('fn_multiples', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.financeTopics?.multiples || 'Multiplikatorlar haqida ma\'lumot', keyboards.financeMenu());
+  });
+
+  bot.action('fn_lbo', async (ctx) => {
+    await ctx.answerCbQuery();
+    await ctx.replyWithHTML(knowledge.financeTopics?.lbo || 'LBO haqida ma\'lumot', keyboards.financeMenu());
   });
 
   bot.action('back_to_main', async (ctx) => {
@@ -220,14 +245,14 @@ Vaqtni qat'iy taqsimlang:
     await ctx.replyWithHTML('Asosiy menyuga qaytdingiz:', keyboards.mainMenu());
   });
 
-  // Har qanday erkin xabar yuborilganda (Anonim murojaat yoki AI savol-javob)
+  // ------------------- TEXT VA TERMINLARNI SMART QIDIRISH -------------------
   bot.on('text', async (ctx) => {
-    const text = ctx.message.text;
+    const text = ctx.message.text.trim();
     if (text.startsWith('/')) return;
 
     const userId = String(ctx.from?.id);
 
-    // Agar foydalanuvchi anonim xabar yozish holatida bo'lsa
+    // Anonim xabar yozish holati
     if (userStates.get(userId) === 'waiting_anon_text') {
       userStates.delete(userId);
       const item = db.saveAnonymousMessage(userId, text);
@@ -241,7 +266,6 @@ Klub rahbariyati xabaringizni ko'rib chiqadi. Agar javob yozilsa, sizga to'g'rid
 
       await ctx.replyWithHTML(userConfirm, keyboards.mainMenu());
 
-      // Admin Telegramiga bildirishnoma yuborish
       if (config.adminTelegramId) {
         try {
           const adminNotice = `🕵️‍♂️ <b>Yangi Anonim Murojaat!</b>
@@ -252,7 +276,7 @@ Klub rahbariyati xabaringizni ko'rib chiqadi. Agar javob yozilsa, sizga to'g'rid
 💬 <b>Xabar matni:</b>
 <i>"${escapeHtml(text)}"</i>
 
-💡 <i>Javob qaytarish uchun Web Admin paneliga kiring yoki bot orqali bog'laning.</i>`;
+💡 <i>Javob qaytarish uchun Web Admin paneliga kiring.</i>`;
           await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, { parse_mode: 'HTML' });
         } catch (adminErr) {
           console.warn('Adminga anonim xabar yetkazishda xato:', adminErr.message);
@@ -261,8 +285,30 @@ Klub rahbariyati xabaringizni ko'rib chiqadi. Agar javob yozilsa, sizga to'g'rid
       return;
     }
 
-    await ctx.sendChatAction('typing');
+    // 1. Lug'atdan tezkor qidirish (Termin kiritilganda bir zumda javob berish)
+    const lowerQuery = text.toLowerCase();
+    for (const catKey in terms.categories) {
+      for (const t of terms.categories[catKey].terms) {
+        const termNameLower = t.name.toLowerCase();
+        // Agar so'z terminga to'liq yoki kalit so'z sifatida mos kelsa
+        if (lowerQuery.includes(termNameLower) || termNameLower.includes(lowerQuery) || (lowerQuery.length > 2 && termNameLower.startsWith(lowerQuery))) {
+          const card = `💡 <b>${t.name}</b>
 
+📐 <b>Formula / Struktura:</b>
+<code>${escapeHtml(t.formula)}</code>
+
+📖 <b>Ta'rifi:</b>
+${t.def}
+
+📌 <b>Amaliy Ahamiyati:</b>
+<i>${t.practical}</i>`;
+          return ctx.replyWithHTML(card, keyboards.backOnly());
+        }
+      }
+    }
+
+    // 2. Erkin moliyaviy savollar uchun AI yordamchi
+    await ctx.sendChatAction('typing');
     try {
       const response = await askAI(text);
       await ctx.replyWithHTML(response, keyboards.backOnly());
@@ -273,7 +319,7 @@ Klub rahbariyati xabaringizni ko'rib chiqadi. Agar javob yozilsa, sizga to'g'rid
   });
 
   bot.catch((err, ctx) => {
-    console.error(`❌ Bot xatoligi (${ctx.updateType}):`, err);
+    console.error(`❌ Bot xatoligi (${ctx.updateType}):`, err.message);
   });
 
   return bot;
