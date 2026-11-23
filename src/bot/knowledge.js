@@ -219,40 +219,146 @@ Toshkent Fond Birjasi (UZSE), xalqaro moliya bozorlari (Fed, S&P 500), oltin va 
 ━━━━━━━━━━━━━━━━━━━━
 📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
-  // 2-Bo'lim: Hafta Yangiliklari (O'ta qulay mobil formatda)
-  weeklyNews: `📰 <b>HAFTALIK BOZOR VA MOLIYA YANGILIKLARI</b>
+  // Hafta yangiliklari kategoriyalari markazi (5 ta alohida yo'nalish)
+  newsHub: `📰 <b>UWED FIS — Haftalik Yangiliklar Markazi</b>
 🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
+
+Dunyo va O'zbekiston moliya bozoridagi eng sara tahlillar 5 ta asosiy bo'limga ajratildi:
+
+🇺🇿 <b>1. O'zbekiston</b> — Makroiqtisodiyot, banklar, UZSE fond bozori va qonunchilik.
+🏦 <b>2. Jahon Moliyasi</b> — Markaziy banklar (Fed, ECB, BOJ), stavkalar, valyuta va qarz bozorlari.
+💼 <b>3. Jahon Investitsiya</b> — Mega M&A bitimlari, Private Equity va global IPO'lar.
+🌐 <b>4. Jahon Iqtisodi</b> — Global YaIM o'sishi, oltin, neft va savdo koridorlari.
+🚀 <b>5. Startap Tizimi</b> — AI poygasi, venchur kapitali va texnologik ekotizim.
+
+👇 <i>Kerakli tahlil bo'limini tanlang:</i>`,
+
+  // 5 ta alohida bo'lim matnlari
+  newsCategories: {
+    uzb: `🇺🇿 <b>O'ZBEKISTON MOLIYAVIY VA IQTISODIY SHARHI</b>
+🗓 <i>Haftalik Tahlil | UWED FIS</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-🇺🇿 <b>1. O'ZBEKISTON MOLIYAVIY BOZORI:</b>
+🏛 <b>1. Pul-kredit Siyosati va Banklar</b>
+├ • <b>MB Asosiy Stavkasi:</b> <code>14.0%</code> darajasida qat'iy saqlanmoqda
+├ • <b>Inflyatsiya:</b> Yillik <code>7.3%</code> (bazaviy: 5.7%) ga tushdi
+└ • <b>Ta'siri:</b> Depozitlar jozibadorligi oshib, milliy jamg'armalar mustahkamlandi
 
-• <b>Bank sektori va Jamg'armalar:</b>
-Markaziy bankning 14.0% lik qat'iy stavkasi milliy valyutadagi depozitlarni jozibador qilib, inflyatsiyani 7.3% ga tushirishga xizmat qilmoqda. Aholi va biznes jamg'armalari barqaror o'smoqda.
+📈 <b>2. Makro O'sish va Tashqi Sektor</b>
+├ • <b>YaIM Dinamikasi:</b> <code>$147.0 mlrd</code> (+7.7% o'sish, aholi jon boshiga $3,846)
+├ • <b>Tashqi Savdo:</b> <code>$81.2 mlrd</code> (Eksport $33.8B, shundan ~30% oltin)
+├ • <b>Import:</b> <code>$47.3 mlrd</code> (asosan uskunalar va texnologik xomashyo)
+└ • <b>Valyuta Kursi:</b> <code>12,242 – 12,800 so'm</code> barqaror koridorda
 
-• <b>Toshkent Fond Birjasi (UZSE):</b>
-Bank (SQB, Ipoteka-bank) va energetika sektori emitentlari aksiyalarida savdo faolligi yuqori. Yangi xususiylashtirish va IPO/SPO dasturlari institutsional investorlar diqqat markazida.
+💼 <b>3. Kapital Bozori va Investitsiyalar</b>
+├ • <b>Jami Investitsiyalar:</b> <code>$43.1 mlrd</code> (+24%), FDI: $38.2B
+├ • <b>Toshkent RFB (UZSE):</b> Banklar (SQB, Ipoteka) va sanoat emitentlari faol
+└ • <b>Byudjet Intizomi:</b> 2026 defitsit chegarasi YaIMning <code>3.0%</code> miqdorida
+━━━━━━━━━━━━━━━━━━━━
+📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
 
-🌐 <b>2. GLOBAL BOZORLAR (WALL STREET & XALQARO):</b>
+    finance: `🏦 <b>JAHON MOLIYASI SHARHI (GLOBAL FINANCE)</b>
+🗓 <i>Haftalik Tahlil | UWED FIS</i>
+━━━━━━━━━━━━━━━━━━━━
 
-• <b>AQSH Federal Rezervi (Fed):</b>
-Inflyatsiya va bandlik indikatorlariga mos ravishda stavkalarni asta-sekin pasaytirish siklida davom etmoqda; jahon bozorlarida dollar indeksi (DXY) mo''tadil tebranmoqda.
+🏛 <b>1. Markaziy Banklar va Foiz Stavkalari</b>
+├ • <b>AQSH FRS (Federal Reserve):</b> Mehnat bozori va sekinlashayotgan inflyatsiya hisobiga stavkalarni bosqichma-bosqich pasaytirish siklida
+├ • <b>Yevropa Markaziy Banki (ECB):</b> Iqtisodiy o'sishni rag'batlantirish uchun depozit stavkalarini me'yorlashtirmoqda
+└ • <b>Yaponiya Banki (BOJ):</b> Manfiy stavkalardan so'ng iensani qo'llab-quvvatlash uchun pul-kredit siyosatini ehtiyotkorlik bilan qat'iylashtirmoqda
 
-• <b>S&P 500 va Nasdaq:</b>
-AI, ma'lumotlar markazlari va yarimo'tkazgichlar (Nvidia, TSMC, Microsoft) sektori yetakchiligida <code>5,900+</code> punkt darajasida mustahkam saqlanmoqda.
+💵 <b>2. Valyuta va Qarz Bozorlari</b>
+├ • <b>Dollar Indeksi (DXY):</b> <code>103–105</code> koridorida muvozanatda
+├ • <b>AQSH 10 Yillik Xazina Qog'ozlari (US 10Y):</b> <code>4.1% – 4.3%</code> oralig'ida
+└ • <b>Rivojlanayotgan Bozorlar (EM Debt):</b> Global stavkalar pasayishi fonida Yevrobond emissiyalariga xalqaro talab ortmoqda
 
-🟡 <b>3. XOMASHYO VA QIYMATLI METALLAR:</b>
+🛡 <b>3. Bank Tizimi va Likvidlik</b>
+├ • <b>Kapital Yetarliligi:</b> Yirik xalqaro banklar (Tier 1) yuqori likvidlik buferini saqlab turibdi
+└ • <b>Kredit Marjasi (NIM):</b> Stavka pasayishi banklarning sof foiz marjasini barqarorlashtirmoqda
+━━━━━━━━━━━━━━━━━━━━
+📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
 
-• <b>Oltin (XAU/USD):</b>
-Geosiyosiy vaziyat va markaziy banklarning doimiy zaxira xaridlari hisobiga <code>$2,650 – $2,700/untsiya</code> oralig'ida savdo qilinmoqda. Bu O'zbekistonning valyuta zaxiralarini mustahkamlaydi.
+    invest: `💼 <b>JAHON INVESTITSIYALARI SHARHI (GLOBAL INVESTMENTS)</b>
+🗓 <i>Haftalik Tahlil | UWED FIS</i>
+━━━━━━━━━━━━━━━━━━━━
 
-• <b>Brent Nefti:</b>
-OPEK+ qazib olish cheklovlari va jahon sanoat talabi fonida <code>$72 – $75/barrel</code> koridorida muvozanatlashgan.
+🤝 <b>1. M&A va Yirik Birlashuvlar (Mega Deals)</b>
+├ • <b>SpaceX va xAI Sinergiyasi:</b> Sun'iy intellekt va kosmik aloqa integratsiyasi orqali birlashgan ekotizim qiymati <code>$1.25 trillion</code>ga yetdi
+├ • <b>Tesla Sarmoyasi:</b> Tesla korporatsiyasi xAI texnologiyalariga to'g'ridan-to'g'ri <code>$2.0 milliard</code> investitsiya kiritdi
+└ • <b>Texnologik Konsolidatsiya:</b> Katta ma'lumotlar markazlari va toza energiya infratuzilmasiga korporativ M&A hajmi 28% oshdi
+
+📈 <b>2. Global IPO Bozorlari</b>
+├ • <b>Kutilayotgan Tarixiy IPO:</b> SpaceX kompaniyasi 2026-yilda <code>$1.5 trillion</code>lik baholash bilan aksiyalarni ommaga chiqarishni rejalashtirmoqda
+└ • <b>AI va Yarimo'tkazgichlar:</b> Yangi chip dizaynerlari va kiberxavfsizlik kompaniyalari fond bozoriga chiqishga tayyorlanmoqda
+
+🏦 <b>3. Private Equity (PE) va Venchur Kapital (VC)</b>
+├ • <b>Dry Powder:</b> Xususiy kapital fondlari to'plangan naqd mablag'larni arzonlashgan aktivlarga yo'naltirmoqda
+└ • <b>Investitsion Ustuvorliklar:</b> B2B AI yechimlari, yarimo'tkazgich fabrikalari va mudofaa texnologiyalari (DefenseTech)
+━━━━━━━━━━━━━━━━━━━━
+📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
+
+    economy: `🌐 <b>JAHON IQTISODI SHARHI (GLOBAL ECONOMY)</b>
+🗓 <i>Haftalik Tahlil | UWED FIS</i>
+━━━━━━━━━━━━━━━━━━━━
+
+📊 <b>1. Global O'sish va Savdo Dinamikasi</b>
+├ • <b>Jahon YaIM O'sishi:</b> 2026-yilda <code>3.1% – 3.2%</code> barqaror sur'atda saqlanishi kutilmoqda
+├ • <b>Inflyatsiya Oqimi:</b> Global miqyosda iste'mol narxlari o'sishi sekinlashib, <code>4.2%</code> darajasiga yaqinlashmoqda
+└ • <b>Geosiyosiy Savdo:</b> "Friend-shoring" va ta'minot zanjirlarini diversifikatsiya qilish asosiy tendensiyaga aylandi
+
+🟡 <b>2. Xomashyo va Oltin Narxlari</b>
+├ • <b>Oltin (XAU/USD):</b> <code>$2,650 – $2,700/untsiya</code> atrofida rekord narxda. Markaziy banklar zaxiralarida dollardan oltinga o'tish davom etmoqda
+├ • <b>Brent Nefti:</b> <code>$72 – $75/barrel</code> koridorida. OPEK+ qazib olish kvotalari narx tushishini ushlab turibdi
+└ • <b>Sanoat Metallari:</b> Mis va litiy narxi AI serverlari hamda elektromobillar talabi hisobiga barqaror
+
+🚢 <b>3. Logistika va Koridorlar</b>
+└ • <b>Markaziy Osiyo Tranziti:</b> "O'rta Koridor" (Middle Corridor) orqali multimodal yuk tashish hajmi yillik 22% ga o'smoqda
+━━━━━━━━━━━━━━━━━━━━
+📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
+
+    startups: `🚀 <b>STARTAP TIZIMI VA VENCHUR BOZORI (STARTUPS & TECH)</b>
+🗓 <i>Haftalik Tahlil | UWED FIS</i>
+━━━━━━━━━━━━━━━━━━━━
+
+🤖 <b>1. Generativ AI va Katta Modellar</b>
+├ • <b>xAI (Grok AI):</b> Baholanishi <code>$250 milliard</code>ga yetib, OpenAI bilan to'g'ridan-to'g'ri raqobatga kirdi
+├ • <b>Hisoblash Quvvati (Compute):</b> AI startaplari uchun asosiy to'siq — yuqori unumdor chiplar (Nvidia H100/Blackwell) va elektr energiyasi taqchilligi
+└ • <b>Korporativ Integratsiya:</b> GPT-4o, Claude 3.5/Opus va Gemini modellari korporativ ERP hamda bank avtomatlashtirishiga keng tatbiq etilmoqda
+
+🛰 <b>2. SpaceTech va Global Aloqa</b>
+├ • <b>Starlink Muvaffaqiyati:</b> Orbitada <code>9,000+</code> faol sun'iy yo'ldosh va <code>9+ million</code> to'lovchi obunachi
+└ • <b>Orbital Compute:</b> Kosmik fazoda quyosh energiyasida ishlovchi birinchi ma'lumotlar markazlari loyihasi ishlab chiqilmoqda
+
+🇺🇿 <b>3. O'zbekiston Startap Ekotizimi</b>
+├ • <b>FinTech Yetakchiligi:</b> To'lov tizimlari, raqamli faktoring va BNPL (Muddatli to'lov) startaplari yuqori rentabellik ko'rsatmoqda
+└ • <b>Venchur Imtiyozlari:</b> IT Park rezidentlari uchun soliq imtiyozlari xalqaro venchur fondlar (500 Global, Sturgeon Capital) e'tiborini tortmoqda
+━━━━━━━━━━━━━━━━━━━━
+📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`
+  },
+
+  // Kun qizg'in xabari (Flash Breaking News)
+  hotNewsDefault: `🔥 <b>KUN QIZG'IN XABARI | UWED FIS FLASH INSIGHT</b>
+🗓 <i>Sana: 2026-yil, 24-noyabr</i>
+━━━━━━━━━━━━━━━━━━━━
+
+⚡️ <b>SpaceX va xAI $1.25 Trillionlik Birlashuv: 2026 Tarixiy Mega-IPO Ostonasida!</b>
+
+📌 <b>Asosiy Voqea:</b>
+Elon Musk sun'iy intellekt kompaniyasi (xAI)ni kosmik gigant SpaceX bilan birlashtirdi. Birlashgan ekotizim qiymati <code>$1.25 trillion</code> deb baholandi. Bu 2026-yilda kutilayotgan <code>$1.5 trillion</code>lik tarixiy IPO uchun asosiy tramplin hisoblanadi.
+
+💰 <b>Moliyaviy Oqimlar:</b>
+• Tesla korporatsiyasi xAI ekotizimiga to'g'ridan-to'g'ri <code>$2.0 milliard</code> investitsiya kiritdi;
+• Muskning shaxsiy boyligi <code>$800+ milliard</code>dan oshib, jahon moliya tarixidagi eng yuqori natijani qayd etdi;
+• Starlink sun'iy yo'ldosh tarmog'i 9 milliondan ortiq pullik obunachilarga yetdi.
+
+💡 <b>Tahlilchi Xulosasi va Sinergiya:</b>
+AI algoritmlari (Grok) va global sun'iy yo'ldosh infratuzilmasi birlashuvi kelajakda koinotdagi orbital ma'lumotlar markazlari (Orbital Data Centers) loyihasini real biznes modeliga aylantirmoqda.
 
 ━━━━━━━━━━━━━━━━━━━━
-💡 <b>VERTEX TAHLILCHI MASLAHATI:</b>
-<i>"Keys yechishda SWOT yoki PESTEL kabi quruq shablonlarni chetga suring. Moliyaviy model tuzishda 14% stavka sharoitida qarz qiymati (Cost of Debt), WACC va erkin pul oqimlari (FCF) intizomiga tayaning!"</i>
+🤖 <i>Avtomatlashtirilgan FIS News Agent tomonidan tayyorlandi.</i>
+📱 <i>Rasmiy kanal: @uwed_fis</i>`,
 
-📱 <i>UWED FIS rasmiy kanali: @uwed_fis</i>`,
+  // 2-Bo'lim: Hafta Yangiliklari (O'ta qulay mobil formatda)
+  weeklyNews: `📰 <b>HAFTALIK BOZOR VA MOLIYA YANGILIKLARI</b>`,
 
   defaultWeeklyDigest: `📊 <b>UWED FIS — Bozor Tahlili Markazi</b>`,
 

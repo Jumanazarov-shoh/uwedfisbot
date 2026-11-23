@@ -9,15 +9,16 @@ module.exports = {
         Markup.button.callback('📚 Moliya & Iqtisodiyot Lug\'ati', 'menu_terms')
       ],
       [
+        Markup.button.callback('📊 Bozor Tahlili', 'menu_digest'),
+        Markup.button.callback('🔥 Kun Qizg\'in Xabari', 'menu_hot')
+      ],
+      [
         Markup.button.callback('🔒 Vertex Keyslar (Yopiq)', 'menu_vertex'),
-        Markup.button.callback('📊 Bozor Tahlili', 'menu_digest')
+        Markup.button.callback('🤖 AI Moliyaviy Assistent', 'menu_ai')
       ],
       [
-        Markup.button.callback('🤖 AI Moliyaviy Assistent', 'menu_ai'),
-        Markup.button.callback('🕵️‍♂️ Anonim Murojaat', 'menu_anon')
-      ],
-      [
-        Markup.button.callback('🏛 UWED FIS Klubi Haqida', 'menu_about')
+        Markup.button.callback('🕵️‍♂️ Anonim Murojaat', 'menu_anon'),
+        Markup.button.callback('🏛 UWED FIS Klubi', 'menu_about')
       ]
     ]);
   },
@@ -95,7 +96,7 @@ module.exports = {
     ]);
   },
 
-  // Bozor tahlili ichki bo'limlari (Asosiy raqamlar & Hafta yangiliklari)
+  // Bozor tahlili ichki bo'limlari (Asosiy raqamlar, Hafta yangiliklari va Kun qizg'in xabari)
   digestSubMenu() {
     return Markup.inlineKeyboard([
       [
@@ -103,9 +104,62 @@ module.exports = {
         Markup.button.callback('📰 Hafta Yangiliklari', 'digest_news')
       ],
       [
+        Markup.button.callback('🔥 Kun Qizg\'in Xabari (Flash)', 'menu_hot')
+      ],
+      [
         Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
       ]
     ]);
+  },
+
+  // Hafta yangiliklarining 5 ta bo'limi menyusi
+  newsCategoriesMenu() {
+    return Markup.inlineKeyboard([
+      [
+        Markup.button.callback('🇺🇿 O\'zbekiston', 'news_uzb'),
+        Markup.button.callback('🏦 Jahon Moliyasi', 'news_finance')
+      ],
+      [
+        Markup.button.callback('💼 Jahon Investitsiya', 'news_invest'),
+        Markup.button.callback('🌐 Jahon Iqtisodi', 'news_economy')
+      ],
+      [
+        Markup.button.callback('🚀 Startap Tizimi', 'news_startups')
+      ],
+      [
+        Markup.button.callback('🔙 Bozor Tahliliga', 'menu_digest'),
+        Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+      ]
+    ]);
+  },
+
+  // Yangilik bo'limi ichidagi navigatsiya (boshqa bo'limlarga o'tish)
+  newsCategoryNav(currentKey) {
+    const categories = [
+      { key: 'uzb', label: '🇺🇿 O\'zbekiston' },
+      { key: 'finance', label: '🏦 Jahon Moliyasi' },
+      { key: 'invest', label: '💼 Investitsiya' },
+      { key: 'economy', label: '🌐 Jahon Iqtisodi' },
+      { key: 'startups', label: '🚀 Startaplar' }
+    ];
+
+    const otherCats = categories.filter(c => c.key !== currentKey);
+    const navRows = [];
+
+    for (let i = 0; i < otherCats.length; i += 2) {
+      const row = [Markup.button.callback(otherCats[i].label, `news_${otherCats[i].key}`)];
+      if (otherCats[i + 1]) {
+        row.push(Markup.button.callback(otherCats[i + 1].label, `news_${otherCats[i + 1].key}`));
+      }
+      navRows.push(row);
+    }
+
+    navRows.push([
+      Markup.button.callback('📰 Yangiliklar Bosh Menyu', 'digest_news'),
+      Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+    ]);
+
+    return Markup.inlineKeyboard(navRows);
   },
 
   // Bozor tahlili bo'limlari orasida qulay o'tish navigatsiyasi
@@ -118,6 +172,19 @@ module.exports = {
       [switchBtn],
       [
         Markup.button.callback('🔙 Bozor Tahlili Menyu', 'menu_digest'),
+        Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+      ]
+    ]);
+  },
+
+  // Kun qizg'in xabari navigatsiyasi
+  hotNewsNav() {
+    return Markup.inlineKeyboard([
+      [
+        Markup.button.callback('📰 Hafta Yangiliklari', 'digest_news'),
+        Markup.button.callback('📊 Asosiy Raqamlar', 'digest_macro')
+      ],
+      [
         Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
       ]
     ]);

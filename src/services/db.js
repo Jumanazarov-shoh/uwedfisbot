@@ -225,6 +225,33 @@ module.exports = {
     return memoryDb.weekly_digest;
   },
 
+  // Kun qizg'in xabari (Hot News) ni olish
+  getHotNews() {
+    return memoryDb.hot_news || null;
+  },
+
+  // Kun qizg'in xabari (Hot News) ni yangilash
+  setHotNews(newsData) {
+    memoryDb.hot_news = {
+      id: Date.now().toString(),
+      title: newsData.title || "Kun Qizg'in Xabari",
+      date: newsData.date || new Date().toLocaleDateString('uz-UZ'),
+      content: newsData.content,
+      broadcastedAt: newsData.broadcastedAt || null,
+      updatedAt: new Date().toISOString()
+    };
+    saveDb();
+    return memoryDb.hot_news;
+  },
+
+  // Kun xabari tarqatilganini belgilash
+  markHotNewsBroadcasted() {
+    if (memoryDb.hot_news) {
+      memoryDb.hot_news.broadcastedAt = new Date().toISOString();
+      saveDb();
+    }
+  },
+
   // Ping statistikasini yangilash
   recordPing(status = 'success') {
     memoryDb.stats = memoryDb.stats || {};

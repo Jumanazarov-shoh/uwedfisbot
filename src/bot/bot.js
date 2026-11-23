@@ -7,6 +7,7 @@ const db = require('../services/db');
 const knowledge = require('./knowledge');
 const keyboards = require('./keyboards');
 const terms = require('./terms');
+const newsAgent = require('../services/newsAgent');
 const { askAI } = require('../services/ai');
 
 // Yuqori tezlikdagi HTTPS Connection Pool (TLS handshake kechikishini 80% qisqartiradi)
@@ -91,10 +92,11 @@ function setupBot() {
 Talabalar va yosh moliyachilar uchun moliya, investitsiya tahlili, keys-chempionatlar va korporativ baholash bo'yicha eng sara amaliy bilimlar markazi:
 
 • 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
+• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va 5 ta bo'limdagi yangiliklar;
+• 🔥 <b>Kun Qizg'in Xabari:</b> Har kuni ertalab avtomatik agent insaytlari;
 • 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
-• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va haftalik yangiliklar;
 • 🤖 <b>AI Assistent:</b> Moliya, baholash va keyslar bo'yicha tezkor yordam;
-• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va ikki tomonlama savollar qutisi;
 • 🏛 <b>UWED FIS Klubi:</b> Jamiyat haqida rasmiy ma'lumotlar.
 
 Quyidagi tugmalar orqali kerakli bo'limni tanlang: 🚀`;
@@ -139,10 +141,11 @@ Quyidagi tugmalar orqali kerakli bo'limni tanlang: 🚀`;
 Quyidagi bo'limlardan birini tanlang:
 
 • 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
+• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va 5 ta bo'limdagi yangiliklar;
+• 🔥 <b>Kun Qizg'in Xabari:</b> Avtomatlashtirilgan kunlik eng muhim xabarlar;
 • 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
-• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va hafta yangiliklari;
 • 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
-• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
+• 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi;`;
     await editOrReply(ctx, welcomeText, keyboards.mainInlineMenu());
   };
 
@@ -180,10 +183,41 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
   };
   bot.hears(['📊 Asosiy Makro Raqamlar', 'Asosiy Makro Raqamlar', 'Makro Raqamlar', 'Raqamlar', 'Asosiy raqamlar'], handleMacroNumbers);
 
-  const handleWeeklyNews = async (ctx) => {
-    await editOrReply(ctx, knowledge.weeklyNews, keyboards.digestSectionNav('news'));
+  // Hafta yangiliklari bosh menyusi (5 ta bo'lim)
+  const handleWeeklyNewsHub = async (ctx) => {
+    await editOrReply(ctx, knowledge.newsHub, keyboards.newsCategoriesMenu());
   };
-  bot.hears(['📰 Hafta Yangiliklari', 'Hafta Yangiliklari', 'Yangiliklar', 'Haftalik yangiliklar'], handleWeeklyNews);
+  bot.hears(['📰 Hafta Yangiliklari', 'Hafta Yangiliklari', 'Yangiliklar', 'Haftalik yangiliklar'], handleWeeklyNewsHub);
+
+  // 5 ta alohida bo'lim uchun umumiy yordamchi
+  const handleNewsCategory = async (ctx, catKey) => {
+    if (ctx.callbackQuery) await ctx.answerCbQuery();
+    const text = knowledge.newsCategories[catKey] || knowledge.newsCategories.uzb;
+    await editOrReply(ctx, text, keyboards.newsCategoryNav(catKey));
+  };
+
+  bot.hears(['🇺🇿 O\'zbekiston', 'O\'zbekiston yangiliklari', 'Ozbekiston'], (ctx) => handleNewsCategory(ctx, 'uzb'));
+  bot.hears(['🏦 Jahon Moliyasi', 'Jahon Moliyasi', 'Moliya yangiliklari'], (ctx) => handleNewsCategory(ctx, 'finance'));
+  bot.hears(['💼 Jahon Investitsiya', 'Jahon Investitsiya', 'Investitsiya yangiliklari'], (ctx) => handleNewsCategory(ctx, 'invest'));
+  bot.hears(['🌐 Jahon Iqtisodi', 'Jahon Iqtisodi', 'Iqtisodiyot yangiliklari'], (ctx) => handleNewsCategory(ctx, 'economy'));
+  bot.hears(['🚀 Startap Tizimi', 'Startap Tizimi', 'Startaplar'], (ctx) => handleNewsCategory(ctx, 'startups'));
+
+  // Kun Qizg'in Xabari (Flash Breaking News)
+  const handleHotNews = async (ctx) => {
+    await editOrReply(ctx, newsAgent.getTodayHotNews(), keyboards.hotNewsNav());
+  };
+  bot.hears(['🔥 Kun Qizg\'in Xabari', 'Kun Qizg\'in Xabari', 'Kun xabari', '🔥 Kun xabari'], handleHotNews);
+  bot.command(['hot', 'kun_xabari'], handleHotNews);
+
+  // Admin: Kun qizg'in xabarini darhol agent orqali barcha obunachilarga tarqatish
+  bot.command('send_hot', async (ctx) => {
+    const adminId = String(ctx.from?.id);
+    if (adminId !== String(config.adminTelegramId)) return;
+
+    await ctx.reply('🤖 News Agent: Kun qizg\'in xabari barcha bot foydalanuvchilariga tarqatilmoqda...');
+    const res = await newsAgent.broadcastHotNews(true);
+    await ctx.reply(`✅ Tarqatish yakunlandi!\n\nYetkazildi: ${res.successCount} ta\nXatolik: ${res.failCount} ta`);
+  });
 
   // 4. AI Moliyaviy Assistent
   bot.hears(['🤖 AI Moliyaviy Assistent', '🤖 AI Assistent', 'AI Assistent'], async (ctx) => {
@@ -344,6 +378,11 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     await editOrReply(ctx, knowledge.caseAccessRestricted, keyboards.backOnly());
   });
 
+  bot.action('menu_hot', async (ctx) => {
+    await ctx.answerCbQuery();
+    await handleHotNews(ctx);
+  });
+
   bot.action('menu_digest', async (ctx) => {
     await ctx.answerCbQuery();
     await editOrReply(ctx, knowledge.digestHub, keyboards.digestSubMenu());
@@ -356,8 +395,15 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
 
   bot.action('digest_news', async (ctx) => {
     await ctx.answerCbQuery();
-    await editOrReply(ctx, knowledge.weeklyNews, keyboards.digestSectionNav('news'));
+    await handleWeeklyNewsHub(ctx);
   });
+
+  // Hafta yangiliklarining 5 ta bo'limi inline harakatlari
+  bot.action('news_uzb', (ctx) => handleNewsCategory(ctx, 'uzb'));
+  bot.action('news_finance', (ctx) => handleNewsCategory(ctx, 'finance'));
+  bot.action('news_invest', (ctx) => handleNewsCategory(ctx, 'invest'));
+  bot.action('news_economy', (ctx) => handleNewsCategory(ctx, 'economy'));
+  bot.action('news_startups', (ctx) => handleNewsCategory(ctx, 'startups'));
 
   // Admin javob yozish tugmasini bosganda
   bot.action(/^admin_reply_(.+)$/, async (ctx) => {
@@ -532,6 +578,13 @@ ${escapeHtml(t.example || '')}
   bot.catch((err, ctx) => {
     console.error(`❌ Bot xatoligi (${ctx.updateType}):`, err.message);
   });
+
+  // Avtonom yangiliklar agentini Telegram boti bilan bog'lash
+  try {
+    newsAgent.init(bot);
+  } catch (agentErr) {
+    console.error('News agentni ishga tushirishda xato:', agentErr.message);
+  }
 
   return bot;
 }
