@@ -190,12 +190,35 @@ module.exports = {
     ]);
   },
 
+  // Anonim xabarlar markazi menyusi
+  anonHubMenu(hasMessages, latestCode) {
+    const rows = [
+      [Markup.button.callback('✍️ Yangi Anonim Xabar Yozish', 'anon_new')]
+    ];
+
+    if (hasMessages && latestCode) {
+      const clean = (latestCode || '').replace(/^#/, '');
+      rows.push([
+        Markup.button.callback('💬 Oxirgi Murojaatga Qo\'shimcha Yozish', `anon_follow_${clean}`)
+      ]);
+    }
+
+    rows.push([
+      Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+    ]);
+
+    return Markup.inlineKeyboard(rows);
+  },
+
   // Anonim murojaat qilgan foydalanuvchi uchun Follow-up tugmasi
   anonUserFollowUpMenu(code) {
     const cleanCode = (code || '').replace(/^#/, '');
     return Markup.inlineKeyboard([
       [Markup.button.callback('✍️ Qo\'shimcha xabar yozish', `anon_follow_${cleanCode}`)],
-      [Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')]
+      [
+        Markup.button.callback('📜 Mening Murojaatlarim', 'menu_anon'),
+        Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+      ]
     ]);
   },
 

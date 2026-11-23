@@ -154,6 +154,13 @@ module.exports = {
     return memoryDb.anonymous_messages || [];
   },
 
+  // Foydalanuvchining o'z anonim xabarlari tarixini olish
+  getUserAnonymousMessages(userId) {
+    if (!userId) return [];
+    const uId = String(userId);
+    return (memoryDb.anonymous_messages || []).filter(m => String(m.userId) === uId);
+  },
+
   // Anonim xabarni kodi bo'yicha topish
   getAnonymousByCode(rawCode) {
     if (!rawCode) return null;

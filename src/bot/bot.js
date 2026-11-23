@@ -240,33 +240,83 @@ Savolingizni to'g'ridan-to'g'ri yozib yuboring ✍️:`;
     await ctx.replyWithHTML(knowledge.aboutClub, keyboards.backOnly());
   });
 
-  // 6. Anonim Murojaat yuborish funksiyasi (Sodda va tushunarli)
-  const promptAnonymousMessage = async (ctx) => {
+  // 6. Anonim Murojaat bo'limi (Murojaatlar tarixi, berilgan javoblar va yangi xabar yozish)
+  const handleAnonymousSection = async (ctx) => {
     const userId = String(ctx.from?.id);
-    userStates.set(userId, 'waiting_anon_text');
+    const myMessages = db.getUserAnonymousMessages(userId);
 
-    const text = `🕵️‍♂️ <b>UWED FIS — 100% Anonim Murojaatlar Qutisi</b>
+    if (!myMessages || myMessages.length === 0) {
+      const emptyText = `🕵️‍♂️ <b>UWED FIS — 100% Anonim Murojaatlar Qutisi</b>
 
 Klub rahbariyatiga o'z fikringiz, savolingiz, tanqidingiz yoki taklifingizni <b>shaxsingizni to'liq sir saqlagan holda</b> yuborishingiz mumkin.
 
 🔒 <b>Kafolatlangan Maxfiylik:</b>
 Sizning ismingiz, familiyangiz yoki @username profilingiz bizga <b>umuman ko'rinmaydi</b>.
 
-✍️ <b>Qanday yuboriladi?</b>
-Shunchaki xabaringizni yozib jo'nating!
+💡 <i>Yuborgan xabarlaringiz va rahbariyat tomonidan qaytarilgan javoblar shu bo'limda saqlanib, doim ko'rinib turadi!</i>`;
+      return editOrReply(ctx, emptyText, keyboards.anonHubMenu(false));
+    }
 
-<i>(Agar fikringizdan qaytsangiz, pastdagi «❌ Bekor qilish» tugmasini bosing).</i>`;
+    // Foydalanuvchining avvalgi murojaatlari va rahbariyat javoblari
+    let historyText = `🕵️‍♂️ <b>UWED FIS — Sizning Anonim Murojaatlaringiz</b>\n`;
+    historyText += `🔒 <i>Shaxsingiz 100% sir saqlanadi.</i>\n━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-    await editOrReply(ctx, text, keyboards.cancelAnonInline());
+    const recent = myMessages.slice(0, 3);
+    recent.forEach((m, idx) => {
+      const createdDate = new Date(m.createdAt).toLocaleString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      historyText += `📌 <b>Murojaat: <code>${m.code}</code></b> <i>(${createdDate})</i>\n`;
+      historyText += `💬 <b>Sizning xabaringiz:</b>\n<i>"${escapeHtml(m.text)}"</i>\n`;
+
+      if (m.replies && m.replies.length > 0) {
+        historyText += `\n✅ <b>Rahbariyat javobi:</b>\n`;
+        m.replies.forEach((rep) => {
+          const repDate = new Date(rep.repliedAt).toLocaleString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+          historyText += `• <i>"${escapeHtml(rep.text)}"</i>  • <code>${repDate}</code>\n`;
+        });
+      } else {
+        historyText += `\n⏳ <b>Holat:</b> <i>Ko'rib chiqilmoqda (rahbariyat tez orada javob beradi)...</i>\n`;
+      }
+
+      if (m.follow_ups && m.follow_ups.length > 0) {
+        historyText += `\n🔄 <b>Siz yuborgan qo'shimcha xabarlar:</b>\n`;
+        m.follow_ups.forEach((f) => {
+          historyText += `• <i>"${escapeHtml(f.text)}"</i>\n`;
+        });
+      }
+
+      if (idx < recent.length - 1) {
+        historyText += `\n━━━━━━━━━━━━━━━━━━━━\n\n`;
+      }
+    });
+
+    if (myMessages.length > 3) {
+      historyText += `\n\n<i>(Jami ${myMessages.length} ta murojaatingizdan so'nggi 3 tasi ko'rsatilmoqda)</i>`;
+    }
+
+    const latestCode = myMessages[0]?.code;
+    return editOrReply(ctx, historyText, keyboards.anonHubMenu(true, latestCode));
+  };
+
+  const startNewAnonymousMessage = async (ctx) => {
+    const userId = String(ctx.from?.id);
+    userStates.set(userId, 'waiting_anon_text');
+
+    const promptText = `✍️ <b>Anonim murojaatingiz matnini yozib yuboring:</b>\n\n🔒 <i>Shaxsingiz to'liq maxfiy qoladi. Istalgan payt bekor qilishingiz mumkin.</i>`;
+    await editOrReply(ctx, promptText, keyboards.cancelAnonInline());
   };
 
   // Buyruq va matn orqali chaqirish
-  bot.command(['anonym', 'anonim', 'anon'], promptAnonymousMessage);
-  bot.hears(['🕵️‍♂️ Anonim Savol / Murojaat', 'Anonim Murojaat', 'Anonim', 'Anonim xabar'], promptAnonymousMessage);
+  bot.command(['anonym', 'anonim', 'anon'], handleAnonymousSection);
+  bot.hears(['🕵️‍♂️ Anonim Savol / Murojaat', 'Anonim Murojaat', 'Anonim', 'Anonim xabar'], handleAnonymousSection);
 
   bot.action('menu_anon', async (ctx) => {
     await ctx.answerCbQuery();
-    await promptAnonymousMessage(ctx);
+    await handleAnonymousSection(ctx);
+  });
+
+  bot.action('anon_new', async (ctx) => {
+    await ctx.answerCbQuery();
+    await startNewAnonymousMessage(ctx);
   });
 
   bot.action('cancel_anon', async (ctx) => {
@@ -488,7 +538,7 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
       const item = db.saveAnonymousMessage(userId, text);
       ctx.deleteMessage().catch(() => {});
 
-      const userConfirm = `✅ <b>Anonim murojaatingiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${item.code}</code>\n🔒 <i>Sizning shaxsingiz to'liq sir saqlandi.</i>\n\nKlub rahbariyati xabaringizni ko'rib chiqadi va bot orqali ushbu chatga javob qaytaradi.`;
+      const userConfirm = `✅ <b>Anonim murojaatingiz muvaffaqiyatli qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${item.code}</code>\n⏰ Yuborilgan vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Siz yuborgan xabar:</b>\n<i>"${escapeHtml(text)}"</i>\n\n🔒 <i>Shaxsingiz 100% sir saqlandi.</i>\n\nRahbariyat javobi ushbu chatga yetkaziladi hamda <b>«🕵️‍♂️ Anonim Murojaat»</b> bo'limida ham doim saqlanib turadi.`;
       await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(item.code));
 
       if (config.adminTelegramId) {
@@ -516,7 +566,7 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
       db.addFollowUpByCode(code, text);
       ctx.deleteMessage().catch(() => {});
 
-      const userConfirm = `✅ <b>Qo'shimcha xabaringiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${code}</code>\n🔒 <i>Xabaringiz klub rahbariyatiga yetkazildi.</i>`;
+      const userConfirm = `✅ <b>Qo'shimcha xabaringiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Yuborilgan qo'shimcha xabar:</b>\n<i>"${escapeHtml(text)}"</i>\n\n🔒 <i>Xabaringiz klub rahbariyatiga yetkazildi.</i>`;
       await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(code));
 
       if (config.adminTelegramId) {
