@@ -92,7 +92,7 @@ Talabalar va yosh moliyachilar uchun moliya, investitsiya tahlili, keys-chempion
 
 • 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
 • 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
-• 📰 <b>Haftalik Tahlil:</b> O'zbekiston fond bozori (UZSE) va xalqaro moliya yangiliklari;
+• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va haftalik yangiliklar;
 • 🤖 <b>AI Assistent:</b> Moliya, baholash va keyslar bo'yicha tezkor yordam;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi;
 • 🏛 <b>UWED FIS Klubi:</b> Jamiyat haqida rasmiy ma'lumotlar.
@@ -125,8 +125,8 @@ Quyidagi tugmalar orqali kerakli bo'limni tanlang: 🚀`;
 
 1. <b>Terminlarni qidirish:</b> Istalgan moliyaviy so'zni to'g'ridan-to'g'ri chatga yozing (masalan: <i>"YaIM", "WACC", "EBITDA", "LBO", "MECE"</i>) — bot uning formulasi va hayotiy misolini chiqarib beradi.
 2. <b>Keyslar bo'limi:</b> Hozircha kirish ruxsati yo'q, Vertex Case chempionati tugagandan keyin to'liq e'lon qilinadi.
-3. <b>Bozor tahlili:</b> «📰 Haftalik Bozor Tahlili» bo'limida MB stavkasi, YaIM, inflyatsiya va xalqaro bozor sharhlarini o'qing.
-4. <b>Anonim savol:</b> «🕵️‍♂️ Anonim Murojaat» tugmasini bosib, klub rahbariyatiga shaxsingizni yashirgan holda xabar yuborishingiz mumkin.
+3. <b>Bozor tahlili:</b> «📊 Bozor Tahlili» bo'limida Asosiy makro raqamlar va hafta yangiliklarini alohida o'qing.
+4. <b>Anonim savol:</b> «🕵️‍♂️ Anonim Murojaat» tugmasini bosib, klub rahbariyatiga shaxsingizni yashirgan holda xabar yuborishingiz mumkin (va rahbariyat javobiga follow-up yozishingiz mumkin).
 5. <b>Bosh menyu:</b> Istalgan paytda /menu yozing yoki tugmalardan foydalaning.`;
     await ctx.replyWithHTML(helpText, keyboards.mainInlineMenu());
   });
@@ -140,7 +140,7 @@ Quyidagi bo'limlardan birini tanlang:
 
 • 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
 • 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
-• 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
+• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va hafta yangiliklari;
 • 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
     await editOrReply(ctx, welcomeText, keyboards.mainInlineMenu());
@@ -168,15 +168,22 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     await ctx.replyWithHTML(knowledge.caseAccessRestricted, keyboards.backOnly());
   });
 
-  // 3. Haftalik Bozor Tahlili
-  bot.hears(['📰 Haftalik Bozor Tahlili', 'Bozor Tahlili'], async (ctx) => {
-    const customDigest = db.getWeeklyDigest();
-    let text = knowledge.defaultWeeklyDigest;
-    if (customDigest && customDigest.content) {
-      text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
-    }
-    await ctx.replyWithHTML(text, keyboards.backOnly());
-  });
+  // 3. Bozor Tahlili (Asosiy Raqamlar va Hafta Yangiliklari)
+  const handleDigestMenu = async (ctx) => {
+    await editOrReply(ctx, knowledge.digestHub, keyboards.digestSubMenu());
+  };
+
+  bot.hears(['📊 Bozor Tahlili', '📰 Bozor Tahlili', 'Bozor Tahlili', 'Bozor', '📰 Haftalik Bozor Tahlili'], handleDigestMenu);
+
+  const handleMacroNumbers = async (ctx) => {
+    await editOrReply(ctx, knowledge.macroNumbers, keyboards.digestSectionNav('macro'));
+  };
+  bot.hears(['📊 Asosiy Makro Raqamlar', 'Asosiy Makro Raqamlar', 'Makro Raqamlar', 'Raqamlar', 'Asosiy raqamlar'], handleMacroNumbers);
+
+  const handleWeeklyNews = async (ctx) => {
+    await editOrReply(ctx, knowledge.weeklyNews, keyboards.digestSectionNav('news'));
+  };
+  bot.hears(['📰 Hafta Yangiliklari', 'Hafta Yangiliklari', 'Yangiliklar', 'Haftalik yangiliklar'], handleWeeklyNews);
 
   // 4. AI Moliyaviy Assistent
   bot.hears(['🤖 AI Moliyaviy Assistent', '🤖 AI Assistent', 'AI Assistent'], async (ctx) => {
@@ -316,7 +323,7 @@ Quyidagi bo'limlardan birini tanlang yoki pastki tugmalardan foydalaning:
 
 • 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formula va misollar;
 • 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
-• 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
+• 📊 <b>Bozor Tahlili:</b> Asosiy makro raqamlar va hafta yangiliklari;
 • 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
 
@@ -339,12 +346,45 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
 
   bot.action('menu_digest', async (ctx) => {
     await ctx.answerCbQuery();
-    const customDigest = db.getWeeklyDigest();
-    let text = knowledge.defaultWeeklyDigest;
-    if (customDigest && customDigest.content) {
-      text = `📊 <b>${escapeHtml(customDigest.title)}</b>\n🗓 <i>Sana: ${customDigest.date}</i>\n\n${customDigest.content}`;
+    await editOrReply(ctx, knowledge.digestHub, keyboards.digestSubMenu());
+  });
+
+  bot.action('digest_macro', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.macroNumbers, keyboards.digestSectionNav('macro'));
+  });
+
+  bot.action('digest_news', async (ctx) => {
+    await ctx.answerCbQuery();
+    await editOrReply(ctx, knowledge.weeklyNews, keyboards.digestSectionNav('news'));
+  });
+
+  // Admin javob yozish tugmasini bosganda
+  bot.action(/^admin_reply_(.+)$/, async (ctx) => {
+    await ctx.answerCbQuery();
+    const adminId = String(ctx.from?.id);
+    if (adminId !== String(config.adminTelegramId)) {
+      return ctx.reply('⚠️ Ushbu amal faqat administrator uchun!');
     }
-    await editOrReply(ctx, text, keyboards.backOnly());
+
+    const rawCode = ctx.match[1];
+    const code = rawCode.startsWith('#') ? rawCode : `#${rawCode}`;
+    userStates.set(adminId, { state: 'admin_typing_reply', code });
+
+    const promptText = `✍️ <b><code>${code}</code> murojaatiga javobingizni yozing:</b>\n\n<i>(Yozgan xabaringiz to'g'ridan-to'g'ri anonim foydalanuvchiga yetkaziladi).</i>`;
+    await ctx.replyWithHTML(promptText, keyboards.cancelAnonInline());
+  });
+
+  // Foydalanuvchi Follow-up (qo'shimcha xabar) yozish tugmasini bosganda
+  bot.action(/^anon_follow_(.+)$/, async (ctx) => {
+    await ctx.answerCbQuery();
+    const userId = String(ctx.from?.id);
+    const rawCode = ctx.match[1];
+    const code = rawCode.startsWith('#') ? rawCode : `#${rawCode}`;
+    userStates.set(userId, { state: 'waiting_anon_followup', code });
+
+    const promptText = `✍️ <b><code>${code}</code> murojaatingizga qo'shimcha xabarni yozing:</b>\n\n<i>Shaxsingiz to'liq sir saqlangan holda klub rahbariyatiga yetkaziladi.</i>`;
+    await editOrReply(ctx, promptText, keyboards.cancelAnonInline());
   });
 
   bot.action('menu_ai', async (ctx) => {
@@ -366,34 +406,82 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
     if (text.startsWith('/')) return;
 
     const userId = String(ctx.from?.id);
+    const userState = userStates.get(userId);
+    const replyTextToSearch = ctx.message.reply_to_message?.text || '';
+    const isAdmin = String(userId) === String(config.adminTelegramId);
 
-    // Anonim xabar yozish holati
-    if (userStates.get(userId) === 'waiting_anon_text') {
+    // 1. Admin javob qaytarishi (Inline tugma yoki Telegram "Reply" orqali)
+    const isAdminState = isAdmin && userState && typeof userState === 'object' && userState.state === 'admin_typing_reply';
+    const isAdminNativeReply = isAdmin && replyTextToSearch.match(/#ANON-\d+/i);
+
+    if (isAdminState || isAdminNativeReply) {
+      const code = isAdminState ? userState.code : replyTextToSearch.match(/#ANON-\d+/i)[0].toUpperCase();
+      userStates.delete(userId);
+
+      const updatedMsg = db.replyAnonymousByCode(code, text);
+      if (updatedMsg && updatedMsg.userId) {
+        try {
+          const userReplyNotice = `📩 <b>UWED FIS Rahbariyatidan Javob!</b>\n\n📌 Murojaat kodi: <code>${code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Javob matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n💡 <i>Agar rahbariyatga qo'shimcha savol yoki ma'lumot jo'natmoqchi bo'lsangiz, ushbu xabarga «Reply» qiling yoki pastdagi tugmani bosing:</i>`;
+          await bot.telegram.sendMessage(updatedMsg.userId, userReplyNotice, {
+            parse_mode: 'HTML',
+            ...keyboards.anonUserFollowUpMenu(code)
+          });
+          return ctx.replyWithHTML(`✅ <b><code>${code}</code></b> murojaatiga javobingiz muallifga muvaffaqiyatli yetkazildi!`);
+        } catch (sendErr) {
+          console.warn('Foydalanuvchiga javob yetkazishda xato:', sendErr.message);
+          return ctx.replyWithHTML(`⚠️ <b><code>${code}</code></b> murojaati muallifiga xabar yetkazib bo'lmadi (foydalanuvchi botni bloklagan bo'lishi mumkin).`);
+        }
+      } else {
+        return ctx.replyWithHTML(`⚠️ <b><code>${code}</code></b> kodi bo'yicha murojaat topilmadi.`);
+      }
+    }
+
+    // 2. Foydalanuvchi yangi anonim xabar yozishi
+    if (userState === 'waiting_anon_text') {
       userStates.delete(userId);
       const item = db.saveAnonymousMessage(userId, text);
       ctx.deleteMessage().catch(() => {});
 
-      const userConfirm = `✅ <b>Anonim murojaatingiz qabul qilindi!</b>
-
-📌 Murojaat kodi: <code>${item.code}</code>
-🔒 <i>Sizning shaxsingiz to'liq sir saqlandi.</i>
-
-Klub rahbariyati xabaringizni ko'rib chiqadi va bot orqali javob qaytaradi.`;
-
-      await ctx.replyWithHTML(userConfirm, keyboards.mainInlineMenu());
+      const userConfirm = `✅ <b>Anonim murojaatingiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${item.code}</code>\n🔒 <i>Sizning shaxsingiz to'liq sir saqlandi.</i>\n\nKlub rahbariyati xabaringizni ko'rib chiqadi va bot orqali ushbu chatga javob qaytaradi.`;
+      await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(item.code));
 
       if (config.adminTelegramId) {
         try {
-          const adminNotice = `🕵️‍♂️ <b>Yangi Anonim Murojaat!</b>
-
-📌 Kod: <code>${item.code}</code>
-⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}
-
-💬 <b>Xabar matni:</b>
-<i>"${escapeHtml(text)}"</i>`;
-          await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, { parse_mode: 'HTML' });
+          const adminNotice = `🕵️‍♂️ <b>Yangi Anonim Murojaat!</b>\n\n📌 Kod: <code>${item.code}</code>\n⏰ Sana: ${new Date().toLocaleString('uz-UZ')}\n\n💬 <b>Xabar matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n👇 <b>Javob berish uchun:</b>\nUshbu xabarga <b>«Ответить» (Reply)</b> qiling yoki pastdagi tugmani bosing:`;
+          await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, {
+            parse_mode: 'HTML',
+            ...keyboards.adminReplyButton(item.code)
+          });
         } catch (adminErr) {
           console.warn('Adminga anonim xabar yetkazishda xato:', adminErr.message);
+        }
+      }
+      return;
+    }
+
+    // 3. Foydalanuvchi follow-up (qo'shimcha xabar) yuborishi
+    const isUserFollowUpState = userState && typeof userState === 'object' && userState.state === 'waiting_anon_followup';
+    const isUserReplyFollowUp = replyTextToSearch.match(/#ANON-\d+/i) && !isAdmin;
+
+    if (isUserFollowUpState || isUserReplyFollowUp) {
+      const code = isUserFollowUpState ? userState.code : replyTextToSearch.match(/#ANON-\d+/i)[0].toUpperCase();
+      userStates.delete(userId);
+
+      db.addFollowUpByCode(code, text);
+      ctx.deleteMessage().catch(() => {});
+
+      const userConfirm = `✅ <b>Qo'shimcha xabaringiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${code}</code>\n🔒 <i>Xabaringiz klub rahbariyatiga yetkazildi.</i>`;
+      await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(code));
+
+      if (config.adminTelegramId) {
+        try {
+          const adminNotice = `💬 <b>Anonim Murojaatga Qo'shimcha Xabar (Follow-up)!</b>\n\n📌 Kod: <code>${code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Yangi xabar matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n👇 <b>Javob berish uchun:</b>\nUshbu xabarga <b>«Ответить» (Reply)</b> qiling yoki pastdagi tugmani bosing:`;
+          await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, {
+            parse_mode: 'HTML',
+            ...keyboards.adminReplyButton(code)
+          });
+        } catch (adminErr) {
+          console.warn('Adminga follow-up yetkazishda xato:', adminErr.message);
         }
       }
       return;

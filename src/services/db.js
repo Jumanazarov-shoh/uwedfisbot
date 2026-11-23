@@ -154,7 +154,45 @@ module.exports = {
     return memoryDb.anonymous_messages || [];
   },
 
-  // Anonim xabarga javob qaytarish
+  // Anonim xabarni kodi bo'yicha topish
+  getAnonymousByCode(rawCode) {
+    if (!rawCode) return null;
+    const clean = rawCode.trim().toUpperCase();
+    const formatted = clean.startsWith('#') ? clean : `#${clean}`;
+    return (memoryDb.anonymous_messages || []).find(m => m.code && m.code.toUpperCase() === formatted);
+  },
+
+  // Anonim xabarga javob qaytarish (kod bo'yicha)
+  replyAnonymousByCode(rawCode, replyText) {
+    const msg = this.getAnonymousByCode(rawCode);
+    if (!msg) return null;
+
+    msg.replies = msg.replies || [];
+    msg.replies.push({
+      text: replyText,
+      repliedAt: new Date().toISOString()
+    });
+    msg.status = 'replied';
+    saveDb();
+    return msg;
+  },
+
+  // Anonim xabarga follow-up (qo'shimcha xabar) qo'shish
+  addFollowUpByCode(rawCode, followUpText) {
+    const msg = this.getAnonymousByCode(rawCode);
+    if (!msg) return null;
+
+    msg.follow_ups = msg.follow_ups || [];
+    msg.follow_ups.push({
+      text: followUpText,
+      sentAt: new Date().toISOString()
+    });
+    msg.status = 'follow_up';
+    saveDb();
+    return msg;
+  },
+
+  // Anonim xabarga javob qaytarish (ID bo'yicha)
   replyAnonymousMessage(id, replyText) {
     memoryDb.anonymous_messages = memoryDb.anonymous_messages || [];
     const msg = memoryDb.anonymous_messages.find(m => m.id === id);

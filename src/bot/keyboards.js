@@ -10,7 +10,7 @@ module.exports = {
       ],
       [
         Markup.button.callback('🔒 Vertex Keyslar (Yopiq)', 'menu_vertex'),
-        Markup.button.callback('📰 Haftalik Bozor Tahlili', 'menu_digest')
+        Markup.button.callback('📊 Bozor Tahlili', 'menu_digest')
       ],
       [
         Markup.button.callback('🤖 AI Moliyaviy Assistent', 'menu_ai'),
@@ -92,6 +92,51 @@ module.exports = {
       [
         Markup.button.callback('🔙 Asosiy Menyuga Qaytish', 'back_to_main')
       ]
+    ]);
+  },
+
+  // Bozor tahlili ichki bo'limlari (Asosiy raqamlar & Hafta yangiliklari)
+  digestSubMenu() {
+    return Markup.inlineKeyboard([
+      [
+        Markup.button.callback('📊 Asosiy Makro Raqamlar', 'digest_macro'),
+        Markup.button.callback('📰 Hafta Yangiliklari', 'digest_news')
+      ],
+      [
+        Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+      ]
+    ]);
+  },
+
+  // Bozor tahlili bo'limlari orasida qulay o'tish navigatsiyasi
+  digestSectionNav(currentSection) {
+    const switchBtn = currentSection === 'macro'
+      ? Markup.button.callback('📰 Hafta Yangiliklariga O\'tish ➔', 'digest_news')
+      : Markup.button.callback('📊 Asosiy Raqamlarga O\'tish ➔', 'digest_macro');
+
+    return Markup.inlineKeyboard([
+      [switchBtn],
+      [
+        Markup.button.callback('🔙 Bozor Tahlili Menyu', 'menu_digest'),
+        Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')
+      ]
+    ]);
+  },
+
+  // Anonim murojaat qilgan foydalanuvchi uchun Follow-up tugmasi
+  anonUserFollowUpMenu(code) {
+    const cleanCode = (code || '').replace(/^#/, '');
+    return Markup.inlineKeyboard([
+      [Markup.button.callback('✍️ Qo\'shimcha xabar yozish', `anon_follow_${cleanCode}`)],
+      [Markup.button.callback('🏠 Bosh Menyu', 'back_to_main')]
+    ]);
+  },
+
+  // Admin uchun javob berish tugmasi
+  adminReplyButton(code) {
+    const cleanCode = (code || '').replace(/^#/, '');
+    return Markup.inlineKeyboard([
+      [Markup.button.callback('✍️ Javob qaytarish', `admin_reply_${cleanCode}`)]
     ]);
   },
 

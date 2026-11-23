@@ -163,26 +163,98 @@ Duolingo oylik 80+ million aktiv o'quvchilarga ega, ammo ularning atigi 8.6% i p
     }
   },
 
-  defaultWeeklyDigest: `📊 <b>UWED FIS — Haftalik Bozor Tahlili (Weekly Market Digest)</b>
+  // Bozor tahlili markazi (Bosh menyu)
+  digestHub: `📊 <b>UWED FIS — Bozor Tahlili va Makroiqtisodiyot Markazi</b>
 🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
 
-🏛 <b>1. O'ZBEKISTON MAKROIQTISODIYOTI & BOZORI:</b>
-• <b>MB Asosiy stavkasi:</b> 14.0% (Inflyatsion kutilmalarni jilovlash maqsadida 13.5% dan 14.0% ga oshirilgan va qat'iy pul-kredit siyosati davom etmoqda);
-• <b>Inflyatsiya ko'rsatkichlari:</b> Umumiy inflyatsiya 7.3% gacha pasaydi (2024-yildagi 9.8% dan), bazaviy inflyatsiya esa 5.7% (2026-yil kutilmasi: ~6.5%);
-• <b>YaIM (GDP):</b> $147 mlrd (+7.7% yuqori o'sish sur'ati), aholi jon boshiga $3,846 (2026-yil prognozi: 6.5–7.0%);
-• <b>Valyuta dinamikasi:</b> So'm kursi barqarorlashgan, 12,242 – 12,800 so'm/USD koridorida shakllanmoqda;
-• <b>Tashqi savdo & Investitsiyalar:</b> Jami tashqi savdo $81.2 mlrd (+20.7%), eksport $33.8 mlrd (oltin ulushi ~30%), import $47.3 mlrd, xizmatlar eksporti $9.8 mlrd (+28.9%). Jami o'zlashtirilgan investitsiyalar $43.1 mlrd (+24%), to'g'ridan-to'g'ri xorijiy investitsiyalar (FDI) $38.2 mlrd;
-• <b>Toshkent RFB (UZSE):</b> Bank va energetika sektori aksiyalarida faollik kuzatilmoqda. IPO va xususiylashtirish dasturlari tahlilchilar diqqat markazida.
+Bozor tahlili bo'limiga xush kelibsiz! O'qishga qulay bo'lishi uchun ma'lumotlar ikkita mustaqil yo'nalishga ajratildi:
 
-🌐 <b>2. GLOBAL BOZORLAR (Wall Street & Xalqaro):</b>
-• <b>AQSH Federal Rezervi (Fed):</b> Mehnat bozori va inflyatsiya ko'rsatkichlariga ko'ra foiz stavkalarini pasaytirish siklida;
-• <b>S&P 500 & Nasdaq:</b> AI va yarimo'tkazgichlar drayverligida 5,900+ punkt darajasida barqaror;
-• <b>Xomashyo & Oltin:</b> Brent nefti $72–$75/bbl koridorida, Oltin (XAU/USD) xavfsiz aktiv sifatida talabda ($2,650–$2,700/oz).
+📊 <b>1. Asosiy Makro Raqamlar</b>
+O'zbekistonning YaIM, Markaziy bank stavkasi, inflyatsiya (CPI), so'm kursi, tashqi savdo, oltin ulushi va investitsiyalar bo'yicha eng so'nggi rasmiy statistik ko'rsatkichlari.
 
-💡 <b>3. VERTEX TAHLILCHI MASLAHATI:</b>
-• "Keys yechishda SWOT yoki PESTEL kabi umumiy shablonlarni yozmang. Aniq makroiqtisodiy raqamlar, byudjet cheklovlari va moliyaviy formulalar bilan tahlil qiling!"
+📰 <b>2. Hafta Yangiliklari</b>
+Toshkent Fond Birjasi (UZSE), xalqaro moliya bozorlari (Fed, S&P 500), oltin va neft dinamikasi hamda Vertex keyslari uchun tahlilchi xulosalari.
 
-📱 <i>UWED FIS rasmiy kanali: https://t.me/uwed_fis</i>`,
+👇 <i>Kerakli bo'limni tanlang:</i>`,
+
+  // 1-Bo'lim: Asosiy Makro Raqamlar (O'ta qulay mobil formatda)
+  macroNumbers: `📊 <b>O'ZBEKISTONNING ASOSIY MAKRO RAQAMLARI</b>
+🗓 <i>Davr: 2025-yil yakunlari & 2026-yil prognozlari</i>
+━━━━━━━━━━━━━━━━━━━━
+
+🏛 <b>1. Markaziy Bank Asosiy Stavkasi</b>
+├ • <b>Amaldagi stavka:</b> <code>14.0%</code>
+├ • <b>Holat:</b> Qat'iy pul-kredit siyosati
+└ • <b>Maqsad:</b> Inflyatsiyani jilovlash va narxlar barqarorligi
+
+📈 <b>2. Yalpi Ichki Mahsulot (YaIM / GDP)</b>
+├ • <b>YaIM hajmi:</b> <code>$147.0 mlrd</code> (+7.7% yuqori o'sish)
+├ • <b>Aholi jon boshiga:</b> <code>$3,846</code>
+└ • <b>2026 prognozi:</b> <code>6.5% – 7.0%</code> barqaror o'sish
+
+🎯 <b>3. Inflyatsiya Ko'rsatkichlari (CPI)</b>
+├ • <b>Yillik umumiy inflyatsiya:</b> <code>7.3%</code> (2024-yildagi 9.8% dan pasaygan)
+├ • <b>Bazaviy inflyatsiya:</b> <code>5.7%</code>
+└ • <b>2026-yil kutilmasi:</b> <code>~6.5%</code> atrofida
+
+💱 <b>4. Valyuta Kursi (USD / UZS)</b>
+├ • <b>Bozor koridori:</b> <code>12,242 – 12,800 so'm</code>
+├ • <b>Trend:</b> Oltin tushumlari va qat'iy stavka hisobiga barqaror
+└ • <b>2026 kutilmasi:</b> Keskin siljishlarsiz mo''tadil dinamika
+
+🌐 <b>5. Tashqi Savdo Aylanmasi</b>
+├ • <b>Jami savdo:</b> <code>$81.2 mlrd</code> (+20.7%)
+├ • <b>Eksport:</b> <code>$33.8 mlrd</code> (+24%)
+├ • <b>Oltin eksporti ulushi:</b> Eksportning <code>~30%</code> qismi
+├ • <b>Import hajmi:</b> <code>$47.3 mlrd</code> (+18.5%)
+└ • <b>Xizmatlar eksporti:</b> <code>$9.8 mlrd</code> (+28.9%)
+
+💼 <b>6. Investitsiyalar Oqimi</b>
+├ • <b>O'zlashtirilgan jami:</b> <code>$43.1 mlrd</code> (+24%)
+├ • <b>To'g'ridan-to'g'ri xorijiy (FDI):</b> <code>$38.2 mlrd</code>
+└ • <b>Xalqaro institutlar:</b> <code>$4.9 mlrd</code>
+
+⚖️ <b>7. Davlat Byudjeti Taqchilligi</b>
+└ • <b>2026 chegarasi:</b> YaIMning <code>3.0%</code> miqdorida (O'RQ-1105)
+━━━━━━━━━━━━━━━━━━━━
+📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
+
+  // 2-Bo'lim: Hafta Yangiliklari (O'ta qulay mobil formatda)
+  weeklyNews: `📰 <b>HAFTALIK BOZOR VA MOLIYA YANGILIKLARI</b>
+🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
+━━━━━━━━━━━━━━━━━━━━
+
+🇺🇿 <b>1. O'ZBEKISTON MOLIYAVIY BOZORI:</b>
+
+• <b>Bank sektori va Jamg'armalar:</b>
+Markaziy bankning 14.0% lik qat'iy stavkasi milliy valyutadagi depozitlarni jozibador qilib, inflyatsiyani 7.3% ga tushirishga xizmat qilmoqda. Aholi va biznes jamg'armalari barqaror o'smoqda.
+
+• <b>Toshkent Fond Birjasi (UZSE):</b>
+Bank (SQB, Ipoteka-bank) va energetika sektori emitentlari aksiyalarida savdo faolligi yuqori. Yangi xususiylashtirish va IPO/SPO dasturlari institutsional investorlar diqqat markazida.
+
+🌐 <b>2. GLOBAL BOZORLAR (WALL STREET & XALQARO):</b>
+
+• <b>AQSH Federal Rezervi (Fed):</b>
+Inflyatsiya va bandlik indikatorlariga mos ravishda stavkalarni asta-sekin pasaytirish siklida davom etmoqda; jahon bozorlarida dollar indeksi (DXY) mo''tadil tebranmoqda.
+
+• <b>S&P 500 va Nasdaq:</b>
+AI, ma'lumotlar markazlari va yarimo'tkazgichlar (Nvidia, TSMC, Microsoft) sektori yetakchiligida <code>5,900+</code> punkt darajasida mustahkam saqlanmoqda.
+
+🟡 <b>3. XOMASHYO VA QIYMATLI METALLAR:</b>
+
+• <b>Oltin (XAU/USD):</b>
+Geosiyosiy vaziyat va markaziy banklarning doimiy zaxira xaridlari hisobiga <code>$2,650 – $2,700/untsiya</code> oralig'ida savdo qilinmoqda. Bu O'zbekistonning valyuta zaxiralarini mustahkamlaydi.
+
+• <b>Brent Nefti:</b>
+OPEK+ qazib olish cheklovlari va jahon sanoat talabi fonida <code>$72 – $75/barrel</code> koridorida muvozanatlashgan.
+
+━━━━━━━━━━━━━━━━━━━━
+💡 <b>VERTEX TAHLILCHI MASLAHATI:</b>
+<i>"Keys yechishda SWOT yoki PESTEL kabi quruq shablonlarni chetga suring. Moliyaviy model tuzishda 14% stavka sharoitida qarz qiymati (Cost of Debt), WACC va erkin pul oqimlari (FCF) intizomiga tayaning!"</i>
+
+📱 <i>UWED FIS rasmiy kanali: @uwed_fis</i>`,
+
+  defaultWeeklyDigest: `📊 <b>UWED FIS — Bozor Tahlili Markazi</b>`,
 
   valuationInfo: `📊 <b>UWED FIS — Korporativ Baholash (Valuation) Bazasiga Xush Kelibsiz!</b>
 
