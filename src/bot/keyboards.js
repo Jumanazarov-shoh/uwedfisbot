@@ -9,7 +9,7 @@ module.exports = {
         Markup.button.callback('📚 Moliya & Iqtisodiyot Lug\'ati', 'menu_terms')
       ],
       [
-        Markup.button.callback('🏆 Vertex Keyslar Arxiv (PDF)', 'menu_vertex'),
+        Markup.button.callback('🔒 Vertex Keyslar (Yopiq)', 'menu_vertex'),
         Markup.button.callback('📰 Haftalik Bozor Tahlili', 'menu_digest')
       ],
       [

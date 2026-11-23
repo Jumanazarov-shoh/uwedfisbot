@@ -91,7 +91,7 @@ function setupBot() {
 Talabalar va yosh moliyachilar uchun moliya, investitsiya tahlili, keys-chempionatlar va korporativ baholash bo'yicha eng sara amaliy bilimlar markazi:
 
 • 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
-• 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbek tilidagi PDF keyslar va hakamlar etalon yechimlari;
+• 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston fond bozori (UZSE) va xalqaro moliya yangiliklari;
 • 🤖 <b>AI Assistent:</b> Moliya, baholash va keyslar bo'yicha tezkor yordam;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar qutisi;
@@ -124,8 +124,8 @@ Quyidagi tugmalar orqali kerakli bo'limni tanlang: 🚀`;
     const helpText = `📖 <b>UWED FIS Botidan Foydalanish Qo'llanmasi:</b>
 
 1. <b>Terminlarni qidirish:</b> Istalgan moliyaviy so'zni to'g'ridan-to'g'ri chatga yozing (masalan: <i>"YaIM", "WACC", "EBITDA", "LBO", "MECE"</i>) — bot uning formulasi va hayotiy misolini chiqarib beradi.
-2. <b>Keyslarni yuklab olish:</b> «🏆 Vertex Keyslar Arxiv» bo'limiga kiring va xohlagan keysingizni tanlang — bot rasmiy PDF kitobchani tashlab beradi.
-3. <b>Bozor tahlili:</b> «📰 Haftalik Bozor Tahlili» bo'limida MB stavkasi, UZSE va xalqaro bozor sharhlarini o'qing.
+2. <b>Keyslar bo'limi:</b> Hozircha kirish ruxsati yo'q, Vertex Case chempionati tugagandan keyin to'liq e'lon qilinadi.
+3. <b>Bozor tahlili:</b> «📰 Haftalik Bozor Tahlili» bo'limida MB stavkasi, YaIM, inflyatsiya va xalqaro bozor sharhlarini o'qing.
 4. <b>Anonim savol:</b> «🕵️‍♂️ Anonim Murojaat» tugmasini bosib, klub rahbariyatiga shaxsingizni yashirgan holda xabar yuborishingiz mumkin.
 5. <b>Bosh menyu:</b> Istalgan paytda /menu yozing yoki tugmalardan foydalaning.`;
     await ctx.replyWithHTML(helpText, keyboards.mainInlineMenu());
@@ -139,7 +139,7 @@ Quyidagi tugmalar orqali kerakli bo'limni tanlang: 🚀`;
 Quyidagi bo'limlardan birini tanlang:
 
 • 📚 <b>Moliya & Iqtisodiyot Lug'ati:</b> Makro, Mikro, Moliya, Boshqaruv hisobi va Menejment;
-• 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
+• 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
 • 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
@@ -160,9 +160,12 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     await ctx.replyWithHTML(text, keyboards.termsMenu());
   });
 
-  // 2. Vertex Keyslar Arxiv
-  bot.hears(['🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi', 'Vertex Keyslar'], async (ctx) => {
-    await ctx.replyWithHTML(knowledge.vertexInfo, keyboards.vertexMenu());
+  // 2. Vertex Keyslar Arxiv (Hozircha yopiq)
+  bot.hears([
+    '🏆 Vertex Keyslar Arxiv', '🏆 Vertex Keys Metodikasi', 'Vertex Keyslar',
+    'Keyslar', 'Keys', 'keyslar', 'keys', 'Vertex', 'vertex'
+  ], async (ctx) => {
+    await ctx.replyWithHTML(knowledge.caseAccessRestricted, keyboards.backOnly());
   });
 
   // 3. Haftalik Bozor Tahlili
@@ -288,62 +291,20 @@ ${escapeHtml(foundTerm.example || '')}
     }
   });
 
-  // ------------------- INLINE CALLBACKS: VERTEX KEYSLARI VA PDF -------------------
-  async function sendCase(ctx, caseKey) {
-    await ctx.answerCbQuery('Keys yuklanmoqda...');
-    const caseItem = knowledge.casesData[caseKey];
-    if (!caseItem) return;
-
-    // 1. Matnli xulosani xabar o'rnida yangilash
-    await editOrReply(ctx, caseItem.summary, keyboards.vertexMenu());
-
-    // 2. Telegram CDN'dagi rasmiy PDF faylini yuborish (Instant 0.05s)
-    const fileId = TELEGRAM_CASE_FILE_IDS[caseKey];
-    if (fileId) {
-      try {
-        await ctx.replyWithDocument(fileId, {
-          caption: `📄 <b>${caseItem.title}</b>\n\n📌 <i>Format: ${caseItem.format}</i>\n🎯 <i>Daraja: ${caseItem.difficulty}</i>\n\nO'qib chiqish va chop etish uchun rasmiy o'zbekcha PDF hujjati.`,
-          parse_mode: 'HTML'
-        });
-      } catch (err) {
-        console.warn(`[SendDocument Error: ${caseKey}]:`, err.message);
-      }
-    }
+  // ------------------- INLINE CALLBACKS: VERTEX KEYSLARI (CHEKLANGAN) -------------------
+  async function sendCaseRestricted(ctx) {
+    await ctx.answerCbQuery('Hozircha kirish ruxsati yo\'q');
+    await editOrReply(ctx, knowledge.caseAccessRestricted, keyboards.backOnly());
   }
 
-  bot.action('vtx_toyota', (ctx) => sendCase(ctx, 'toyota'));
-  bot.action('vtx_amazon', (ctx) => sendCase(ctx, 'amazon'));
-  bot.action('vtx_tbc', (ctx) => sendCase(ctx, 'tbc'));
-  bot.action('vtx_spotify', (ctx) => sendCase(ctx, 'spotify'));
-  bot.action('vtx_ikea', (ctx) => sendCase(ctx, 'ikea'));
-  bot.action('vtx_duolingo', (ctx) => sendCase(ctx, 'duolingo'));
-
-  bot.action('vtx_mece', async (ctx) => {
-    await ctx.answerCbQuery();
-    const text = `📌 <b>MECE (Mutually Exclusive, Collectively Exhaustive) Tahlili:</b>
-
-1. <b>Mutually Exclusive (O'zaro bir-birini inkor etuvchi):</b>
-   Takrorlanish bo'lmasligi kerak. Muammoni qismlarga ajratganda, bir fikr ikkinchi fikrni ichiga kirmasligi shart.
-2. <b>Collectively Exhaustive (Birgalikda to'liq qamrab oluvchi):</b>
-   Hech qanday muhim omil tashqarida qolib ketmasligi kerak.
-
-💡 <b>Masalan, kompaniya foydasini oshirish:</b>
-• Daromadni oshirish (Narx × Miqdor);
-• Xarajatlarni kamaytirish (O'zgarmas xarajatlar + O'zgaruvchan xarajatlar).`;
-    await editOrReply(ctx, text, keyboards.vertexMenu());
-  });
-
-  bot.action('vtx_tam', async (ctx) => {
-    await ctx.answerCbQuery();
-    const text = `🎯 <b>TAM / SAM / SOM Tahlili:</b>
-
-• <b>TAM:</b> Butun dunyo yoki mintaqadagi mahsulotga bo'lgan 100% talab hajmi;
-• <b>SAM:</b> Sizning texnologiyangiz va litsenziyangiz yetib boradigan qismi;
-• <b>SOM:</b> Dastlabki 1-3 yilda real marketing bilan egallay oladigan aniq ulush.
-
-📊 <b>Vertex baholash:</b> Bottom-up usuli afzal ko'riladi (Aholi soni × Maqsadli auditoriya % × Xarid chastotasi × Narx).`;
-    await editOrReply(ctx, text, keyboards.vertexMenu());
-  });
+  bot.action('vtx_toyota', sendCaseRestricted);
+  bot.action('vtx_amazon', sendCaseRestricted);
+  bot.action('vtx_tbc', sendCaseRestricted);
+  bot.action('vtx_spotify', sendCaseRestricted);
+  bot.action('vtx_ikea', sendCaseRestricted);
+  bot.action('vtx_duolingo', sendCaseRestricted);
+  bot.action('vtx_mece', sendCaseRestricted);
+  bot.action('vtx_tam', sendCaseRestricted);
 
   // ------------------- INLINE CALLBACKS: ASOSIY MENYU VA ORTGA QAYTISH -------------------
   // Asosiy menyuga qaytish
@@ -354,7 +315,7 @@ ${escapeHtml(foundTerm.example || '')}
 Quyidagi bo'limlardan birini tanlang yoki pastki tugmalardan foydalaning:
 
 • 📚 <b>Moliya Lug'ati:</b> 25+ asosiy terminlar, formula va misollar;
-• 🏆 <b>Vertex Keyslar:</b> Rasmiy o'zbekcha PDF keyslar va etalon yechimlar;
+• 🔒 <b>Vertex Keyslar:</b> Hozircha yopiq (Vertex Case tugagandan keyin chiqadi);
 • 📰 <b>Haftalik Tahlil:</b> O'zbekiston va global bozor sharhlari;
 • 🤖 <b>AI Assistent:</b> Moliya bo'yicha savol-javoblar;
 • 🕵️‍♂️ <b>Anonim Murojaat:</b> 100% maxfiy taklif va savollar.`;
@@ -372,8 +333,8 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
   });
 
   bot.action('menu_vertex', async (ctx) => {
-    await ctx.answerCbQuery();
-    await editOrReply(ctx, knowledge.vertexInfo, keyboards.vertexMenu());
+    await ctx.answerCbQuery('Hozircha kirish ruxsati yo\'q');
+    await editOrReply(ctx, knowledge.caseAccessRestricted, keyboards.backOnly());
   });
 
   bot.action('menu_digest', async (ctx) => {

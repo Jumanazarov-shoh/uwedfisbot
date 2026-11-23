@@ -15,7 +15,7 @@ module.exports = {
           name: "YaIM (Yalpi Ichki Mahsulot / GDP)",
           formula: "GDP = C (Iste'mol) + I (Investitsiyalar) + G (Davlat xarajatlari) + NX (Sof eksport)",
           def: "Bir mamlakat hududida 1 yil davomida ishlab chiqarilgan barcha yakuniy tovar va xizmatlarning umumiy bozor qiymati. Mamlakat iqtisodiy qudratining 1-raqamli ko'rsatkichi.",
-          example: "O'zbekistonda yil davomida mashina ishlab chiqarish, qishloq xo'jaligi hosili, IT va bank xizmatlari yig'indisi mamlakat YaIMini tashkil qiladi. YaIM 6% o'sdi degani — mamlakatda ishlab chiqarish va daromadlar o'tgan yilgidan 6% ko'paydi deganidir.",
+          example: "O'zbekiston YaIMi $147 mlrd ga yetdi (+7.7% yuqori o'sish), aholi jon boshiga esa $3,846 ni tashkil qildi. YaIM 7.7% o'sishi — mamlakatda ishlab chiqarish, daromadlar va xizmatlar ko'lami o'tgan yilgidan sezilarli ko'payganini anglatadi.",
           practical: "Investorlar YaIM tez o'sayotgan mamlakatlarga (masalan, O'zbekiston, Hindiston) ko'proq investitsiya kiritishadi, chunki xarid qobiliyati oshadi."
         },
         {
@@ -23,7 +23,7 @@ module.exports = {
           name: "Inflyatsiya va CPI (Iste'mol narxlari indeksi)",
           formula: "Inflyatsiya = ((CPI_joriy - CPI_avvalgi) / CPI_avvalgi) × 100%",
           def: "Mamlakatda narxlarning umumiy darajasi oshishi va oqibatda pulning xarid qobiliyati pasayishi (pul qadrsizlanishi).",
-          example: "Agar o'tgan yili 100,000 so'mga 10 ta non va 1 kg go'sht olgan bo'lsangiz, bu yili xuddi shu narsalarga 112,000 so'm kerak bo'lsa, yillik inflyatsiya 12% bo'ladi.",
+          example: "O'zbekistonda yillik umumiy inflyatsiya 7.3% gacha pasaydi (2024-yildagi 9.8% dan), bazaviy inflyatsiya esa 5.7% bo'ldi. Inflyatsiyadan past daromad keltiradigan har qanday omonat real ma'noda pulni yo'qotmoqda.",
           practical: "Inflyatsiyadan yuqori daromad keltirmaydigan har qanday omonat yoki investitsiya real ma'noda pulni yo'qotmoqda."
         },
         {
@@ -31,15 +31,15 @@ module.exports = {
           name: "Markaziy Bank Asosiy Stavkasi (Policy Rate)",
           formula: "Yuqori stavka = Qarz qimmatlashadi ➔ Inflyatsiya tushadi; Past stavka = Iqtisodiyot jonlanadi",
           def: "Markaziy bank tijorat banklariga kredit beradigan yoki ulardan depozit qabul qiladigan asosiy foiz stavkasi. Butun mamlakatdagi kredit va depozit narxini belgilaydi.",
-          example: "O'zbekiston Markaziy banki stavkani 13.5% qilib belgilasa, tijorat banklari aholiga kreditni 22-26% dan beradi. Odamlar kamroq kredit olib, xarajatni qisqartiradi, natijada narxlar oshishi (inflyatsiya) sekinlashadi.",
-          practical: "Stavka pasayishi kutilsa — aksiyalar bozori o'sadi; stavka oshsa — xavfsiz davlat obligatsiyalari jozibador bo'ladi."
+          example: "O'zbekiston Markaziy banki asosiy stavkani 14.0% qilib belgilasa (amaldagi stavka 14.0%), tijorat banklari aholi va biznesga kreditlarni 22-26% atrofida beradi. Qat'iy stavka xarajatlarni me'yorlashtirib, narxlar oshishi (inflyatsiya)ni jilovlaydi.",
+          practical: "Stavka pasayishi kutilsa — aksiyalar bozori o'sadi; stavka yuqori bo'lsa — xavfsiz davlat obligatsiyalari va milliy depozitlar jozibador bo'ladi."
         },
         {
           id: "t_macro_fx",
           name: "Valyuta Kursi va Devalvatsiya",
-          formula: "Devalvatsiya: 1 USD = 12,500 so'm ➔ 12,800 so'm (Milliy valyuta qadrsizlanishi)",
+          formula: "Devalvatsiya: 1 USD = 12,242 so'm ➔ 12,800 so'm (Milliy valyuta qadrsizlanishi)",
           def: "Milliy valyutaning chet el valyutalariga (masalan, AQSH dollariga) nisbatan almashuv qiymati. Devalvatsiya — milliy valyuta xarid quvvati tushishi.",
-          example: "Dollar kursi 12,000 dan 12,800 so'mga ko'tarilsa, chet eldan keltiriladigan telefonlar va mashinalar so'mda qimmatlashadi, lekin chetga meva yoki to'qimachilik sotuvchi eksportchilar ko'proq so'm foyda oladi.",
+          example: "Dollar kursi 12,242 dan 12,800 so'mga o'zgarganda, chetdan keltiriladigan tovarlar so'mda qimmatlashadi, eksportchilar (masalan, to'qimachilik yoki xizmatlar) esa ko'proq so'm tushumiga ega bo'ladi.",
           practical: "Xalqaro kompaniyalarni tahlil qilishda valyuta kursi riskini (FX risk) doim hisobga olish shart."
         },
         {

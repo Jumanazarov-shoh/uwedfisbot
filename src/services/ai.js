@@ -63,13 +63,12 @@ async function askAI(userQuery) {
   // 3. Mahalliy boy bilimlar bazasidan qidirish (Smart Search)
   const query = userQuery.toLowerCase();
 
-  // Keyslar bo'yicha
-  if (query.includes('toyota')) return knowledge.casesData.toyota.summary;
-  if (query.includes('amazon')) return knowledge.casesData.amazon.summary;
-  if (query.includes('tbc')) return knowledge.casesData.tbc.summary;
-  if (query.includes('spotify')) return knowledge.casesData.spotify.summary;
-  if (query.includes('ikea')) return knowledge.casesData.ikea.summary;
-  if (query.includes('duolingo')) return knowledge.casesData.duolingo.summary;
+  // Keyslar bo'yicha (Chempionat davrida yopiq)
+  if (query.includes('toyota') || query.includes('amazon') || query.includes('tbc') ||
+      query.includes('spotify') || query.includes('ikea') || query.includes('duolingo') ||
+      query.includes('keys') || (query.includes('vertex') && !query.includes('nima'))) {
+    return `🔒 <b>Hozircha kirish ruxsati yo'q!</b>\n\nVertex Case Competition chempionati to'liq yakunlangandan keyin rasmiy keyslar va ularning etalon yechimlari to'liq e'lon qilinadi.`;
+  }
 
   // Terminlar bo'yicha
   for (const catKey in terms.categories) {
@@ -93,7 +92,7 @@ ${apiStatusNote}
 Savolingiz: <i>"${escapeHtml(userQuery)}"</i>
 
 💡 <b>Siz uchun tavsiya:</b>
-Bot ichidagi <b>«📚 Moliya Lug'ati (Terminlar)»</b> bo'limida 25+ eng muhim moliyaviy formulalar (DCF, WACC, EBITDA, LBO, P/E) va <b>«🏆 Vertex Keyslar Arxiv»</b> bo'limida rasmiy o'zbekcha keyslar to'liq joylashtirilgan.
+Bot ichidagi <b>«📚 Moliya Lug'ati (Terminlar)»</b> bo'limida 25+ eng muhim moliyaviy formulalar (DCF, WACC, EBITDA, LBO, P/E) va <b>«📰 Haftalik Bozor Tahlili»</b> bo'limida yangilangan makro ko'rsatkichlar joylashtirilgan. Vertex keyslar esa chempionat yakunlangach taqdim etiladi.
 
 Qidirayotgan terminingiz nomini (masalan: <i>"WACC", "EBITDA", "LBO"</i>) to'g'ridan-to'g'ri yozib yuboring!`;
 }

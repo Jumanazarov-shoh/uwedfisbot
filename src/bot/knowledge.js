@@ -20,16 +20,18 @@ Jahon iqtisodiyoti va diplomatiya universiteti (JIDU/UWED) talabalarining yetakc
 • <b>Financial Modeling Lab</b> — DCF, LBO va korporativ baholash;
 • <b>AI in Finance</b> — zamonaviy tahliliy vositalar va avtomatlashtirish.`,
 
-  vertexInfo: `🏆 <b>FIS | Vertex Case Competition — Rasmiy Keyslar Bazasiga Xush Kelibsiz!</b>
+  caseAccessRestricted: `🔒 <b>Hozircha kirish ruxsati yo'q!</b>
 
-<b>Vertex falsafasi (Japanese Industrial Minimalism):</b>
-Biz quruq nazariya, shablonli buzzwordlar (SWOT, PESTEL, Porter)dan butunlay voz kechamiz.
-Vertex keyslari — birinchi kurs talabasi ham mustaqil tushuna oladigan, <b>mantiqiy mushohada, oddiy arifmetika, kompromisslar (trade-offs) va real byudjet</b> taqsimotiga tayanadigan nufuzli chempionatdir.
+Keyslar bazasi <b>Vertex Case Competition</b> chempionati to'liq yakunlangandan so'ng barcha talabalar uchun ochiq e'lon qilinadi. 🏆
 
-📂 <b>O'zbek tilidagi rasmiy keyslar to'plami:</b>
-Har bir keysni tanlaganingizda, bot sizga <b>rasmiy PDF hujjatini</b> yuklab beradi hamda hakamlar baholash mezonlari (100 ballik shkala) va ideal yechimini taqdim etadi.
+Ungacha <b>📚 Moliya Lug'ati</b>, <b>📰 Haftalik Bozor Tahlili</b> va <b>🤖 AI Assistent</b> bo'limlaridan bemalol foydalanishingiz mumkin.`,
 
-Quyidagi keyslardan birini tanlang:`,
+  vertexInfo: `🔒 <b>FIS | Vertex Case Competition — Keyslar Bazasi</b>
+
+<b>Hozircha kirish ruxsati yo'q!</b>
+Keyslar bazasi va etalon yechimlar <b>Vertex Case Competition</b> chempionati to'liq yakunlangandan keyin e'lon qilinadi. 🏆
+
+Ungacha botning boshqa bilimlar bo'limlaridan foydalanishingiz mumkin.`,
 
   // Har bir keys bo'yicha to'liq etalon tahlil
   casesData: {
@@ -165,17 +167,22 @@ Duolingo oylik 80+ million aktiv o'quvchilarga ega, ammo ularning atigi 8.6% i p
 🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
 
 🏛 <b>1. O'ZBEKISTON MAKROIQTISODIYOTI & BOZORI:</b>
-• <b>MB Asosiy stavkasi:</b> 13.5% (Inflyatsion kutilmalarni jilovlash maqsadida qat'iy pul-kredit siyosati);
-• <b>Toshkent RFB (UZSE):</b> Bank va energetika sektori aksiyalarida faollik kuzatilmoqda. IPO va xususiylashtirish dasturlari tahlilchilar diqqat markazida;
-• <b>Valyuta dinamikasi:</b> AQSH dollari kursi barqaror tebranish koridorida.
+• <b>MB Asosiy stavkasi:</b> 14.0% (Inflyatsion kutilmalarni jilovlash maqsadida 13.5% dan 14.0% ga oshirilgan va qat'iy pul-kredit siyosati davom etmoqda);
+• <b>Inflyatsiya ko'rsatkichlari:</b> Umumiy inflyatsiya 7.3% gacha pasaydi (2024-yildagi 9.8% dan), bazaviy inflyatsiya esa 5.7% (2026-yil kutilmasi: ~6.5%);
+• <b>YaIM (GDP):</b> $147 mlrd (+7.7% yuqori o'sish sur'ati), aholi jon boshiga $3,846 (2026-yil prognozi: 6.5–7.0%);
+• <b>Valyuta dinamikasi:</b> So'm kursi barqarorlashgan, 12,242 – 12,800 so'm/USD koridorida shakllanmoqda;
+• <b>Tashqi savdo & Investitsiyalar:</b> Jami tashqi savdo $81.2 mlrd (+20.7%), eksport $33.8 mlrd (oltin ulushi ~30%), import $47.3 mlrd, xizmatlar eksporti $9.8 mlrd (+28.9%). Jami o'zlashtirilgan investitsiyalar $43.1 mlrd (+24%), to'g'ridan-to'g'ri xorijiy investitsiyalar (FDI) $38.2 mlrd;
+• <b>Toshkent RFB (UZSE):</b> Bank va energetika sektori aksiyalarida faollik kuzatilmoqda. IPO va xususiylashtirish dasturlari tahlilchilar diqqat markazida.
 
 🌐 <b>2. GLOBAL BOZORLAR (Wall Street & Xalqaro):</b>
-• <b>AQSH Federal Rezervi (Fed):</b> Mehnat bozori va inflyatsiya ko'rsatkichlariga qarab foiz stavkalarini asta-sekin pasaytirish siklida;
-• <b>S&P 500 & Nasdaq:</b> AI va yarimo'tkazgichlar (Nvidia, Microsoft, TSMC) sektori drayverligida barqaror sur'atda;
-• <b>Xomashyo:</b> Brent markali neft narxi geosiyosiy vaziyat hisobiga $72–$76 koridorida, Oltin esa himoya aktivi sifatida talabda ($2,650/oz).
+• <b>AQSH Federal Rezervi (Fed):</b> Mehnat bozori va inflyatsiya ko'rsatkichlariga ko'ra foiz stavkalarini pasaytirish siklida;
+• <b>S&P 500 & Nasdaq:</b> AI va yarimo'tkazgichlar drayverligida 5,900+ punkt darajasida barqaror;
+• <b>Xomashyo & Oltin:</b> Brent nefti $72–$75/bbl koridorida, Oltin (XAU/USD) xavfsiz aktiv sifatida talabda ($2,650–$2,700/oz).
 
 💡 <b>3. VERTEX TAHLILCHI MASLAHATI:</b>
-• "Keys yechishda SWOT yoki PESTEL kabi umumiy shablonlarni yozmang. Aniq raqamlar, byudjet cheklovlari va jamoa rollari bilan yechim bering!"`,
+• "Keys yechishda SWOT yoki PESTEL kabi umumiy shablonlarni yozmang. Aniq makroiqtisodiy raqamlar, byudjet cheklovlari va moliyaviy formulalar bilan tahlil qiling!"
+
+📱 <i>UWED FIS rasmiy kanali: https://t.me/uwed_fis</i>`,
 
   valuationInfo: `📊 <b>UWED FIS — Korporativ Baholash (Valuation) Bazasiga Xush Kelibsiz!</b>
 
