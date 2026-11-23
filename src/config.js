@@ -8,7 +8,7 @@ const detectedUrl = process.env.APP_URL
 module.exports = {
   botToken: process.env.BOT_TOKEN || '',
   adminPassword: process.env.ADMIN_PASSWORD || 'uwed_fis_admin_2026',
-  adminTelegramId: process.env.ADMIN_TELEGRAM_ID || '',
+  adminTelegramId: process.env.ADMIN_TELEGRAM_ID || '6629877859',
   port: parseInt(process.env.PORT || '3000', 10),
   appUrl: detectedUrl.replace(/\/$/, ''),
   pingIntervalMinutes: parseInt(process.env.PING_INTERVAL_MINUTES || '5', 10),

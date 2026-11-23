@@ -161,12 +161,15 @@ module.exports = {
     return (memoryDb.anonymous_messages || []).filter(m => String(m.userId) === uId);
   },
 
-  // Anonim xabarni kodi bo'yicha topish
+  // Anonim xabarni kodi bo'yicha topish (har qanday formatda: #ANON-8784, ANON-8784, 8784)
   getAnonymousByCode(rawCode) {
     if (!rawCode) return null;
-    const clean = rawCode.trim().toUpperCase();
-    const formatted = clean.startsWith('#') ? clean : `#${clean}`;
-    return (memoryDb.anonymous_messages || []).find(m => m.code && m.code.toUpperCase() === formatted);
+    const clean = String(rawCode).trim().toUpperCase().replace(/^#/, '');
+    return (memoryDb.anonymous_messages || []).find(m => {
+      if (!m.code) return false;
+      const itemClean = m.code.toUpperCase().replace(/^#/, '');
+      return itemClean === clean || itemClean === `ANON-${clean}` || itemClean.endsWith(clean);
+    });
   },
 
   // Anonim xabarga javob qaytarish (kod bo'yicha)

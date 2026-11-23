@@ -31,6 +31,16 @@ const TELEGRAM_CASE_FILE_IDS = {
   duolingo: 'BQACAgIAAxkDAANOawLnXttL-psWselQZD2Kgoc1OHMAAgywAAI2-xhIjl5ZVBhAgeE9BA'
 };
 
+const ADMIN_IDS = ['6629877859'];
+if (config.adminTelegramId && !ADMIN_IDS.includes(String(config.adminTelegramId))) {
+  ADMIN_IDS.push(String(config.adminTelegramId));
+}
+
+function isAdminUser(userId) {
+  if (!userId) return false;
+  return ADMIN_IDS.includes(String(userId));
+}
+
 function setupBot() {
   if (!config.botToken) {
     console.warn('⚠️ BOT_TOKEN topilmadi! Iltimos .env faylida BOT_TOKEN ni belgilang.');
@@ -212,11 +222,83 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
   // Admin: Kun qizg'in xabarini darhol agent orqali barcha obunachilarga tarqatish
   bot.command('send_hot', async (ctx) => {
     const adminId = String(ctx.from?.id);
-    if (adminId !== String(config.adminTelegramId)) return;
+    if (!isAdminUser(adminId)) return ctx.reply('⚠️ Ushbu buyruq faqat administrator uchun!');
 
     await ctx.reply('🤖 News Agent: Kun qizg\'in xabari barcha bot foydalanuvchilariga tarqatilmoqda...');
     const res = await newsAgent.broadcastHotNews(true);
     await ctx.reply(`✅ Tarqatish yakunlandi!\n\nYetkazildi: ${res.successCount} ta\nXatolik: ${res.failCount} ta`);
+  });
+
+  // Admin: Anonim murojaatga /reply yoki /javob orqali to'g'ridan-to'g'ri javob qaytarish
+  bot.command(['reply', 'javob'], async (ctx) => {
+    const userId = String(ctx.from?.id);
+    if (!isAdminUser(userId)) {
+      return ctx.reply('⚠️ Ushbu buyruq faqat administrator uchun!');
+    }
+
+    const text = ctx.message.text.trim();
+    // /reply <kod> <matn>
+    const match = text.match(/^\/(?:reply|javob)\s+(#?ANON-\d+|\d+)\s+([\s\S]+)$/i);
+    if (!match) {
+      return ctx.replyWithHTML(
+        `ℹ️ <b>Anonim murojaatga javob berish formati:</b>\n` +
+        `<code>/reply &lt;kod&gt; &lt;javob matni&gt;</code>\n\n` +
+        `<b>Misol:</b>\n` +
+        `<code>/reply #ANON-8784 Assalomu alaykum! Taklifingiz qabul qilindi.</code>\n` +
+        `yoki\n` +
+        `<code>/reply 8784 Navbatdagi chempionat dekabrda bo'lib o'tadi.</code>\n\n` +
+        `Barcha murojaatlarni ko'rish uchun: /murojaatlar`
+      );
+    }
+
+    const rawCode = match[1];
+    const replyContent = match[2].trim();
+
+    const updatedMsg = db.replyAnonymousByCode(rawCode, replyContent);
+    if (!updatedMsg || !updatedMsg.userId) {
+      return ctx.replyWithHTML(`⚠️ <b><code>${rawCode}</code></b> kodi bo'yicha murojaat topilmadi.\nBarcha xabarlar: /murojaatlar`);
+    }
+
+    try {
+      const userReplyNotice = `📩 <b>UWED FIS Rahbariyatidan Javob!</b>\n\n📌 Murojaat kodi: <code>${updatedMsg.code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Javob matni:</b>\n<i>"${escapeHtml(replyContent)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n💡 <i>Agar rahbariyatga qo'shimcha savol yoki ma'lumot jo'natmoqchi bo'lsangiz, ushbu xabarga «Reply» qiling yoki pastdagi tugmani bosing:</i>`;
+      await bot.telegram.sendMessage(updatedMsg.userId, userReplyNotice, {
+        parse_mode: 'HTML',
+        ...keyboards.anonUserFollowUpMenu(updatedMsg.code)
+      });
+      return ctx.replyWithHTML(`✅ <b><code>${updatedMsg.code}</code></b> murojaatiga javobingiz muallifga muvaffaqiyatli yetkazildi!`);
+    } catch (sendErr) {
+      console.warn('Foydalanuvchiga javob yetkazishda xato:', sendErr.message);
+      return ctx.replyWithHTML(`⚠️ <b><code>${updatedMsg.code}</code></b> murojaati muallifiga xabar yetkazib bo'lmadi: ${sendErr.message}`);
+    }
+  });
+
+  // Admin: Barcha anonim murojaatlar ro'yxatini ko'rish va tugma orqali javob berish
+  bot.command(['murojaatlar', 'inbox', 'anon_list'], async (ctx) => {
+    const userId = String(ctx.from?.id);
+    if (!isAdminUser(userId)) return;
+
+    const allMessages = db.getAnonymousMessages();
+    if (!allMessages.length) {
+      return ctx.reply('📭 Hozircha hech qanday anonim murojaat kelmagan.');
+    }
+
+    await ctx.replyWithHTML(`🕵️‍♂️ <b>Barcha Anonim Murojaatlar (${allMessages.length} ta):</b>\n<i>Har bir murojaat ostidagi «✍️ Javob qaytarish» tugmasi orqali yoki /reply buyrug'i bilan javob bera olasiz.</i>`);
+
+    const recent = allMessages.slice(0, 5);
+    for (const m of recent) {
+      const dateStr = new Date(m.createdAt).toLocaleString('uz-UZ', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const statusIcon = m.status === 'replied' ? '✅ Javob berilgan' : '⏳ Yangi';
+      let card = `📌 <b><code>${m.code}</code></b> (${statusIcon})\n⏰ <i>${dateStr}</i>\n💬 <b>Xabar:</b> <i>"${escapeHtml(m.text)}"</i>`;
+
+      if (m.replies && m.replies.length > 0) {
+        card += `\n\n✅ <b>Oxirgi javobingiz:</b> <i>"${escapeHtml(m.replies[m.replies.length - 1].text)}"</i>`;
+      }
+      if (m.follow_ups && m.follow_ups.length > 0) {
+        card += `\n🔄 <b>Foydalanuvchi qo'shimchalari:</b> ${m.follow_ups.length} ta`;
+      }
+
+      await ctx.replyWithHTML(card, keyboards.adminReplyButton(m.code));
+    }
   });
 
   // 4. AI Moliyaviy Assistent
@@ -459,7 +541,7 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
   bot.action(/^admin_reply_(.+)$/, async (ctx) => {
     await ctx.answerCbQuery();
     const adminId = String(ctx.from?.id);
-    if (adminId !== String(config.adminTelegramId)) {
+    if (!isAdminUser(adminId)) {
       return ctx.reply('⚠️ Ushbu amal faqat administrator uchun!');
     }
 
@@ -467,7 +549,7 @@ Kerakli sohani tanlang yoki qidirayotgan terminingizni (masalan: <i>"EBITDA", "W
     const code = rawCode.startsWith('#') ? rawCode : `#${rawCode}`;
     userStates.set(adminId, { state: 'admin_typing_reply', code });
 
-    const promptText = `✍️ <b><code>${code}</code> murojaatiga javobingizni yozing:</b>\n\n<i>(Yozgan xabaringiz to'g'ridan-to'g'ri anonim foydalanuvchiga yetkaziladi).</i>`;
+    const promptText = `✍️ <b><code>${code}</code> murojaatiga javobingizni yozing:</b>\n\n<i>(Oddiy xabar qilib jo'nating, u avtomatik ravishda anonim foydalanuvchiga yetkaziladi).\n\nYoki to'g'ridan-to'g'ri buyruq orqali: <code>/reply ${code} javob matni</code></i>`;
     await ctx.replyWithHTML(promptText, keyboards.cancelAnonInline());
   });
 
@@ -503,32 +585,33 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
 
     const userId = String(ctx.from?.id);
     const userState = userStates.get(userId);
-    const replyTextToSearch = ctx.message.reply_to_message?.text || '';
-    const isAdmin = String(userId) === String(config.adminTelegramId);
+    const replyTextToSearch = ctx.message.reply_to_message?.text || ctx.message.reply_to_message?.caption || '';
+    const isAdmin = isAdminUser(userId);
 
     // 1. Admin javob qaytarishi (Inline tugma yoki Telegram "Reply" orqali)
     const isAdminState = isAdmin && userState && typeof userState === 'object' && userState.state === 'admin_typing_reply';
-    const isAdminNativeReply = isAdmin && replyTextToSearch.match(/#ANON-\d+/i);
+    const anonCodeInReply = replyTextToSearch.match(/#?ANON-\d+/i);
+    const isAdminNativeReply = isAdmin && anonCodeInReply;
 
     if (isAdminState || isAdminNativeReply) {
-      const code = isAdminState ? userState.code : replyTextToSearch.match(/#ANON-\d+/i)[0].toUpperCase();
+      const code = isAdminState ? userState.code : anonCodeInReply[0];
       userStates.delete(userId);
 
       const updatedMsg = db.replyAnonymousByCode(code, text);
       if (updatedMsg && updatedMsg.userId) {
         try {
-          const userReplyNotice = `📩 <b>UWED FIS Rahbariyatidan Javob!</b>\n\n📌 Murojaat kodi: <code>${code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Javob matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n💡 <i>Agar rahbariyatga qo'shimcha savol yoki ma'lumot jo'natmoqchi bo'lsangiz, ushbu xabarga «Reply» qiling yoki pastdagi tugmani bosing:</i>`;
+          const userReplyNotice = `📩 <b>UWED FIS Rahbariyatidan Javob!</b>\n\n📌 Murojaat kodi: <code>${updatedMsg.code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Javob matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n💡 <i>Agar rahbariyatga qo'shimcha savol yoki ma'lumot jo'natmoqchi bo'lsangiz, ushbu xabarga «Reply» qiling yoki pastdagi tugmani bosing:</i>`;
           await bot.telegram.sendMessage(updatedMsg.userId, userReplyNotice, {
             parse_mode: 'HTML',
-            ...keyboards.anonUserFollowUpMenu(code)
+            ...keyboards.anonUserFollowUpMenu(updatedMsg.code)
           });
-          return ctx.replyWithHTML(`✅ <b><code>${code}</code></b> murojaatiga javobingiz muallifga muvaffaqiyatli yetkazildi!`);
+          return ctx.replyWithHTML(`✅ <b><code>${updatedMsg.code}</code></b> murojaatiga javobingiz muallifga muvaffaqiyatli yetkazildi!`);
         } catch (sendErr) {
           console.warn('Foydalanuvchiga javob yetkazishda xato:', sendErr.message);
-          return ctx.replyWithHTML(`⚠️ <b><code>${code}</code></b> murojaati muallifiga xabar yetkazib bo'lmadi (foydalanuvchi botni bloklagan bo'lishi mumkin).`);
+          return ctx.replyWithHTML(`⚠️ <b><code>${updatedMsg.code}</code></b> murojaati muallifiga xabar yetkazib bo'lmadi: ${sendErr.message}`);
         }
       } else {
-        return ctx.replyWithHTML(`⚠️ <b><code>${code}</code></b> kodi bo'yicha murojaat topilmadi.`);
+        return ctx.replyWithHTML(`⚠️ <b><code>${code}</code></b> kodi bo'yicha murojaat topilmadi. Ro'yxat: /murojaatlar`);
       }
     }
 
@@ -541,15 +624,16 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
       const userConfirm = `✅ <b>Anonim murojaatingiz muvaffaqiyatli qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${item.code}</code>\n⏰ Yuborilgan vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Siz yuborgan xabar:</b>\n<i>"${escapeHtml(text)}"</i>\n\n🔒 <i>Shaxsingiz 100% sir saqlandi.</i>\n\nRahbariyat javobi ushbu chatga yetkaziladi hamda <b>«🕵️‍♂️ Anonim Murojaat»</b> bo'limida ham doim saqlanib turadi.`;
       await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(item.code));
 
-      if (config.adminTelegramId) {
+      // Barcha adminlarga xabar yetkazish
+      for (const aId of ADMIN_IDS) {
         try {
-          const adminNotice = `🕵️‍♂️ <b>Yangi Anonim Murojaat!</b>\n\n📌 Kod: <code>${item.code}</code>\n⏰ Sana: ${new Date().toLocaleString('uz-UZ')}\n\n💬 <b>Xabar matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n👇 <b>Javob berish uchun:</b>\nUshbu xabarga <b>«Ответить» (Reply)</b> qiling yoki pastdagi tugmani bosing:`;
-          await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, {
+          const adminNotice = `🕵️‍♂️ <b>Yangi Anonim Murojaat!</b>\n\n📌 Kod: <code>${item.code}</code>\n⏰ Sana: ${new Date().toLocaleString('uz-UZ')}\n\n💬 <b>Xabar matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n👇 <b>Javob berish usullari:</b>\n1. Ushbu xabarga <b>«Ответить» (Reply)</b> qiling\n2. Pastdagi tugmani bosing\n3. Yoki to'g'ridan-to'g'ri: <code>/reply ${item.code} javob matni</code>`;
+          await bot.telegram.sendMessage(aId, adminNotice, {
             parse_mode: 'HTML',
             ...keyboards.adminReplyButton(item.code)
           });
         } catch (adminErr) {
-          console.warn('Adminga anonim xabar yetkazishda xato:', adminErr.message);
+          console.warn(`Adminga (${aId}) anonim xabar yetkazishda xato:`, adminErr.message);
         }
       }
       return;
@@ -557,27 +641,29 @@ Assalomu alaykum! Istalgan moliyaviy termin, formula yoki Vertex keysi bo'yicha 
 
     // 3. Foydalanuvchi follow-up (qo'shimcha xabar) yuborishi
     const isUserFollowUpState = userState && typeof userState === 'object' && userState.state === 'waiting_anon_followup';
-    const isUserReplyFollowUp = replyTextToSearch.match(/#ANON-\d+/i) && !isAdmin;
+    const anonCodeInUserReply = replyTextToSearch.match(/#?ANON-\d+/i);
+    const isUserReplyFollowUp = anonCodeInUserReply && !isAdmin;
 
     if (isUserFollowUpState || isUserReplyFollowUp) {
-      const code = isUserFollowUpState ? userState.code : replyTextToSearch.match(/#ANON-\d+/i)[0].toUpperCase();
+      const code = isUserFollowUpState ? userState.code : anonCodeInUserReply[0];
       userStates.delete(userId);
 
-      db.addFollowUpByCode(code, text);
+      const updated = db.addFollowUpByCode(code, text);
       ctx.deleteMessage().catch(() => {});
 
-      const userConfirm = `✅ <b>Qo'shimcha xabaringiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Yuborilgan qo'shimcha xabar:</b>\n<i>"${escapeHtml(text)}"</i>\n\n🔒 <i>Xabaringiz klub rahbariyatiga yetkazildi.</i>`;
-      await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(code));
+      const actualCode = updated?.code || code;
+      const userConfirm = `✅ <b>Qo'shimcha xabaringiz qabul qilindi!</b>\n\n📌 Murojaat kodi: <code>${actualCode}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Yuborilgan qo'shimcha xabar:</b>\n<i>"${escapeHtml(text)}"</i>\n\n🔒 <i>Xabaringiz klub rahbariyatiga yetkazildi.</i>`;
+      await ctx.replyWithHTML(userConfirm, keyboards.anonUserFollowUpMenu(actualCode));
 
-      if (config.adminTelegramId) {
+      for (const aId of ADMIN_IDS) {
         try {
-          const adminNotice = `💬 <b>Anonim Murojaatga Qo'shimcha Xabar (Follow-up)!</b>\n\n📌 Kod: <code>${code}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Yangi xabar matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n👇 <b>Javob berish uchun:</b>\nUshbu xabarga <b>«Ответить» (Reply)</b> qiling yoki pastdagi tugmani bosing:`;
-          await bot.telegram.sendMessage(config.adminTelegramId, adminNotice, {
+          const adminNotice = `💬 <b>Anonim Murojaatga Qo'shimcha Xabar (Follow-up)!</b>\n\n📌 Kod: <code>${actualCode}</code>\n⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}\n\n💬 <b>Yangi xabar matni:</b>\n<i>"${escapeHtml(text)}"</i>\n\n━━━━━━━━━━━━━━━━━━\n👇 <b>Javob berish usullari:</b>\n1. Ushbu xabarga <b>«Ответить» (Reply)</b> qiling\n2. Pastdagi tugmani bosing\n3. Yoki: <code>/reply ${actualCode} javobingiz</code>`;
+          await bot.telegram.sendMessage(aId, adminNotice, {
             parse_mode: 'HTML',
-            ...keyboards.adminReplyButton(code)
+            ...keyboards.adminReplyButton(actualCode)
           });
         } catch (adminErr) {
-          console.warn('Adminga follow-up yetkazishda xato:', adminErr.message);
+          console.warn(`Adminga (${aId}) follow-up yetkazishda xato:`, adminErr.message);
         }
       }
       return;

@@ -15,7 +15,7 @@ services:
       - key: APP_URL
         sync: false
       - key: ADMIN_TELEGRAM_ID
-        sync: false
+        value: "6629877859"
       - key: PING_INTERVAL_MINUTES
         value: 5
       - key: NODE_ENV
