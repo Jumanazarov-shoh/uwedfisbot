@@ -23,9 +23,9 @@ class NewsAgent {
 
   ensureDefaultHotNews() {
     const current = db.getHotNews();
-    if (!current || !current.content) {
+    if (!current || !current.content || current.content.includes("SpaceX va xAI $1.25")) {
       db.setHotNews({
-        title: "SpaceX va xAI $1.25 Trillionlik Birlashuv — 2026 Mega-IPO",
+        title: "O'zbekiston Tarixiy IPO Dasturi: Uzbekistan Airways, NIF va $692M Listing",
         content: knowledge.hotNewsDefault
       });
     }

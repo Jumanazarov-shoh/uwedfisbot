@@ -220,119 +220,132 @@ Toshkent Fond Birjasi (UZSE), xalqaro moliya bozorlari (Fed, S&P 500), oltin va 
 📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
   // Hafta yangiliklari kategoriyalari markazi (5 ta alohida yo'nalish)
-  newsHub: `📰 <b>UWED FIS — Haftalik Yangiliklar Markazi</b>
+  newsHub: `📰 <b>UWED FIS — Haftalik Tahliliy Yangiliklar Markazi</b>
 🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
 
-Dunyo va O'zbekiston moliya bozoridagi eng sara tahlillar 5 ta asosiy bo'limga ajratildi:
+O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga ajratildi:
 
-🇺🇿 <b>1. O'zbekiston</b> — Makroiqtisodiyot, banklar, UZSE fond bozori va qonunchilik.
-🏦 <b>2. Jahon Moliyasi</b> — Markaziy banklar (Fed, ECB, BOJ), stavkalar, valyuta va qarz bozorlari.
-💼 <b>3. Jahon Investitsiya</b> — Mega M&A bitimlari, Private Equity va global IPO'lar.
-🌐 <b>4. Jahon Iqtisodi</b> — Global YaIM o'sishi, oltin, neft va savdo koridorlari.
-🚀 <b>5. Startap Tizimi</b> — AI poygasi, venchur kapitali va texnologik ekotizim.
+🇺🇿 <b>1. O'zbekiston</b> — Milliy IPO dasturlari (Uzbekistan Airways, SQB), MB stavkasi kutilmalari va YaIM.
+🏦 <b>2. Jahon Moliyasi</b> — AQSH Fed va ECB stavkalari, inflyatsiya targetlari, US Treasuries va $225B texno-qarzlar.
+💼 <b>3. Jahon Investitsiya</b> — Global $227B IPO rekordi (Anthropic, SpaceX, OpenAI), M&A va J.P. Morgan venchur tahlili.
+🌐 <b>4. Jahon Iqtisodi</b> — Oltin rekordi ($2,650–$2,700/oz), Brent nefti va global YaIM o'sishi.
+🚀 <b>5. Startap Tizimi</b> — AI mega-raundlari (80% kapital ulushi), xAI ($250B) va orbital hisoblash infratuzilmasi.
 
 👇 <i>Kerakli tahlil bo'limini tanlang:</i>`,
 
-  // 5 ta alohida bo'lim matnlari
+  // 5 ta alohida bo'lim matnlari (NotebookLM Deep Research asosida)
   newsCategories: {
     uzb: `🇺🇿 <b>O'ZBEKISTON MOLIYAVIY VA IQTISODIY SHARHI</b>
-🗓 <i>Haftalik Tahlil | UWED FIS</i>
+🗓 <i>Haftalik Tahlil | Manba: Iqtisodiyot va moliya vazirligi & CBU</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-🏛 <b>1. Pul-kredit Siyosati va Banklar</b>
-├ • <b>MB Asosiy Stavkasi:</b> <code>14.0%</code> darajasida qat'iy saqlanmoqda
-├ • <b>Inflyatsiya:</b> Yillik <code>7.3%</code> (bazaviy: 5.7%) ga tushdi
-└ • <b>Ta'siri:</b> Depozitlar jozibadorligi oshib, milliy jamg'armalar mustahkamlandi
+🏢 <b>1. Yirik Milliy IPO Dasturi (2026–2028)</b>
+├ • <b>Rejalashtirilgan Emitentlar:</b> Fond birjasiga 4 ta yirik davlat kompaniyasi va 1 ta bank chiqarilmoqda:
+│  1. <b>Uzbekistan Airways</b> — aksiyalarining <code>15–20%</code> qismi sotiladi
+│  2. <b>O'zsanoatqurilishbank (SQB)</b> — xususiylashtirish va ochiq listing
+│  3. <b>O'zbektelekom (Uztelecom)</b> — milliy telekom giganti
+│  4. <b>O'zbekiston MET</b> — elektr uzatish tarmoqlari
+│  5. <b>O'zbekgidroenergo</b> — gidroenergetika ishlab chiqarish
+├ • <b>Franklin Templeton va NIF:</b> Mazkur aktivlar AQSHning <i>Franklin Templeton</i> boshqaruvidagi Milliy investitsiya jamg'armasi (NIF) portfeliga kiritilgan.
+└ • <b>$692M Tushum:</b> Jamg'arma aksiyalarining <code>35.45%</code> i London (LSE GDR) va Toshkent (UZSE) birjalarida muvaffaqiyatli joylashtirilib, davlat byudjetiga <b>$692 million</b> keltirdi. Investorlar kunida $2.5T lik portfelga ega 250+ xorijiy investor qatnashdi.
 
-📈 <b>2. Makro O'sish va Tashqi Sektor</b>
-├ • <b>YaIM Dinamikasi:</b> <code>$147.0 mlrd</code> (+7.7% o'sish, aholi jon boshiga $3,846)
-├ • <b>Tashqi Savdo:</b> <code>$81.2 mlrd</code> (Eksport $33.8B, shundan ~30% oltin)
-├ • <b>Import:</b> <code>$47.3 mlrd</code> (asosan uskunalar va texnologik xomashyo)
-└ • <b>Valyuta Kursi:</b> <code>12,242 – 12,800 so'm</code> barqaror koridorda
+🏛 <b>2. Markaziy Bank Foiz Stavkasi va Kutilmalar</b>
+├ • <b>Amaldagi Stavka:</b> <code>14.00%</code> (martdan buyon o'zgarishsiz qat'iy saqlanmoqda; navbatdagi 16-dekabr yig'ilishida ham 14% saqlanishi kutilmoqda)
+├ • <b>Stavka Prognozi (Trading Economics & CBU):</b> 2026 Q4: <code>14.0%</code> ➔ 2027: <code>13.0%</code> ➔ 2028: <code>12.0%</code>
+├ • <b>Inflyatsiya Dinamikasi:</b> Yillik inflyatsiya <code>6.4%</code> (bazaviy <code>5.5%</code>), aholi kutilmasi <code>9.1%</code>. Yil yakuni prognozi <code>7.0%</code> atrofida
+└ • <b>O'rta Muddatli Target:</b> Markaziy bank <code>5.0%</code> lik inflyatsiya targetiga 2027-yil oxiriga borib erishishni maqsad qilgan
 
-💼 <b>3. Kapital Bozori va Investitsiyalar</b>
-├ • <b>Jami Investitsiyalar:</b> <code>$43.1 mlrd</code> (+24%), FDI: $38.2B
-├ • <b>Toshkent RFB (UZSE):</b> Banklar (SQB, Ipoteka) va sanoat emitentlari faol
-└ • <b>Byudjet Intizomi:</b> 2026 defitsit chegarasi YaIMning <code>3.0%</code> miqdorida
+📈 <b>3. Makroiqtisodiy Sur'at</b>
+├ • <b>YaIM O'sishi:</b> 2026-yil 9 oyida YaIM <code>8.3%</code> ga o'sdi (yillik rasmiy prognoz <code>7.5% – 8.0%</code> ga ko'tarildi)
+└ • <b>Davlat Byudjeti:</b> 2026 konsolidatsiyalashgan byudjet taqchilligi YaIMning <code>3.0%</code> miqdorida qat'iy cheklandi (O'RQ-1105)
 ━━━━━━━━━━━━━━━━━━━━
-📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
+📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
     finance: `🏦 <b>JAHON MOLIYASI SHARHI (GLOBAL FINANCE)</b>
-🗓 <i>Haftalik Tahlil | UWED FIS</i>
+🗓 <i>Haftalik Tahlil | Manba: Fed, ECB & Trading Economics</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-🏛 <b>1. Markaziy Banklar va Foiz Stavkalari</b>
-├ • <b>AQSH FRS (Federal Reserve):</b> Mehnat bozori va sekinlashayotgan inflyatsiya hisobiga stavkalarni bosqichma-bosqich pasaytirish siklida
-├ • <b>Yevropa Markaziy Banki (ECB):</b> Iqtisodiy o'sishni rag'batlantirish uchun depozit stavkalarini me'yorlashtirmoqda
-└ • <b>Yaponiya Banki (BOJ):</b> Manfiy stavkalardan so'ng iensani qo'llab-quvvatlash uchun pul-kredit siyosatini ehtiyotkorlik bilan qat'iylashtirmoqda
+🏛 <b>1. AQSH Federal Zaxira Tizimi (Fed) Siyosati</b>
+├ • <b>Amaldagi Stavka:</b> <code>3.75% – 4.00%</code> (4.00% darajasida)
+├ • <b>Inflyatsion Bosim:</b> Sentyabr oyi CPI ko'rsatkichi <code>3.7%</code> ga tezlashdi (oldingi oyda 3.4%), ishlab chiqaruvchilar narxlari indeksi (PPI) esa <code>6.3%</code> o'sdi
+├ • <b>Yaqin Kutilma:</b> Dekabr yig'ilishida stavka bo'yicha 25 b.p. o'zgarish ehtimoli muhokama qilinmoqda; Fed rasmiylari qat'iylikni saqlamoqda
+├ • <b>Stavka Trayektoriyasi:</b> 2026 Q4: <code>4.25%</code> ➔ 2027: <code>4.25%</code> ➔ 2028: <code>4.00%</code>
+└ • <b>Fed Islohoti:</b> Rais Kevin Uorsh 2027-yildan stavkalar bo'yicha ovoz berish yig'ilishlari sonini qisqartirishini ma'lum qildi
 
-💵 <b>2. Valyuta va Qarz Bozorlari</b>
-├ • <b>Dollar Indeksi (DXY):</b> <code>103–105</code> koridorida muvozanatda
-├ • <b>AQSH 10 Yillik Xazina Qog'ozlari (US 10Y):</b> <code>4.1% – 4.3%</code> oralig'ida
-└ • <b>Rivojlanayotgan Bozorlar (EM Debt):</b> Global stavkalar pasayishi fonida Yevrobond emissiyalariga xalqaro talab ortmoqda
+💶 <b>2. Yevropa Markaziy Banki (ECB) va BOJ</b>
+├ • <b>ECB Qarori:</b> Yevrozona inflyatsiyasi va sust iqtisodiy o'sish fonida foiz stavkalari muvozanatlashtirilmoqda
+└ • <b>Yaponiya Banki (BOJ):</b> Tarixiy manfiy stavkalar davridan so'ng, iensani mustahkamlash maqsadida stavkalarni bosqichma-bosqich ko'tarishga tayyorlanmoqda
 
-🛡 <b>3. Bank Tizimi va Likvidlik</b>
-├ • <b>Kapital Yetarliligi:</b> Yirik xalqaro banklar (Tier 1) yuqori likvidlik buferini saqlab turibdi
-└ • <b>Kredit Marjasi (NIM):</b> Stavka pasayishi banklarning sof foiz marjasini barqarorlashtirmoqda
+💵 <b>3. Giperskeylerlar Qarzi va Obligatsiyalar</b>
+├ • <b>$225B Texnologik Emissiya:</b> Yirik giperskeylerlar (Microsoft, Amazon, Meta, Alphabet) yil boshidan buyon <code>$225 milliard</code>lik investitsiya darajasidagi qarz chiqardi — bu ularning o'tgan 4 yillik jami emissiyasidan ko'p!
+├ • <b>AQSH Davlat Qarzi:</b> <code>$40 trillion</code> chegarasidan oshdi
+└ • <b>US 10-Year Treasuries:</b> 10 yillik davlat obligatsiyalari daromadliligi <code>4.15% – 4.30%</code> atrofida tebranmoqda
 ━━━━━━━━━━━━━━━━━━━━
-📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
+📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
     invest: `💼 <b>JAHON INVESTITSIYALARI SHARHI (GLOBAL INVESTMENTS)</b>
-🗓 <i>Haftalik Tahlil | UWED FIS</i>
+🗓 <i>Haftalik Tahlil | Manba: PwC UK IPO Watch & MSCI</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-🤝 <b>1. M&A va Yirik Birlashuvlar (Mega Deals)</b>
-├ • <b>SpaceX va xAI Sinergiyasi:</b> Sun'iy intellekt va kosmik aloqa integratsiyasi orqali birlashgan ekotizim qiymati <code>$1.25 trillion</code>ga yetdi
-├ • <b>Tesla Sarmoyasi:</b> Tesla korporatsiyasi xAI texnologiyalariga to'g'ridan-to'g'ri <code>$2.0 milliard</code> investitsiya kiritdi
-└ • <b>Texnologik Konsolidatsiya:</b> Katta ma'lumotlar markazlari va toza energiya infratuzilmasiga korporativ M&A hajmi 28% oshdi
+🚀 <b>1. Global IPO Bozorida Tarixiy Rekord (PwC UK)</b>
+├ • <b>$227.3Mrd Global Tushum:</b> 2026-yil boshidan buyon IPO tushumlari <code>$227.3 milliard</code>ga yetib, 2021-yildan keyingi eng yuqori natijani qayd etdi
+├ • <b>Sur'at:</b> Yilning 1-yarmida IPO tushumlari 205% ga o'sib, <code>$178 milliard</code>ni (524 ta bitim) tashkil etdi
+├ • <b>EMEA Mintaqasi:</b> IPO tushumlari <code>$15.4 milliard</code>ga, Yevropada esa <code>€8.8 milliard</code>ga yetdi
+└ • <b>LSE Va London Birjasi:</b> O'zbekiston Milliy investitsiya jamg'armasi GDR listingi ($692M) va Afrika FinTech kompaniyasi (£5.3B baholash) London bozorini faollashtirdi
 
-📈 <b>2. Global IPO Bozorlari</b>
-├ • <b>Kutilayotgan Tarixiy IPO:</b> SpaceX kompaniyasi 2026-yilda <code>$1.5 trillion</code>lik baholash bilan aksiyalarni ommaga chiqarishni rejalashtirmoqda
-└ • <b>AI va Yarimo'tkazgichlar:</b> Yangi chip dizaynerlari va kiberxavfsizlik kompaniyalari fond bozoriga chiqishga tayyorlanmoqda
+🏢 <b>2. Tarixiy Texnologik IPOlar va Baholashlar</b>
+├ • <b>Anthropic ("ANT"):</b> Nasdaq birjasida har bir aksiyani <code>$83</code> dan sotib, <b>$81 milliarddan ortiq</b> mablag' jalb qildi (kapitallashuvi <code>~$1.5 trillion</code>)
+├ • <b>SpaceX (2026-yil iyun):</b> Tarixiy <b>$75 milliard</b> mablag' jalb qildi; aksiyalar uchun 1 yildan ortiq bosqichli <i>lockup</i> cheklovi belgilandi
+├ • <b>OpenAI (2027 kutilmasi):</b> <code>$1.4 trillion</code> baholashda $30 milliardgacha mablag' jalb qilishni rejalashtirgan, CFO Sara Friar 2027-yilda listing bo'lishini bildirdi
+└ • <b>Databricks:</b> <code>$190 milliard</code> baholanish bilan IPO arafasida
 
-🏦 <b>3. Private Equity (PE) va Venchur Kapital (VC)</b>
-├ • <b>Dry Powder:</b> Xususiy kapital fondlari to'plangan naqd mablag'larni arzonlashgan aktivlarga yo'naltirmoqda
-└ • <b>Investitsion Ustuvorliklar:</b> B2B AI yechimlari, yarimo'tkazgich fabrikalari va mudofaa texnologiyalari (DefenseTech)
+📊 <b>3. MSCI: Likvidlik va Venchur Fondlari Tahlili</b>
+├ • <b>NAV Tarkibi O'zgarishi:</b> SpaceX va Anthropic listingi fonida ommaviy aksiyalar ulushi global VC fondlari portfelining <code>20%</code> ga yetishi kutilmoqda
+└ • <b>Likvidlik Kechikishi:</b> Lockup qoidalari sababli xususiy fond investorlari (LP) o'z pullarini naqd shaklda qaytarib olishi yillar talab etadi
 ━━━━━━━━━━━━━━━━━━━━
-📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
+📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
     economy: `🌐 <b>JAHON IQTISODI SHARHI (GLOBAL ECONOMY)</b>
-🗓 <i>Haftalik Tahlil | UWED FIS</i>
+🗓 <i>Haftalik Tahlil | Manba: Jahon Banki & Emtia Bozorlari</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-📊 <b>1. Global O'sish va Savdo Dinamikasi</b>
-├ • <b>Jahon YaIM O'sishi:</b> 2026-yilda <code>3.1% – 3.2%</code> barqaror sur'atda saqlanishi kutilmoqda
-├ • <b>Inflyatsiya Oqimi:</b> Global miqyosda iste'mol narxlari o'sishi sekinlashib, <code>4.2%</code> darajasiga yaqinlashmoqda
-└ • <b>Geosiyosiy Savdo:</b> "Friend-shoring" va ta'minot zanjirlarini diversifikatsiya qilish asosiy tendensiyaga aylandi
+📊 <b>1. Global YaIM va Makro Dinamika</b>
+├ • <b>Jahon Iqtisodiy O'sishi:</b> 2026-yil uchun global iqtisodiy o'sish <code>3.1% – 3.2%</code> darajasida prognoz qilinmoqda
+├ • <b>"Sticky" Inflyatsiya:</b> Rivojlangan mamlakatlarda mehnat va xizmatlar narxlarining qotib qolishi sabab inflyatsiyani 2% ga tushirish kutilganidan ko'proq vaqt olmoqda
+└ • <b>Savdo Protektsionizmi:</b> Ta'minot zanjirlarining mintaqaviylashuvi (Near-shoring) xalqaro logistika xarajatlarini oshirmoqda
 
-🟡 <b>2. Xomashyo va Oltin Narxlari</b>
-├ • <b>Oltin (XAU/USD):</b> <code>$2,650 – $2,700/untsiya</code> atrofida rekord narxda. Markaziy banklar zaxiralarida dollardan oltinga o'tish davom etmoqda
-├ • <b>Brent Nefti:</b> <code>$72 – $75/barrel</code> koridorida. OPEK+ qazib olish kvotalari narx tushishini ushlab turibdi
-└ • <b>Sanoat Metallari:</b> Mis va litiy narxi AI serverlari hamda elektromobillar talabi hisobiga barqaror
+🟡 <b>2. Qimmatbaho Metallar va Xomashyo</b>
+├ • <b>Oltin (XAU/USD) Tarixiy Cho'qqida:</b> <code>$2,650 – $2,700/untsiya</code>. Jahon markaziy banklari (Xitoy, Hindiston, Yaqin Sharq) tomonidan AQSH dollaridan qochish va zaxiralarni oltinga diversifikatsiya qilish oqimi rekord narxlarni ta'minlamoqda
+├ • <b>O'zbekiston Uchun Naf:</b> Oltin eksporti mamlakat jami eksportining <code>~30%</code> ini tashkil qilgani sababli oltin narxining yuqoriligi so'm kursini bevosita himoya qilmoqda
+└ • <b>Brent Nefti:</b> <code>$72 – $75/barrel</code>. OPEK+ qat'iy kvotalari va Yaqin Sharq geosiyosiy tarangligi narxni $70 dan pastga tushishdan saqlamoqda
 
-🚢 <b>3. Logistika va Koridorlar</b>
-└ • <b>Markaziy Osiyo Tranziti:</b> "O'rta Koridor" (Middle Corridor) orqali multimodal yuk tashish hajmi yillik 22% ga o'smoqda
+🚢 <b>3. Transport va Tranzit Yo'laklari</b>
+├ • <b>"O'rta Koridor" (Trans-Kaspiy):</b> Xitoy – Markaziy Osiyo – Kavkaz – Yevropa yo'nalishida yuk tashish hajmi yillik <code>22%</code> ga oshdi
+└ • <b>Tranzit Afzalligi:</b> Qizil dengizdagi xatarlar sababli quruqlikdagi temir yo'l yo'laklariga global talab keskin kuchaydi
 ━━━━━━━━━━━━━━━━━━━━
-📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`,
+📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
     startups: `🚀 <b>STARTAP TIZIMI VA VENCHUR BOZORI (STARTUPS & TECH)</b>
-🗓 <i>Haftalik Tahlil | UWED FIS</i>
+🗓 <i>Haftalik Tahlil | Manba: J.P. Morgan Q3 2026 Venture Monitor</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-🤖 <b>1. Generativ AI va Katta Modellar</b>
-├ • <b>xAI (Grok AI):</b> Baholanishi <code>$250 milliard</code>ga yetib, OpenAI bilan to'g'ridan-to'g'ri raqobatga kirdi
-├ • <b>Hisoblash Quvvati (Compute):</b> AI startaplari uchun asosiy to'siq — yuqori unumdor chiplar (Nvidia H100/Blackwell) va elektr energiyasi taqchilligi
-└ • <b>Korporativ Integratsiya:</b> GPT-4o, Claude 3.5/Opus va Gemini modellari korporativ ERP hamda bank avtomatlashtirishiga keng tatbiq etilmoqda
+🤖 <b>1. AI va Mega-Raundlar Konsentratsiyasi (J.P. Morgan)</b>
+├ • <b>80% Kapital AI'da:</b> 2026-yilning 9 oyida ajratilgan barcha global venchur kapitalning <code>80% dan ortig'i</code> aynan sun'iy intellekt (AI) startaplariga kiritildi
+├ • <b>Top-10 Mega Bitimlar:</b> Jami venchur mablag'larning rekord darajadagi <code>68% i</code> atigi 10 ta yirik mega-raundga to'g'ri keldi (bozor qutblashuvi)
+├ • <b>Investitsiya Vektori O'zgarishi:</b> Oddiy chat-ilovalar o'rniga AI Infratuzilmasi, Agentik orkestratsiya, Hisoblash quvvati (Compute) va energiya samaradorligiga pul tikilmoqda
+└ • <b>"Barbell" Strategiyasi:</b> Fondlar kapitalni Seed (boshlang'ich keng ko'lamli sinovlar) va Late-Stage (daromadi tasdiqlangan gigantlar) o'rtasida taqsimlamoqda
 
-🛰 <b>2. SpaceTech va Global Aloqa</b>
-├ • <b>Starlink Muvaffaqiyati:</b> Orbitada <code>9,000+</code> faol sun'iy yo'ldosh va <code>9+ million</code> to'lovchi obunachi
-└ • <b>Orbital Compute:</b> Kosmik fazoda quyosh energiyasida ishlovchi birinchi ma'lumotlar markazlari loyihasi ishlab chiqilmoqda
+🛰 <b>2. SpaceTech va Orbital Infratuzilma</b>
+├ • <b>xAI va SpaceX Birlashuvi:</b> Elon Musk xAI kompaniyasini SpaceX bilan birlashtirdi (umumiy baholash <code>$1.25 trillion</code>)
+├ • <b>xAI Bahosi:</b> Alohida baholanishi <code>$250 milliard</code>ga yetdi, Tesla unga <code>$2.0 milliard</code> sarmoya kiritdi
+├ • <b>Starlink Kassa Generatorligi:</b> Orbitada <code>9,000+</code> faol sun'iy yo'ldosh va <code>9+ million</code> to'lovchi mijoz
+└ • <b>Koinotdagi Data Markazlar:</b> Yer yuzidagi energiya taqchilligiga javoban orbitada quyosh energiyasida ishlovchi birinchi ma'lumotlar markazlari loyihalanmoqda
 
 🇺🇿 <b>3. O'zbekiston Startap Ekotizimi</b>
-├ • <b>FinTech Yetakchiligi:</b> To'lov tizimlari, raqamli faktoring va BNPL (Muddatli to'lov) startaplari yuqori rentabellik ko'rsatmoqda
-└ • <b>Venchur Imtiyozlari:</b> IT Park rezidentlari uchun soliq imtiyozlari xalqaro venchur fondlar (500 Global, Sturgeon Capital) e'tiborini tortmoqda
+├ • <b>IT Park Imtiyozlari:</b> 0% stavkali soliq rejimi va xorijiy kompaniyalar uchun ekstraterritorial zonalar venchur oqimini jalb etmoqda
+└ • <b>FinTech & B2B SaaS:</b> To'lov tizimlari, raqamli faktoring va elektron tijorat infratuzilmasi mahalliy venchur bitimlarining 75% ini tashkil etmoqda
 ━━━━━━━━━━━━━━━━━━━━
-📱 <i>Rasmiy tahliliy kanal: @uwed_fis</i>`
+📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`
   },
 
   // Kun qizg'in xabari (Flash Breaking News)
@@ -340,18 +353,18 @@ Dunyo va O'zbekiston moliya bozoridagi eng sara tahlillar 5 ta asosiy bo'limga a
 🗓 <i>Sana: 2026-yil, 24-noyabr</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-⚡️ <b>SpaceX va xAI $1.25 Trillionlik Birlashuv: 2026 Tarixiy Mega-IPO Ostonasida!</b>
+⚡️ <b>O'zbekiston Tarixiy IPO Dasturi: Uzbekistan Airways, NIF va $692M Listing Muvaffaqiyati!</b>
 
 📌 <b>Asosiy Voqea:</b>
-Elon Musk sun'iy intellekt kompaniyasi (xAI)ni kosmik gigant SpaceX bilan birlashtirdi. Birlashgan ekotizim qiymati <code>$1.25 trillion</code> deb baholandi. Bu 2026-yilda kutilayotgan <code>$1.5 trillion</code>lik tarixiy IPO uchun asosiy tramplin hisoblanadi.
+O'zbekiston hukumati <b>Uzbekistan Airways</b> milliy aviakompaniyasining <code>15–20%</code> aksiyalarini, shuningdek, <b>O'zsanoatqurilishbank</b> va <b>O'zbektelekom</b>ni xalqaro fond birjalariga IPOga chiqarish jarayonini tezlashtirdi.
 
-💰 <b>Moliyaviy Oqimlar:</b>
-• Tesla korporatsiyasi xAI ekotizimiga to'g'ridan-to'g'ri <code>$2.0 milliard</code> investitsiya kiritdi;
-• Muskning shaxsiy boyligi <code>$800+ milliard</code>dan oshib, jahon moliya tarixidagi eng yuqori natijani qayd etdi;
-• Starlink sun'iy yo'ldosh tarmog'i 9 milliondan ortiq pullik obunachilarga yetdi.
+💰 <b>Moliyaviy Yutuq va Raqamlar:</b>
+• AQSHning <i>Franklin Templeton</i> kompaniyasi boshqaruvidagi O'zbekiston Milliy investitsiya jamg'armasi (NIF) aksiyalarining <code>35.45%</code> i London (LSE) va Toshkent (UZSE) birjalarida joylashtirilib, davlat byudjetiga <b>$692 million</b> keltirdi!
+• Toshkentda o'tgan Investorlar kunida umumiy investitsiya portfeli <b>$2.5 trillion</b>dan ortiq bo'lgan <b>250 dan ortiq</b> nufuzli global fond vakillari ishtirok etdi;
+• Bu O'zbekiston kapital bozori tarixidagi eng yirik xalqaro muvaffaqiyat sifatida qayd etildi.
 
-💡 <b>Tahlilchi Xulosasi va Sinergiya:</b>
-AI algoritmlari (Grok) va global sun'iy yo'ldosh infratuzilmasi birlashuvi kelajakda koinotdagi orbital ma'lumotlar markazlari (Orbital Data Centers) loyihasini real biznes modeliga aylantirmoqda.
+💡 <b>Bozorga Ta'siri va Tahlilchi Xulosasi:</b>
+Mahalliy korxonalarning xalqaro listingga chiqishi shaffoflik, IFRS standartlari va korporativ boshqaruv madaniyatini tubdan o'zgartiradi. Markaziy bankning 14% stavkasi sharoitida qimmatli qog'ozlar bozori korxonalar uchun eng arzon va samarali muqobil moliyalashtirish manbaiga aylanmoqda.
 
 ━━━━━━━━━━━━━━━━━━━━
 🤖 <i>Avtomatlashtirilgan FIS News Agent tomonidan tayyorlandi.</i>
