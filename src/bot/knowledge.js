@@ -348,26 +348,27 @@ O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga 
 📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`
   },
 
-  // Kun qizg'in xabari (Flash Breaking News)
-  hotNewsDefault: `🔥 <b>KUN QIZG'IN XABARI | UWED FIS FLASH INSIGHT</b>
+  // Kun qizg'in xabari (Flash Breaking News - Jahon Moliyasi va Global Bozorlar)
+  hotNewsDefault: `🔥 <b>KUN QIZG'IN XABARI | JAHON MOLIYASI FLASH INSIGHT</b>
 🗓 <i>Sana: 2026-yil, 24-noyabr</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-⚡️ <b>O'zbekiston Tarixiy IPO Dasturi: Uzbekistan Airways, NIF va $692M Listing Muvaffaqiyati!</b>
+⚡️ <b>Global IPO Bozorida Tarixiy Rekord: Anthropic Nasdaq'da $81Mrd, SpaceX esa $75Mrd Jalb Qildi!</b>
 
-📌 <b>Asosiy Voqea:</b>
-O'zbekiston hukumati <b>Uzbekistan Airways</b> milliy aviakompaniyasining <code>15–20%</code> aksiyalarini, shuningdek, <b>O'zsanoatqurilishbank</b> va <b>O'zbektelekom</b>ni xalqaro fond birjalariga IPOga chiqarish jarayonini tezlashtirdi.
+📌 <b>Asosiy Voqea (PwC UK & Wall Street):</b>
+PwC UK tahliliga ko'ra, 2026-yilda global IPO tushumlari <b>$227.3 milliardga</b> yetib, 2021-yildan keyingi mutlaq rekordni qayd etdi. Sun'iy intellekt va kosmik texnologiyalar fond bozorida yirik kapital to'lqinini hosil qildi:
 
-💰 <b>Moliyaviy Yutuq va Raqamlar:</b>
-• AQSHning <i>Franklin Templeton</i> kompaniyasi boshqaruvidagi O'zbekiston Milliy investitsiya jamg'armasi (NIF) aksiyalarining <code>35.45%</code> i London (LSE) va Toshkent (UZSE) birjalarida joylashtirilib, davlat byudjetiga <b>$692 million</b> keltirdi!
-• Toshkentda o'tgan Investorlar kunida umumiy investitsiya portfeli <b>$2.5 trillion</b>dan ortiq bo'lgan <b>250 dan ortiq</b> nufuzli global fond vakillari ishtirok etdi;
-• Bu O'zbekiston kapital bozori tarixidagi eng yirik xalqaro muvaffaqiyat sifatida qayd etildi.
+💰 <b>Global Mega-Bitimlar va Raqamlar:</b>
+• <b>Anthropic ("ANT"):</b> Nasdaq birjasida har bir aksiyani <code>$83</code> dan sotib, <b>$81 milliarddan ortiq</b> mablag' jalb qildi (bozor kapitallashuvi <code>~$1.5 trillion</code>);
+• <b>SpaceX:</b> Ommaviy listing orqali <b>$75 milliard</b> mablag' jalb qildi va MSCI Global VC indeksining <code>5%</code> ini egalladi;
+• <b>OpenAI:</b> CFO Sara Friar 2027-yilda <code>$1.4 trillion</code> baholashda $30 milliardgacha jalb qilish uchun ommaviy birjaga chiqishini rasman tasdiqladi;
+• <b>Giperskeylerlar Qarzi:</b> Microsoft, Amazon, Meta va Alphabet AI infratuzilmasi uchun 2026-yilda <b>$225 milliardlik</b> rekord korporativ obligatsiyalar chiqardi.
 
-💡 <b>Bozorga Ta'siri va Tahlilchi Xulosasi:</b>
-Mahalliy korxonalarning xalqaro listingga chiqishi shaffoflik, IFRS standartlari va korporativ boshqaruv madaniyatini tubdan o'zgartiradi. Markaziy bankning 14% stavkasi sharoitida qimmatli qog'ozlar bozori korxonalar uchun eng arzon va samarali muqobil moliyalashtirish manbaiga aylanmoqda.
+💡 <b>Jahon Bozoriga Ta'siri va Tahlilchi Xulosasi:</b>
+MSCI hisobotiga ko'ra, global venchur kapital (VC) fondlari portfelidagi ommaviy aksiyalar ulushi 6.7% dan <b>20% gacha</b> sakramoqda. Biroq 1 yildan ortiq <i>lockup</i> cheklovlari tufayli xususiy investorlar uchun naqd pulga chiqish (exit) bir necha yil davom etishi prognoz qilinmoqda.
 
 ━━━━━━━━━━━━━━━━━━━━
-🤖 <i>Avtomatlashtirilgan FIS News Agent tomonidan tayyorlandi.</i>
+🤖 <i>Avtomatlashtirilgan FIS Global News Agent tomonidan uzatildi.</i>
 📱 <i>Rasmiy kanal: @uwed_fis</i>`,
 
   // 2-Bo'lim: Hafta Yangiliklari (O'ta qulay mobil formatda)

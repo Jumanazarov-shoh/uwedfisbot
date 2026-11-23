@@ -23,9 +23,9 @@ class NewsAgent {
 
   ensureDefaultHotNews() {
     const current = db.getHotNews();
-    if (!current || !current.content || current.content.includes("SpaceX va xAI $1.25")) {
+    if (!current || !current.content || !current.content.includes("Global IPO Bozorida")) {
       db.setHotNews({
-        title: "O'zbekiston Tarixiy IPO Dasturi: Uzbekistan Airways, NIF va $692M Listing",
+        title: "Global IPO Bozorida Tarixiy Rekord: Anthropic va SpaceX $156Mrd Jalb Qildi",
         content: knowledge.hotNewsDefault
       });
     }
