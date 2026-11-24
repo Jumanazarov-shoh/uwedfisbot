@@ -23,9 +23,9 @@ class NewsAgent {
 
   ensureDefaultHotNews() {
     const current = db.getHotNews();
-    if (!current || !current.content || !current.content.includes("Global IPO Bozorida")) {
+    if (!current || !current.content || !current.content.includes("NVIDIA Moliyaviy Portlashi")) {
       db.setHotNews({
-        title: "Global IPO Bozorida Tarixiy Rekord: Anthropic va SpaceX $156Mrd Jalb Qildi",
+        title: "NVIDIA Moliyaviy Portlashi: 1 Chorakda $115.8Mrd Daromad va $65.3Mrd Sof Foyda",
         content: knowledge.hotNewsDefault
       });
     }

@@ -243,14 +243,14 @@ O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga 
 ├ • <b>Rejalashtirilgan Emitentlar:</b> Fond birjasiga 4 ta yirik davlat kompaniyasi va 1 ta bank chiqarilmoqda:
 │  1. <b>Uzbekistan Airways</b> — aksiyalarining <code>15–20%</code> qismi sotiladi
 │  2. <b>O'zsanoatqurilishbank (SQB)</b> — xususiylashtirish va ochiq listing
-│  3. <b>O'zbektelekom (Uztelecom)</b> — milliy telekom giganti
+│  3. <b>O'zbektelekom (Uztelecom)</b> — milliy telekom operatori
 │  4. <b>O'zbekiston MET</b> — elektr uzatish tarmoqlari
 │  5. <b>O'zbekgidroenergo</b> — gidroenergetika ishlab chiqarish
 ├ • <b>Franklin Templeton va NIF:</b> Mazkur aktivlar AQSHning <i>Franklin Templeton</i> boshqaruvidagi Milliy investitsiya jamg'armasi (NIF) portfeliga kiritilgan.
-└ • <b>$692M Tushum:</b> Jamg'arma aksiyalarining <code>35.45%</code> i London (LSE GDR) va Toshkent (UZSE) birjalarida muvaffaqiyatli joylashtirilib, davlat byudjetiga <b>$692 million</b> keltirdi. Investorlar kunida $2.5T lik portfelga ega 250+ xorijiy investor qatnashdi.
+└ • <b>$692M Tushum:</b> Jamg'arma aksiyalarining <code>35.45%</code> i London (LSE GDR) va Toshkent (UZSE) birjalarida joylashtirilib, davlat byudjetiga <b>$692 million</b> keltirdi. Investorlar kunida $2.5T lik portfelga ega 250 dan ortiq xorijiy investor qatnashdi.
 
 🏛 <b>2. Markaziy Bank Foiz Stavkasi va Kutilmalar</b>
-├ • <b>Amaldagi Stavka:</b> <code>14.00%</code> (martdan buyon o'zgarishsiz qat'iy saqlanmoqda; navbatdagi 16-dekabr yig'ilishida ham 14% saqlanishi kutilmoqda)
+├ • <b>Amaldagi Stavka:</b> <code>14.00%</code> (martdan buyon o'zgarishsiz qat'iy saqlanmoqda; 16-dekabr yig'ilishida ham 14% saqlanishi kutilmoqda)
 ├ • <b>Stavka Prognozi (Trading Economics & CBU):</b> 2026 Q4: <code>14.0%</code> ➔ 2027: <code>13.0%</code> ➔ 2028: <code>12.0%</code>
 ├ • <b>Inflyatsiya Dinamikasi:</b> Yillik inflyatsiya <code>6.4%</code> (bazaviy <code>5.5%</code>), aholi kutilmasi <code>9.1%</code>. Yil yakuni prognozi <code>7.0%</code> atrofida
 └ • <b>O'rta Muddatli Target:</b> Markaziy bank <code>5.0%</code> lik inflyatsiya targetiga 2027-yil oxiriga borib erishishni maqsad qilgan
@@ -295,23 +295,23 @@ O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga 
 
 🏢 <b>2. Tarixiy Texnologik IPOlar va Baholashlar</b>
 ├ • <b>Anthropic ("ANT"):</b> Nasdaq birjasida har bir aksiyani <code>$83</code> dan sotib, <b>$81 milliarddan ortiq</b> mablag' jalb qildi (kapitallashuvi <code>~$1.5 trillion</code>)
-├ • <b>SpaceX (2026-yil iyun):</b> Tarixiy <b>$75 milliard</b> mablag' jalb qildi; aksiyalar uchun 1 yildan ortiq bosqichli <i>lockup</i> cheklovi belgilandi
+├ • <b>SpaceX:</b> 2026-yil iyun oyida <b>$75 milliard</b> mablag' jalb qildi; aksiyalar uchun 1 yildan ortiq bosqichli <i>lockup</i> cheklovi belgilandi
 ├ • <b>OpenAI (2027 kutilmasi):</b> <code>$1.4 trillion</code> baholashda $30 milliardgacha mablag' jalb qilishni rejalashtirgan, CFO Sara Friar 2027-yilda listing bo'lishini bildirdi
 └ • <b>Databricks:</b> <code>$190 milliard</code> baholanish bilan IPO arafasida
 
 📊 <b>3. MSCI: Likvidlik va Venchur Fondlari Tahlili</b>
 ├ • <b>NAV Tarkibi O'zgarishi:</b> SpaceX va Anthropic listingi fonida ommaviy aksiyalar ulushi global VC fondlari portfelining <code>20%</code> ga yetishi kutilmoqda
-└ • <b>Likvidlik Kechikishi:</b> Lockup qoidalari sababli xususiy fond investorlari (LP) o'z pullarini naqd shaklda qaytarib olishi yillar talab etadi
+└ • <b>Likvidlik Kechikishi:</b> Lockup qoidalari sababli xususiy fond investorlari (LP) o'z pullarini naqd shaklda qaytarib olishi bir necha chorak va yillar talab etadi
 ━━━━━━━━━━━━━━━━━━━━
 📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
     economy: `🌐 <b>JAHON IQTISODI SHARHI (GLOBAL ECONOMY)</b>
-🗓 <i>Haftalik Tahlil | Manba: Jahon Banki & Emtia Bozorlari</i>
+🗓 <i>Haftalik Tahlil | Manba: McKinsey & Jahon Banki</i>
 ━━━━━━━━━━━━━━━━━━━━
 
 📊 <b>1. Global YaIM va Makro Dinamika</b>
 ├ • <b>Jahon Iqtisodiy O'sishi:</b> 2026-yil uchun global iqtisodiy o'sish <code>3.1% – 3.2%</code> darajasida prognoz qilinmoqda
-├ • <b>"Sticky" Inflyatsiya:</b> Rivojlangan mamlakatlarda mehnat va xizmatlar narxlarining qotib qolishi sabab inflyatsiyani 2% ga tushirish kutilganidan ko'proq vaqt olmoqda
+├ • <b>AI Infratuzilma Boomi (McKinsey):</b> AI ma'lumotlar markazlarini quvvat bilan ta'minlash va suyuqlik bilan sovutish (liquid cooling) bozorida infratuzilma kapital xarajatlari (Capex) 40% ga tezlashdi
 └ • <b>Savdo Protektsionizmi:</b> Ta'minot zanjirlarining mintaqaviylashuvi (Near-shoring) xalqaro logistika xarajatlarini oshirmoqda
 
 🟡 <b>2. Qimmatbaho Metallar va Xomashyo</b>
@@ -326,13 +326,13 @@ O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga 
 📱 <i>UWED FIS Tahliliy Manbasi: @uwed_fis</i>`,
 
     startups: `🚀 <b>STARTAP TIZIMI VA VENCHUR BOZORI (STARTUPS & TECH)</b>
-🗓 <i>Haftalik Tahlil | Manba: J.P. Morgan Q3 2026 Venture Monitor</i>
+🗓 <i>Haftalik Tahlil | Manba: J.P. Morgan & IntuitionLabs</i>
 ━━━━━━━━━━━━━━━━━━━━
 
 🤖 <b>1. AI va Mega-Raundlar Konsentratsiyasi (J.P. Morgan)</b>
 ├ • <b>80% Kapital AI'da:</b> 2026-yilning 9 oyida ajratilgan barcha global venchur kapitalning <code>80% dan ortig'i</code> aynan sun'iy intellekt (AI) startaplariga kiritildi
 ├ • <b>Top-10 Mega Bitimlar:</b> Jami venchur mablag'larning rekord darajadagi <code>68% i</code> atigi 10 ta yirik mega-raundga to'g'ri keldi (bozor qutblashuvi)
-├ • <b>Investitsiya Vektori O'zgarishi:</b> Oddiy chat-ilovalar o'rniga AI Infratuzilmasi, Agentik orkestratsiya, Hisoblash quvvati (Compute) va energiya samaradorligiga pul tikilmoqda
+├ • <b>Blackwell GPU Ta'minot Zanjiri:</b> NVIDIA GB200 chiplariga bo'lgan navbat <code>36–52 hafta</code> (deyarli 1 yil)ni tashkil qilmoqda; hisoblash quvvati (compute) startaplar uchun asosiy to'siq bo'lib qolmoqda
 └ • <b>"Barbell" Strategiyasi:</b> Fondlar kapitalni Seed (boshlang'ich keng ko'lamli sinovlar) va Late-Stage (daromadi tasdiqlangan gigantlar) o'rtasida taqsimlamoqda
 
 🛰 <b>2. SpaceTech va Orbital Infratuzilma</b>
@@ -353,19 +353,20 @@ O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga 
 🗓 <i>Sana: 2026-yil, 24-noyabr</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-⚡️ <b>Global IPO Bozorida Tarixiy Rekord: Anthropic Nasdaq'da $81Mrd, SpaceX esa $75Mrd Jalb Qildi!</b>
+⚡️ <b>NVIDIA Moliyaviy Portlashi: 1 Chorakda $115.8Mrd Daromad va $65.3Mrd Sof Foyda!</b>
 
-📌 <b>Asosiy Voqea (PwC UK & Wall Street):</b>
-PwC UK tahliliga ko'ra, 2026-yilda global IPO tushumlari <b>$227.3 milliardga</b> yetib, 2021-yildan keyingi mutlaq rekordni qayd etdi. Sun'iy intellekt va kosmik texnologiyalar fond bozorida yirik kapital to'lqinini hosil qildi:
+📌 <b>Asosiy Voqea (NVIDIA Fiscal 2027 Q3):</b>
+NVIDIA korporatsiyasi jahon moliya tarixidagi eng yirik choraklik hisobotini e'lon qildi. Kompaniyaning 3-moliyaviy chorakdagi jami daromadi <b>$115.8 milliardga</b> yetib, o'tgan yilning mos davriga nisbatan <b>103% ga</b> o'sdi.
 
-💰 <b>Global Mega-Bitimlar va Raqamlar:</b>
-• <b>Anthropic ("ANT"):</b> Nasdaq birjasida har bir aksiyani <code>$83</code> dan sotib, <b>$81 milliarddan ortiq</b> mablag' jalb qildi (bozor kapitallashuvi <code>~$1.5 trillion</code>);
-• <b>SpaceX:</b> Ommaviy listing orqali <b>$75 milliard</b> mablag' jalb qildi va MSCI Global VC indeksining <code>5%</code> ini egalladi;
-• <b>OpenAI:</b> CFO Sara Friar 2027-yilda <code>$1.4 trillion</code> baholashda $30 milliardgacha jalb qilish uchun ommaviy birjaga chiqishini rasman tasdiqladi;
-• <b>Giperskeylerlar Qarzi:</b> Microsoft, Amazon, Meta va Alphabet AI infratuzilmasi uchun 2026-yilda <b>$225 milliardlik</b> rekord korporativ obligatsiyalar chiqardi.
+💰 <b>Moliyaviy Raqamlar va Rekordlar:</b>
+• <b>Data Center Daromadi:</b> Rekord darajadagi <b>$107.6 milliard</b> (yillik 110% o'sish);
+• <b>Sof Foyda:</b> Yillik 105% ga oshib, <b>$65.3 milliardga</b> yetdi (Aksiya boshiga sof foyda EPS: <code>$2.70</code>);
+• <b>Rentabellik:</b> Yalpi marja (Gross Margin) <code>74.8%</code>, sof operatsion foyda <code>$77.5 milliard</code>;
+• <b>Blackwell Navbati:</b> Yangi avlod GB200 (Blackwell) chiplari 1 yil oldinga to'liq sotilgan (yetkazib berish muddati: <b>36–52 hafta</b>);
+• <b>Aksiyadorlarga Qaytarilgan Kassa:</b> Buyback va dividendlar orqali aksiyadorlarga <b>$28.1 milliard</b> qaytarildi, qayta sotib olish dasturi <b>$150 milliardga</b> kengaytirildi.
 
 💡 <b>Jahon Bozoriga Ta'siri va Tahlilchi Xulosasi:</b>
-MSCI hisobotiga ko'ra, global venchur kapital (VC) fondlari portfelidagi ommaviy aksiyalar ulushi 6.7% dan <b>20% gacha</b> sakramoqda. Biroq 1 yildan ortiq <i>lockup</i> cheklovlari tufayli xususiy investorlar uchun naqd pulga chiqish (exit) bir necha yil davom etishi prognoz qilinmoqda.
+Microsoft, Amazon, Meta va Google tomonidan sun'iy intellekt infratuzilmasiga kiritilayotgan yuzlab milliard dollarlik Capex xarajatlari to'xtovsiz davom etmoqda. Trefis tahlilchilariga ko'ra, Blackwell chiplariga bo'lgan misli ko'rilmagan talab NVIDIA kapitallashuvini $4 trillionlik marradan ham yuqoriga surmoqda.
 
 ━━━━━━━━━━━━━━━━━━━━
 🤖 <i>Avtomatlashtirilgan FIS Global News Agent tomonidan uzatildi.</i>
