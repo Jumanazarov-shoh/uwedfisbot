@@ -165,7 +165,7 @@ Duolingo oylik 80+ million aktiv o'quvchilarga ega, ammo ularning atigi 8.6% i p
 
   // Bozor tahlili markazi (Bosh menyu)
   digestHub: `📊 <b>UWED FIS — Bozor Tahlili va Makroiqtisodiyot Markazi</b>
-🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
+🗓 <i>Davr: 2026-yil, 28-noyabr (Haftalik Tahlil)</i>
 
 Bozor tahlili bo'limiga xush kelibsiz! O'qishga qulay bo'lishi uchun ma'lumotlar ikkita mustaqil yo'nalishga ajratildi:
 
@@ -221,7 +221,7 @@ Toshkent Fond Birjasi (UZSE), xalqaro moliya bozorlari (Fed, S&P 500), oltin va 
 
   // Hafta yangiliklari kategoriyalari markazi (5 ta alohida yo'nalish)
   newsHub: `📰 <b>UWED FIS — Haftalik Tahliliy Yangiliklar Markazi</b>
-🗓 <i>Davr: 2026-yil, Noyabr oyi</i>
+🗓 <i>Davr: 2026-yil, 28-noyabr (Haftalik Tahlil)</i>
 
 O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga ajratildi:
 
@@ -350,23 +350,23 @@ O'zbekiston va jahon moliya bozoridagi eng sara tahlillar 5 ta aniq yo'nalishga 
 
   // Kun qizg'in xabari (Flash Breaking News - Jahon Moliyasi va Global Bozorlar)
   hotNewsDefault: `🔥 <b>KUN QIZG'IN XABARI | JAHON MOLIYASI FLASH INSIGHT</b>
-🗓 <i>Sana: 2026-yil, 24-noyabr</i>
+🗓 <i>Sana: 2026-yil, 28-noyabr</i>
 ━━━━━━━━━━━━━━━━━━━━
 
-⚡️ <b>NVIDIA Moliyaviy Portlashi: 1 Chorakda $115.8Mrd Daromad va $65.3Mrd Sof Foyda!</b>
+⚡️ <b>Global AI Infratuzilmasi va Hyperscalers Capex: Blackwell Chiplari Defitsiti va $225Mrd+ Korporativ Qarzlar Rekordi!</b>
 
-📌 <b>Asosiy Voqea (NVIDIA Fiscal 2027 Q3):</b>
-NVIDIA korporatsiyasi jahon moliya tarixidagi eng yirik choraklik hisobotini e'lon qildi. Kompaniyaning 3-moliyaviy chorakdagi jami daromadi <b>$115.8 milliardga</b> yetib, o'tgan yilning mos davriga nisbatan <b>103% ga</b> o'sdi.
+📌 <b>Asosiy Voqea (NVIDIA Q3 Yakunlari & Wall Street Tahlili):</b>
+NVIDIA korporatsiyasining 3-moliyaviy chorakdagi tarixiy <b>$115.8 milliardlik</b> daromadi (+103%) va <b>$65.3 milliardlik</b> sof foydasi e'lon qilinishi ortidan jahon moliya bozorlarida yangi kapitallashuv to'lqini davom etmoqda.
 
-💰 <b>Moliyaviy Raqamlar va Rekordlar:</b>
-• <b>Data Center Daromadi:</b> Rekord darajadagi <b>$107.6 milliard</b> (yillik 110% o'sish);
-• <b>Sof Foyda:</b> Yillik 105% ga oshib, <b>$65.3 milliardga</b> yetdi (Aksiya boshiga sof foyda EPS: <code>$2.70</code>);
-• <b>Rentabellik:</b> Yalpi marja (Gross Margin) <code>74.8%</code>, sof operatsion foyda <code>$77.5 milliard</code>;
-• <b>Blackwell Navbati:</b> Yangi avlod GB200 (Blackwell) chiplari 1 yil oldinga to'liq sotilgan (yetkazib berish muddati: <b>36–52 hafta</b>);
-• <b>Aksiyadorlarga Qaytarilgan Kassa:</b> Buyback va dividendlar orqali aksiyadorlarga <b>$28.1 milliard</b> qaytarildi, qayta sotib olish dasturi <b>$150 milliardga</b> kengaytirildi.
+💰 <b>Moliyaviy Raqamlar va Bozor Ko'rsatkichlari:</b>
+• <b>Data Center va AI Daromadi:</b> Rekord darajadagi <b>$107.6 milliard</b> (yillik 110% o'sish);
+• <b>Blackwell GB200 Navbati:</b> Yangi avlod hisoblash klasterlari bo'yicha yetkazib berish muddati (lead time) <b>36–52 hafta</b> (1 yil) darajasida taqchillik saqlanib qolmoqda;
+• <b>Giperskeylerlar Qarz Emissiyasi:</b> Microsoft, Alphabet, Meta va Amazon sun'iy intellekt infratuzilmasi, suyuqlik bilan sovutish tizimlari (liquid cooling) va energiya uchun yil boshidan buyon <b>$225 milliardlik</b> obligatsiyalar chiqardi;
+• <b>Aksiyadorlarga Qaytarilgan Kassa:</b> Buyback va dividendlar orqali aksiyadorlarga <b>$28.1 milliard</b> naqd kassa qaytarildi, qayta sotib olish dasturi <b>$150 milliardga</b> yetkazildi;
+• <b>Oltin va Bozor Diversifikatsiyasi:</b> Jahon markaziy banklari va suveren fondlar zaxiralarni diversifikatsiya qilishi hisobiga Oltin (XAU) <b>$2,670 – $2,700/oz</b> oralig'ida mustahkam turibdi.
 
-💡 <b>Jahon Bozoriga Ta'siri va Tahlilchi Xulosasi:</b>
-Microsoft, Amazon, Meta va Google tomonidan sun'iy intellekt infratuzilmasiga kiritilayotgan yuzlab milliard dollarlik Capex xarajatlari to'xtovsiz davom etmoqda. Trefis tahlilchilariga ko'ra, Blackwell chiplariga bo'lgan misli ko'rilmagan talab NVIDIA kapitallashuvini $4 trillionlik marradan ham yuqoriga surmoqda.
+💡 <b>Bozorga Ta'siri va FIS Tahlilchi Xulosasi:</b>
+Hisoblash quvvati (Compute) va energiya infratuzilmasi yangi zamonaviy iqtisodiyotning "raqamli nefti"ga aylandi. Suyuqlik bilan sovutish tizimlari va quvvat generatorlari ishlab chiqaruvchilari korporativ venchur bitimlarida eng yuqori multiplikatorlarga ega bo'lmoqda.
 
 ━━━━━━━━━━━━━━━━━━━━
 🤖 <i>Avtomatlashtirilgan FIS Global News Agent tomonidan uzatildi.</i>

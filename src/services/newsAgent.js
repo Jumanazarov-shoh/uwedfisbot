@@ -23,9 +23,9 @@ class NewsAgent {
 
   ensureDefaultHotNews() {
     const current = db.getHotNews();
-    if (!current || !current.content || !current.content.includes("NVIDIA Moliyaviy Portlashi")) {
+    if (!current || !current.content || !current.content.includes("Global AI Infratuzilmasi")) {
       db.setHotNews({
-        title: "NVIDIA Moliyaviy Portlashi: 1 Chorakda $115.8Mrd Daromad va $65.3Mrd Sof Foyda",
+        title: "Global AI Infratuzilmasi va Hyperscalers Capex: Blackwell Chiplari va $225Mrd+ Qarzlar Rekordi",
         content: knowledge.hotNewsDefault
       });
     }
